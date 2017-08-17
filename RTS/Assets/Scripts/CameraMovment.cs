@@ -22,8 +22,6 @@ public class CameraMovment : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Update");
-
         float newX = transform.position.x;
         float newY = transform.position.y;
 

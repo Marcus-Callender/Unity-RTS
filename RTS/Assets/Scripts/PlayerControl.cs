@@ -6,7 +6,7 @@ public class PlayerControl : MonoBehaviour
 {
     private Timer m_leftClickTimer;
     private Camera m_cam;
-    private GameObject m_selectionBox;
+    private SelectionBox m_selectionBox;
 
     public List<Unit> m_selectedUnits;
 
@@ -18,9 +18,9 @@ public class PlayerControl : MonoBehaviour
         m_leftClickTimer.m_time = 0.2f;
 
         m_cam = GameObject.Find("Main Camera").GetComponent<Camera>();
-        m_selectionBox = GameObject.Find("Selection Box");
+        m_selectionBox = GameObject.Find("Selection Box").GetComponent<SelectionBox>();
 
-        m_selectionBox.SetActive(false);
+        m_selectionBox.gameObject.SetActive(false);
     }
 
     void Update()
@@ -78,16 +78,36 @@ public class PlayerControl : MonoBehaviour
 
             }
 
-            m_selectionBox.SetActive(false);
+            m_selectionBox.gameObject.SetActive(false);
         }
 
         if (Input.GetButton("Fire1"))
         {
             if (m_leftClickTimer.m_completed)
             {
+                for (int z = 0; z < m_selectedUnits.Count; z++)
+                {
+                    Debug.Log("Drag DeSelect");
+                    m_selectedUnits[z].DeSelect();
+                }
+
+                m_selectedUnits.Clear();
+
+                Debug.Log("Drag Clear Length: " + m_selectedUnits.Count);
+
                 Debug.Log("Hold");
 
-                m_selectionBox.SetActive(true);
+                m_selectedUnits = m_selectionBox.m_detected;
+
+                Debug.Log("Drag Detected Length: " + m_selectionBox.m_detected.Count);
+
+                for (int z = 0; z < m_selectedUnits.Count; z++)
+                {
+                    Debug.Log("Drag select");
+                    m_selectedUnits[z].Select();
+                }
+
+                m_selectionBox.gameObject.SetActive(true);
 
                 m_selectionBox.transform.position = new Vector3((m_selectionBoxStart.x + mousePos.x) * 0.5f, (m_selectionBoxStart.y + mousePos.y) * 0.5f, m_selectionBox.transform.position.z);
 
