@@ -28,6 +28,14 @@ public class PlayerControl : MonoBehaviour
         Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
         Debug.DrawRay(mousePos, Vector3.forward * 11, Color.yellow);
 
+        if (Input.GetButtonDown("Fire2"))
+        {
+            for (int z = 0; z < m_selectedUnits.Count; z++)
+            {
+                m_selectedUnits[z].Move(mousePos);
+            }
+        }
+
         if (Input.GetButtonDown("Fire1"))
         {
             m_leftClickTimer.Play();
@@ -44,12 +52,22 @@ public class PlayerControl : MonoBehaviour
 
                 RaycastHit hit;
 
+                for (int z = 0; z < m_selectedUnits.Count; z++)
+                {
+                    m_selectedUnits[z].DeSelect();
+                }
+
+                m_selectedUnits.Clear();
+
                 if (Physics.Raycast(mousePos, Vector3.forward * 11, out hit))
                 {
                     Unit _unit = hit.transform.gameObject.GetComponent<Unit>();
+                    Debug.Log("Raycast Hit");
 
-                    if (_unit && m_selectedUnits.Contains(_unit))
+                    if (_unit && !m_selectedUnits.Contains(_unit))
                     {
+                        Debug.Log("Unit fouund");
+
                         _unit.Select();
                         m_selectedUnits.Add(_unit);
                     }
