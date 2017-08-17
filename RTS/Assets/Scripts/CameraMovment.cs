@@ -13,9 +13,11 @@ public class CameraMovment : MonoBehaviour
     public float m_minZ = -12.0f;
     public float m_maxZ = -8.0f;
 
+    private Camera m_cam;
+
     void Start()
     {
-
+        m_cam = GetComponent<Camera>();
     }
 
     void Update()
@@ -24,13 +26,12 @@ public class CameraMovment : MonoBehaviour
 
         float newX = transform.position.x;
         float newY = transform.position.y;
-        float newZ = transform.position.z;
 
         if (Input.GetButton("Fire3"))
         {
             Debug.Log("Fire3");
-            newX -= Input.GetAxis("Mouse X");
-            newY -= Input.GetAxis("Mouse Y");
+            newX -= Input.GetAxis("Mouse X") * 0.5f;
+            newY -= Input.GetAxis("Mouse Y") * 0.5f;
 
              if (Input.GetAxis("Mouse X") != 0.0f)
             {
@@ -39,13 +40,14 @@ public class CameraMovment : MonoBehaviour
         }
         else
         {
-            newZ += Input.GetAxis("Mouse ScrollWheel");
+            m_cam.orthographicSize -= Input.GetAxis("Mouse ScrollWheel");
+
+            m_cam.orthographicSize = Mathf.Clamp(m_cam.orthographicSize, m_minZ, m_maxZ);
         }
 
         newX = Mathf.Clamp(newX, m_minX, m_maxX);
         newY = Mathf.Clamp(newY, m_minY, m_maxY);
-        newZ = Mathf.Clamp(newZ, m_minZ, m_maxZ);
 
-        transform.position = new Vector3(newX, newY, newZ);
+        transform.position = new Vector3(newX, newY, transform.position.z);
     }
 }

@@ -1,0 +1,17 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	modified:   RTS/Assets/Scenes/Main.unity
+#	modified:   RTS/Assets/Scripts/CameraMovment.cs
+#	modified:   RTS/Library/CurrentLayout.dwlt
+#	modified:   RTS/Library/CurrentMaximizeLayout.dwlt
+#	modified:   RTS/Library/ScriptAssemblies/Assembly-CSharp.dll
+#	modified:   RTS/Library/ScriptAssemblies/Assembly-CSharp.dll.mdb
+#	modified:   RTS/Library/assetDatabase3
+#	modified:   RTS/Library/metadata/6b/6b0417b9681086840b1c1d186b2b71bb
+#
+
