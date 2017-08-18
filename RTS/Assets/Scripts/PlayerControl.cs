@@ -30,9 +30,22 @@ public class PlayerControl : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2"))
         {
+            Vector3 meanPos = Vector3.zero;
+
             for (int z = 0; z < m_selectedUnits.Count; z++)
             {
-                m_selectedUnits[z].Move(mousePos);
+                meanPos += m_selectedUnits[z].transform.position;
+            }
+
+            meanPos /= m_selectedUnits.Count;
+            
+            for (int z = 0; z < m_selectedUnits.Count; z++)
+            {
+                Vector3 moveTo = mousePos;
+                moveTo += meanPos - m_selectedUnits[z].transform.position;
+
+                //m_selectedUnits[z].Move(mousePos);
+                m_selectedUnits[z].Move(moveTo);
             }
         }
 
@@ -72,10 +85,6 @@ public class PlayerControl : MonoBehaviour
                         m_selectedUnits.Add(_unit);
                     }
                 }
-            }
-            else
-            {
-
             }
 
             m_selectionBox.gameObject.SetActive(false);
