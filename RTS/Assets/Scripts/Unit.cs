@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    private GameObject HealthBar;
+    private GameObject m_healthBar;
 
     public bool m_moveing = false;
     public Vector2 m_moveTo;
@@ -12,16 +12,19 @@ public class Unit : MonoBehaviour
     private SpriteRenderer m_render;
 
     public float m_speed = 1.0f;
+    public int m_maxHealth = 5;
+    private int m_health;
 
     public Sprite[] m_sprites;
 
     void Start()
     {
-        HealthBar = transform.GetChild(0).gameObject;
-        HealthBar.SetActive(false);
+        m_healthBar = transform.GetChild(0).gameObject;
+        m_healthBar.SetActive(false);
 
         m_rigb = GetComponent<Rigidbody>();
         m_render = GetComponent<SpriteRenderer>();
+        m_health = m_maxHealth;
     }
     
     void Update()
@@ -73,18 +76,33 @@ public class Unit : MonoBehaviour
     public void Select()
     {
         Debug.Log("Selected");
-        HealthBar.SetActive(true);
+        m_healthBar.SetActive(true);
     }
 
     public void DeSelect()
     {
         Debug.Log("DeSelected");
-        HealthBar.SetActive(false);
+        m_healthBar.SetActive(false);
     }
 
     public void Move(Vector2 MoveTo)
     {
+        // tells this uint it needs to move and where it needs to move to
         m_moveing = true;
         m_moveTo = MoveTo;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        m_health -= damage;
+        
+        // if this unit has no health remaining
+        if (m_health <= 0)
+        {
+            // destroy the unit
+            Destroy(gameObject);
+        }
+
+        m_healthBar.transform.localScale = new Vector3(m_health / m_maxHealth, m_healthBar.transform.localScale.y, m_healthBar.transform.localScale.z);
     }
 }
