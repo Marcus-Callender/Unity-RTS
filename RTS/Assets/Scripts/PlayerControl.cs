@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    private Timer m_leftClickTimer;
     private Camera m_cam;
     private SelectionBox m_selectionBox;
 
@@ -14,9 +13,6 @@ public class PlayerControl : MonoBehaviour
 
     void Start()
     {
-        m_leftClickTimer = new Timer();
-        m_leftClickTimer.m_time = 0.2f;
-
         m_cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         m_selectionBox = GameObject.Find("Selection Box").GetComponent<SelectionBox>();
 
@@ -50,15 +46,12 @@ public class PlayerControl : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1"))
         {
-            m_leftClickTimer.Play();
             m_selectionBoxStart = mousePos;
         }
-
-        m_leftClickTimer.Cycle();
-
+        
         if (Input.GetButtonUp("Fire1"))
         {
-            if (m_leftClickTimer.m_playing && !m_leftClickTimer.m_completed)
+            if (Vector2.Distance(mousePos, m_selectionBoxStart) < 0.01f)
             {
                 Debug.Log("Click");
 
@@ -91,7 +84,7 @@ public class PlayerControl : MonoBehaviour
 
         if (Input.GetButton("Fire1"))
         {
-            if (m_leftClickTimer.m_completed)
+            if (Vector2.Distance(mousePos, m_selectionBoxStart) > 0.01f)
             {
                 for (int z = 0; z < m_selectedUnits.Count; z++)
                 {

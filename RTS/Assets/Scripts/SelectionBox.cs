@@ -11,12 +11,6 @@ public class SelectionBox : MonoBehaviour
         m_detected.Clear();
     }
 
-
-    //void OnDisable()
-    //{
-    //    Debug.Log("PrintOnDisable: script was disabled");
-    //}
-
     void OnEnable()
     {
         m_detected.Clear();
