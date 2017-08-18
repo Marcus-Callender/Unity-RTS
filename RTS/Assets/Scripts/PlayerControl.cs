@@ -90,16 +90,26 @@ public class PlayerControl : MonoBehaviour
                     Debug.Log("Drag DeSelect");
                     m_selectedUnits[z].DeSelect();
                 }
-
+                
                 m_selectedUnits.Clear();
 
                 Debug.Log("Drag Clear Length: " + m_selectedUnits.Count);
 
                 Debug.Log("Hold");
 
-                m_selectedUnits = m_selectionBox.m_detected;
+                List<Unit> oldUnitList = m_selectedUnits;
+
+                m_selectedUnits.AddRange(m_selectionBox.m_detected);
 
                 Debug.Log("Drag Detected Length: " + m_selectionBox.m_detected.Count);
+
+                for (int z = 0; z < oldUnitList.Count; z++)
+                {
+                    if (!m_selectedUnits.Contains(oldUnitList[z]))
+                    {
+                        oldUnitList[z].DeSelect();
+                    }
+                }
 
                 for (int z = 0; z < m_selectedUnits.Count; z++)
                 {

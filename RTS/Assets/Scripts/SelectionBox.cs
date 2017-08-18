@@ -8,7 +8,7 @@ public class SelectionBox : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //m_detected.Clear();
+        m_detected.Clear();
     }
 
 
