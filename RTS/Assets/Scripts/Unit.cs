@@ -10,6 +10,8 @@ public class Unit : MonoBehaviour
     private Vector2 m_moveTo;
     private Rigidbody m_rigb;
 
+    public float m_speed = 1.0f;
+
     void Start()
     {
         HealthBar = transform.GetChild(0).gameObject;
@@ -22,19 +24,33 @@ public class Unit : MonoBehaviour
     {
         if (m_moveing)
         {
-            transform.position = new Vector3(m_moveTo.x, m_moveTo.y, transform.position.z);
+            if (Mathf.Approximately(transform.position.x, m_moveTo.x) && Mathf.Approximately(transform.position.y, m_moveTo.y))
+            {
+                m_moveing = false;
+            }
+        }
 
-            //Vector3 vel = Vector3.zero;
-            //
-            //if (!Mathf.Approximately(transform.position.x, m_moveTo.x))
-            //{
-            //    vel.x = transform.position.x > m_moveTo.x ? -1.0f : 1.0f;
-            //}
-            //
-            //if (!Mathf.Approximately(transform.position.y, m_moveTo.y))
-            //{
-            //    vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
-            //}
+        if (m_moveing)
+        {
+            //transform.position = new Vector3(m_moveTo.x, m_moveTo.y, transform.position.z);
+
+            Vector3 vel = Vector3.zero;
+            
+            if (!Mathf.Approximately(transform.position.x, m_moveTo.x))
+            {
+                vel.x = transform.position.x > m_moveTo.x ? -1.0f : 1.0f;
+            }
+            
+            if (!Mathf.Approximately(transform.position.y, m_moveTo.y))
+            {
+                vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
+            }
+
+            vel.Normalize();
+
+            vel *= m_speed;
+
+            m_rigb.velocity = vel;
         }
         else
         {

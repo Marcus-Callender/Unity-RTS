@@ -42,9 +42,8 @@ public class PlayerControl : MonoBehaviour
             for (int z = 0; z < m_selectedUnits.Count; z++)
             {
                 Vector3 moveTo = mousePos;
-                moveTo += meanPos - m_selectedUnits[z].transform.position;
-
-                //m_selectedUnits[z].Move(mousePos);
+                moveTo += m_selectedUnits[z].transform.position - meanPos;
+                
                 m_selectedUnits[z].Move(moveTo);
             }
         }
