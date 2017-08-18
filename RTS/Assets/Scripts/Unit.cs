@@ -28,7 +28,7 @@ public class Unit : MonoBehaviour
     {
         if (m_moveing)
         {
-            if (Mathf.Abs(transform.position.x - m_moveTo.x) < 0.01f && Mathf.Abs(transform.position.y - m_moveTo.y) < 0.01f)
+            if (Mathf.Abs(transform.position.x - m_moveTo.x) < 0.05f && Mathf.Abs(transform.position.y - m_moveTo.y) < 0.05f)
             {
                 m_moveing = false;
             }
@@ -38,18 +38,19 @@ public class Unit : MonoBehaviour
         {
             Vector3 vel = Vector3.zero;
             
-            if (Mathf.Abs(transform.position.x - m_moveTo.x) > 0.01f)
+            if (Mathf.Abs(transform.position.x - m_moveTo.x) > 0.05f)
             {
                 vel.x = transform.position.x > m_moveTo.x ? -1.0f : 1.0f;
             }
             
-            if (Mathf.Abs(transform.position.y - m_moveTo.y) > 0.01f)
+            if (Mathf.Abs(transform.position.y - m_moveTo.y) > 0.05f)
             {
                 vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
             }
 
             int spriteIndex = (1 + (int)vel.x) + ((1 + ((int)vel.y * -1)) * 3);
 
+            // this conpancates for the fact there is no sprite for no movement in eather direction
             if (spriteIndex > 4)
             {
                 spriteIndex -= 1;

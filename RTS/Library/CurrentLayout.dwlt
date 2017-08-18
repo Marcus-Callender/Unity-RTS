@@ -111,7 +111,7 @@ MonoBehaviour:
   m_MinSize: {x: 913, y: 442}
   m_MaxSize: {x: 22008, y: 10021}
   vertical: 0
-  controlID: 23
+  controlID: 11
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 442}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 24
+  controlID: 12
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -367,14 +367,14 @@ MonoBehaviour:
     width: 868
     height: 441
   m_SceneLighting: 1
-  lastFramingTime: 4224.577478557444
+  lastFramingTime: 5160.125557225811
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -4.1917152, y: -1.5023309, z: -0.17520455}
+    m_Target: {x: -1.0973717, y: -6.444306, z: 61.900543}
     speed: 2
-    m_Value: {x: -4.1917152, y: -1.5023309, z: -0.17520455}
+    m_Value: {x: -1.0973717, y: -6.444306, z: 61.900543}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -397,13 +397,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.18897623, y: 0.6298709, z: -0.16177431, w: -0.7357851}
+    m_Target: {x: -0.04139086, y: 0.001496182, z: -0.000062414314, w: -0.99914193}
     speed: 2
-    m_Value: {x: -0.18897624, y: 0.6298709, z: -0.16177431, w: -0.7357852}
+    m_Value: {x: -0.04139086, y: 0.001496182, z: -0.000062414314, w: -0.99914193}
   m_Size:
-    m_Target: 14.890615
+    m_Target: 95.187126
     speed: 2
-    m_Value: 14.890615
+    m_Value: 95.187126
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -491,7 +491,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: e2fbffff00000000ce250000
+    m_ExpandedIDs: e2fbffff00000000a2250000ae250000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -577,18 +577,18 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Images
+    - Assets/Prefabs
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Images
+  - Assets/Prefabs
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Marcus\Desktop\GitHub\Unity-RTS\RTS
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 0c250000
-    m_LastClickedID: 9484
+    m_SelectedIDs: 1c290000
+    m_LastClickedID: 10524
     m_ExpandedIDs: 00000000ba2400000c25000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -644,8 +644,8 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: 8c2c000072ab0100582600002a250000
+    m_HadKeyboardFocusLastEvent: 0
+    m_ExpandedInstanceIDs: 8c2c000072ab0100582600007c2800007a280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
