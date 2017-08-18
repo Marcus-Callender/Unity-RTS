@@ -6,11 +6,14 @@ public class Unit : MonoBehaviour
 {
     private GameObject HealthBar;
 
-    private bool m_moveing = false;
-    private Vector2 m_moveTo;
+    public bool m_moveing = false;
+    public Vector2 m_moveTo;
     private Rigidbody m_rigb;
+    private SpriteRenderer m_render;
 
     public float m_speed = 1.0f;
+
+    public Sprite[] m_sprites;
 
     void Start()
     {
@@ -18,6 +21,7 @@ public class Unit : MonoBehaviour
         HealthBar.SetActive(false);
 
         m_rigb = GetComponent<Rigidbody>();
+        m_render = GetComponent<SpriteRenderer>();
     }
     
     void Update()
@@ -43,6 +47,15 @@ public class Unit : MonoBehaviour
             {
                 vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
             }
+
+            int spriteIndex = (1 + (int)vel.x) + ((1 + ((int)vel.y * -1)) * 3);
+
+            if (spriteIndex > 4)
+            {
+                spriteIndex -= 1;
+            }
+
+            m_render.sprite = m_sprites[spriteIndex];
 
             vel.Normalize();
 
