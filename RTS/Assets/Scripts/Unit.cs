@@ -24,7 +24,7 @@ public class Unit : MonoBehaviour
     {
         if (m_moveing)
         {
-            if (Mathf.Approximately(transform.position.x, m_moveTo.x) && Mathf.Approximately(transform.position.y, m_moveTo.y))
+            if (Mathf.Abs(transform.position.x - m_moveTo.x) < 0.01f && Mathf.Abs(transform.position.y - m_moveTo.y) < 0.01f)
             {
                 m_moveing = false;
             }
@@ -32,16 +32,14 @@ public class Unit : MonoBehaviour
 
         if (m_moveing)
         {
-            //transform.position = new Vector3(m_moveTo.x, m_moveTo.y, transform.position.z);
-
             Vector3 vel = Vector3.zero;
             
-            if (!Mathf.Approximately(transform.position.x, m_moveTo.x))
+            if (Mathf.Abs(transform.position.x - m_moveTo.x) > 0.01f)
             {
                 vel.x = transform.position.x > m_moveTo.x ? -1.0f : 1.0f;
             }
             
-            if (!Mathf.Approximately(transform.position.y, m_moveTo.y))
+            if (Mathf.Abs(transform.position.y - m_moveTo.y) > 0.01f)
             {
                 vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
             }
