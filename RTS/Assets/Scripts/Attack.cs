@@ -24,6 +24,8 @@ public class Attack : MonoBehaviour
     {
         GameObject targate = null;
 
+        m_targates.CheckRefrences();
+
         foreach (Unit tempTargate in m_targates.m_UnitsInTrigger)
         {
             if (tempTargate.gameObject.tag != gameObject.tag)

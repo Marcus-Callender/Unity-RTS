@@ -25,6 +25,7 @@ public class PlayerControl : MonoBehaviour
         Debug.DrawRay(mousePos, Vector3.forward * 11, Color.yellow);
 
         CheckForKOdUnits();
+        m_selectionBox.CheckRefrences();
 
         if (Input.GetButtonDown("Fire2"))
         {
@@ -131,11 +132,11 @@ public class PlayerControl : MonoBehaviour
 
     private void CheckForKOdUnits()
     {
-        foreach (Unit z in m_selectedUnits)
+        for (int z = 0; z < m_selectedUnits.Count; z++)
         {
-            if (!z)
+            if (!m_selectedUnits[z])
             {
-                m_selectedUnits.Remove(z);
+                m_selectedUnits.Remove(m_selectedUnits[z]);
             }
         }
     }

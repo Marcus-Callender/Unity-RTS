@@ -30,4 +30,23 @@ public class DetectObjectsInTrigger : MonoBehaviour
             m_UnitsInTrigger.Add(data);
         }
     }
+
+    public void CheckRefrences()
+    {
+        for (int z = 0; z < m_InTrigger.Count; z++)
+        {
+            if (!m_InTrigger[z])
+            {
+                m_InTrigger.Remove(m_InTrigger[z]);
+            }
+        }
+
+        for (int z = 0; z < m_UnitsInTrigger.Count; z++)
+        {
+            if (!m_UnitsInTrigger[z])
+            {
+                m_UnitsInTrigger.Remove(m_UnitsInTrigger[z]);
+            }
+        }
+    }
 }
