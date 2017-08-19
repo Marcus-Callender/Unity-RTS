@@ -4,23 +4,64 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    public int m_damage = 1;
+    public GameObject m_projectile;
+    private DetectObjectsInTrigger m_targates;
 
-    private void OnTriggerEnter(Collider other)
+    public float m_fireDelay = 1.0f;
+    public float m_bulletSpeed = 3.0f;
+
+    private Timer m_fireTimer;
+
+    void Start()
     {
-        // if the hit object is on the other team
-        if (other.tag != gameObject.tag)
+        m_fireTimer = new Timer();
+        m_fireTimer.m_time = m_fireDelay;
+
+        m_targates = GetComponent<DetectObjectsInTrigger>();
+    }
+
+    void Update()
+    {
+        GameObject targate = null;
+
+        foreach (Unit tempTargate in m_targates.m_UnitsInTrigger)
         {
-            Unit data = other.gameObject.GetComponent<Unit>();
-
-            // and the hit object can take damage
-            if (data)
+            if (tempTargate.gameObject.tag != gameObject.tag)
             {
-                data.TakeDamage(m_damage);
-
-                // destroy this attack
-                Destroy(gameObject);
+                targate = tempTargate.gameObject;
+                break;
             }
+        }
+
+        if (targate)
+        {
+            if (!m_fireTimer.m_playing)
+            {
+                m_fireTimer.Play();
+            }
+
+            m_fireTimer.Cycle();
+
+            if (m_fireTimer.m_completed)
+            {
+                m_fireTimer.Stop();
+
+                GameObject newProjectile = Instantiate(m_projectile, gameObject.transform.position, m_projectile.transform.rotation);
+
+                Vector3 BulletVelocity = targate.transform.position - transform.position;
+
+                BulletVelocity.Normalize();
+
+                BulletVelocity *= m_bulletSpeed;
+
+                newProjectile.GetComponent<Rigidbody>().velocity = BulletVelocity;
+
+                newProjectile.tag = gameObject.tag;
+            }
+        }
+        else
+        {
+            m_fireTimer.Stop();
         }
     }
 }

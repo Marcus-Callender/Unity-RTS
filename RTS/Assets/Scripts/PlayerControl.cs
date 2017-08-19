@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     private Camera m_cam;
-    private SelectionBox m_selectionBox;
+    private DetectObjectsInTrigger m_selectionBox;
 
     public List<Unit> m_selectedUnits;
 
@@ -14,7 +14,7 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         m_cam = GameObject.Find("Main Camera").GetComponent<Camera>();
-        m_selectionBox = GameObject.Find("Selection Box").GetComponent<SelectionBox>();
+        m_selectionBox = GameObject.Find("Selection Box").GetComponent<DetectObjectsInTrigger>();
 
         m_selectionBox.gameObject.SetActive(false);
     }
@@ -23,6 +23,8 @@ public class PlayerControl : MonoBehaviour
     {
         Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
         Debug.DrawRay(mousePos, Vector3.forward * 11, Color.yellow);
+
+        CheckForKOdUnits();
 
         if (Input.GetButtonDown("Fire2"))
         {
@@ -100,9 +102,9 @@ public class PlayerControl : MonoBehaviour
 
                 List<Unit> oldUnitList = m_selectedUnits;
 
-                m_selectedUnits.AddRange(m_selectionBox.m_detected);
+                m_selectedUnits.AddRange(m_selectionBox.m_UnitsInTrigger);
 
-                Debug.Log("Drag Detected Length: " + m_selectionBox.m_detected.Count);
+                Debug.Log("Drag Detected Length: " + m_selectionBox.m_UnitsInTrigger.Count);
 
                 for (int z = 0; z < oldUnitList.Count; z++)
                 {
@@ -123,6 +125,17 @@ public class PlayerControl : MonoBehaviour
                 m_selectionBox.transform.position = new Vector3((m_selectionBoxStart.x + mousePos.x) * 0.5f, (m_selectionBoxStart.y + mousePos.y) * 0.5f, m_selectionBox.transform.position.z);
 
                 m_selectionBox.transform.localScale = new Vector3(Mathf.Abs(m_selectionBoxStart.x - mousePos.x), Mathf.Abs(m_selectionBoxStart.y - mousePos.y), m_selectionBox.transform.localScale.z);
+            }
+        }
+    }
+
+    private void CheckForKOdUnits()
+    {
+        foreach (Unit z in m_selectedUnits)
+        {
+            if (!z)
+            {
+                m_selectedUnits.Remove(z);
             }
         }
     }

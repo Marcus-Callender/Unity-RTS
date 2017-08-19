@@ -25,6 +25,8 @@ public class Unit : MonoBehaviour
         m_rigb = GetComponent<Rigidbody>();
         m_render = GetComponent<SpriteRenderer>();
         m_health = m_maxHealth;
+
+        TakeDamage(0);
     }
     
     void Update()
@@ -103,6 +105,7 @@ public class Unit : MonoBehaviour
             Destroy(gameObject);
         }
 
-        m_healthBar.transform.localScale = new Vector3(m_health / m_maxHealth, m_healthBar.transform.localScale.y, m_healthBar.transform.localScale.z);
+        m_healthBar.transform.localScale = new Vector3((float)m_health / (float)m_maxHealth, m_healthBar.transform.localScale.y, m_healthBar.transform.localScale.z);
+        m_healthBar.transform.localPosition = new Vector3((-1.0f + ((float)m_health / (float)m_maxHealth)) * 0.5f, m_healthBar.transform.localPosition.y, m_healthBar.transform.localPosition.z);
     }
 }
