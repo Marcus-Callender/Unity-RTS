@@ -43,8 +43,8 @@ public class CameraMovment : MonoBehaviour
             m_cam.orthographicSize = Mathf.Clamp(m_cam.orthographicSize, m_minZ, m_maxZ);
         }
 
-        newX = Mathf.Clamp(newX, m_minX, m_maxX);
-        newY = Mathf.Clamp(newY, m_minY, m_maxY);
+        newX = Mathf.Clamp(newX, m_minX - ((1.0f - m_cam.orthographicSize) * 1.775f), m_maxX + ((1.0f - m_cam.orthographicSize) * 1.775f));
+        newY = Mathf.Clamp(newY, m_minY - (1.0f - m_cam.orthographicSize), m_maxY + (1.0f - m_cam.orthographicSize));
 
         transform.position = new Vector3(newX, newY, transform.position.z);
     }
