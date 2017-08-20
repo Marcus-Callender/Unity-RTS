@@ -7,6 +7,9 @@ public class Projectile : MonoBehaviour
     public int m_damage = 1;
     public Sprite[] m_sprites;
 
+    public float m_lifeTime = 20.0f;
+    private Timer m_lifeTimer = new Timer();
+
     private SpriteRenderer m_render;
     private Rigidbody m_rigb;
 
@@ -14,6 +17,9 @@ public class Projectile : MonoBehaviour
     {
         m_rigb = GetComponent<Rigidbody>();
         m_render = GetComponent<SpriteRenderer>();
+
+        m_lifeTimer.m_time = m_lifeTime;
+        m_lifeTimer.Play();
     }
 
     private void Update()
@@ -30,6 +36,13 @@ public class Projectile : MonoBehaviour
             }
 
             m_render.sprite = m_sprites[spriteIndex];
+        }
+
+        m_lifeTimer.Cycle();
+
+        if (m_lifeTimer.m_completed)
+        {
+            Destroy(gameObject);
         }
     }
 
