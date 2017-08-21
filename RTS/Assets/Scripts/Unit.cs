@@ -101,6 +101,13 @@ public class Unit : MonoBehaviour
         // if this unit has no health remaining
         if (m_health <= 0)
         {
+            ParticleSystem paint = GetComponentInChildren<ParticleSystem>();
+
+            if (paint)
+            {
+                paint.transform.SetParent(null);
+            }
+
             // destroy the unit
             Destroy(gameObject);
         }
