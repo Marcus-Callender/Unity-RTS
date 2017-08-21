@@ -15,16 +15,19 @@ public class TeretoryTracker : MonoBehaviour
     private float m_bottom;
 
     private float m_objectsDistance;
+    private float m_objectsMidpoint;
 
     void Start()
     {
         m_totalBlocks = transform.childCount;
 
-        StartCoroutine(CheckScore());
-
-        m_top = m_topObject.transform.position.y + (m_topObject.transform.localScale.y * 0.5f);
-        m_bottom = m_bottomObject.transform.position.y - (m_bottomObject.transform.localScale.y * 0.5f);
+        m_top = m_topObject.transform.localPosition.y + (m_topObject.transform.localScale.y * 0.5f);
+        m_bottom = m_bottomObject.transform.localPosition.y - (m_bottomObject.transform.localScale.y * 0.5f);
         m_objectsDistance = m_top - m_bottom;
+
+        m_objectsMidpoint = (m_topObject.transform.localPosition.y + m_bottomObject.transform.localPosition.y) * 0.5f;
+
+        StartCoroutine(CheckScore());
     }
 
     void Update()
@@ -51,6 +54,8 @@ public class TeretoryTracker : MonoBehaviour
                 }
             }
 
+            ScaleProgressObjects();
+
             yield return new WaitForSeconds(2.0f);
         }
     }
@@ -63,6 +68,7 @@ public class TeretoryTracker : MonoBehaviour
         m_topObject.transform.localScale = new Vector3(m_topObject.transform.localScale.x, m_objectsDistance * greenPercent, m_topObject.transform.localScale.z);
         m_bottomObject.transform.localScale = new Vector3(m_topObject.transform.localScale.x, m_objectsDistance * bluePercent, m_topObject.transform.localScale.z);
 
-
+        m_topObject.transform.localPosition = new Vector3(m_topObject.transform.localPosition.x, m_objectsMidpoint + ((m_objectsDistance * bluePercent) * 0.5f), m_topObject.transform.localPosition.z);
+        m_bottomObject.transform.localPosition = new Vector3(m_topObject.transform.localPosition.x, m_objectsMidpoint - ((m_objectsDistance * greenPercent) * 0.5f), m_topObject.transform.localPosition.z);
     }
 }
