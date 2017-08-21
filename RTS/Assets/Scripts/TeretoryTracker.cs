@@ -4,27 +4,43 @@ using UnityEngine;
 
 public class TeretoryTracker : MonoBehaviour
 {
-    public int m_blocksX = 60;
-    public int m_blocksY = 40;
-
-    public float m_blockSizeX = 1.0f;
-    public float m_blockSizeY = 1.0f;
-
-    public GameObject m_blockPrefab;
+    public int m_totalBlocks;
+    public int m_BlueBlocks;
+    public int m_GreenBlocks;
 
     void Start()
     {
-        for (int x = 0; x < m_blocksX; x++)
-        {
-            for (int y = 0; y < m_blocksY; y++)
-            {
-                Instantiate(m_blockPrefab, new Vector3(m_blockSizeX * x + gameObject.transform.position.x, m_blockSizeY * y - gameObject.transform.position.y, gameObject.transform.position.z), Quaternion.identity, gameObject.transform);
-            }
-        }
+        m_totalBlocks = transform.childCount;
+
+        StartCoroutine(CheckScore());
     }
-    
+
     void Update()
     {
 
+    }
+
+    IEnumerator CheckScore()
+    {
+        while (true)
+        {
+            m_BlueBlocks = 0;
+            m_GreenBlocks = 0;
+
+            for (int z = 0; z < transform.childCount; z++)
+            {
+                if (transform.GetChild(z).tag == "Green")
+                {
+                    m_GreenBlocks += 1;
+
+                }
+                else if (transform.GetChild(z).tag == "Blue")
+                {
+                    m_BlueBlocks += 1;
+                }
+            }
+
+            yield return new WaitForSeconds(2.0f);
+        }
     }
 }
