@@ -12,6 +12,7 @@ public class Attack : MonoBehaviour
     public bool m_targateFriendlyUnits = false;
 
     private Timer m_fireTimer;
+    public int m_id;
 
     void Start()
     {
@@ -36,6 +37,18 @@ public class Attack : MonoBehaviour
             }
         }
 
+        if (m_targateFriendlyUnits)
+        {
+            if (targate)
+            {
+                Debug.Log("Friendly Targate Found");
+            }
+            else
+            {
+                Debug.Log("Friendly Targate Not Found");
+            }
+        }
+
         if (targate)
         {
             if (!m_fireTimer.m_playing)
@@ -47,6 +60,8 @@ public class Attack : MonoBehaviour
 
             if (m_fireTimer.m_completed)
             {
+                Debug.Log("Fired bullet");
+
                 m_fireTimer.Stop();
 
                 GameObject newProjectile = Instantiate(m_projectile, gameObject.transform.position, m_projectile.transform.rotation);
@@ -60,6 +75,13 @@ public class Attack : MonoBehaviour
                 newProjectile.GetComponent<Rigidbody>().velocity = BulletVelocity;
 
                 newProjectile.tag = gameObject.tag;
+
+                Projectile proj = newProjectile.GetComponent<Projectile>();
+
+                if (proj)
+                {
+                    proj.m_shooterid = m_id;
+                }
             }
         }
         else

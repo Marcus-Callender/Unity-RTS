@@ -17,14 +17,27 @@ public class Unit : MonoBehaviour
 
     public Sprite[] m_sprites;
 
+    static int M_ID_COUNT = 0;
+    public int m_id;
+
     void Start()
     {
+        m_id = M_ID_COUNT;
+        M_ID_COUNT += 1;
+
         m_healthBar = transform.GetChild(0).gameObject;
         m_healthBar.SetActive(false);
 
         m_rigb = GetComponent<Rigidbody>();
         m_render = GetComponent<SpriteRenderer>();
         m_health = m_maxHealth;
+
+        Attack attack = GetComponentInChildren<Attack>();
+
+        if (attack)
+        {
+            attack.m_id = m_id;
+        }
 
         TakeDamage(0);
     }

@@ -6,12 +6,15 @@ public class Projectile : MonoBehaviour
 {
     public int m_damage = 1;
     public Sprite[] m_sprites;
+    public bool m_targateFriendlyUnits = false;
 
     public float m_lifeTime = 20.0f;
     private Timer m_lifeTimer = new Timer();
 
     private SpriteRenderer m_render;
     private Rigidbody m_rigb;
+
+    public int m_shooterid = -1;
 
     private void Start()
     {
@@ -49,12 +52,12 @@ public class Projectile : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // if the hit object is on the other team
-        if (other.tag != gameObject.tag)
+        if ((other.tag == gameObject.tag) == m_targateFriendlyUnits)
         {
             Unit data = other.gameObject.GetComponent<Unit>();
 
             // and the hit object can take damage
-            if (data)
+            if (data && (data.m_id != m_shooterid))
             {
                 data.TakeDamage(m_damage);
 
