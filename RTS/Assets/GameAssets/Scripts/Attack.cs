@@ -9,6 +9,7 @@ public class Attack : MonoBehaviour
 
     public float m_fireDelay = 1.0f;
     public float m_bulletSpeed = 3.0f;
+    public bool m_targateFriendlyUnits = false;
 
     private Timer m_fireTimer;
 
@@ -28,7 +29,7 @@ public class Attack : MonoBehaviour
 
         foreach (Unit tempTargate in m_targates.m_UnitsInTrigger)
         {
-            if (tempTargate.gameObject.tag != gameObject.tag)
+            if ((tempTargate.gameObject.tag == gameObject.tag) == m_targateFriendlyUnits)
             {
                 targate = tempTargate.gameObject;
                 break;

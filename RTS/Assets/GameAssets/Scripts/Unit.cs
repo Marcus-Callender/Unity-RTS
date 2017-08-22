@@ -97,7 +97,9 @@ public class Unit : MonoBehaviour
     public void TakeDamage(int damage)
     {
         m_health -= damage;
-        
+
+        m_health = Mathf.Min(m_health, m_maxHealth);
+
         // if this unit has no health remaining
         if (m_health <= 0)
         {
