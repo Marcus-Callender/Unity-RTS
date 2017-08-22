@@ -13,7 +13,7 @@ public class Unit : MonoBehaviour
 
     public float m_speed = 1.0f;
     public int m_maxHealth = 5;
-    private int m_health;
+    public int m_health;
 
     public Sprite[] m_sprites;
 

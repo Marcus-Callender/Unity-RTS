@@ -32,8 +32,11 @@ public class Attack : MonoBehaviour
         {
             if ((tempTargate.gameObject.tag == gameObject.tag) == m_targateFriendlyUnits)
             {
-                targate = tempTargate.gameObject;
-                break;
+                if (!(m_targateFriendlyUnits && (tempTargate.m_health == tempTargate.m_maxHealth)))
+                {
+                    targate = tempTargate.gameObject;
+                    break;
+                }
             }
         }
 
