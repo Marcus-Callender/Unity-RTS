@@ -6,6 +6,7 @@ public class Attack : MonoBehaviour
 {
     public GameObject m_projectile;
     private DetectObjectsInTrigger m_targates;
+    private UnitData m_data;
 
     public float m_fireDelay = 1.0f;
     public float m_bulletSpeed = 3.0f;
@@ -24,6 +25,8 @@ public class Attack : MonoBehaviour
 
     void Update()
     {
+        m_data = GetComponentInParent<UnitData>();
+
         GameObject targate = null;
 
         m_targates.CheckRefrences();

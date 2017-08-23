@@ -10,7 +10,7 @@ public class Unit : MonoBehaviour
     public Vector2 m_moveTo;
     private Rigidbody m_rigb;
     private SpriteRenderer m_render;
-    private Rotation m_rotation;
+    private UnitData m_rotation;
 
     public float m_speed = 1.0f;
     public int m_maxHealth = 5;
@@ -31,7 +31,7 @@ public class Unit : MonoBehaviour
 
         m_rigb = GetComponent<Rigidbody>();
         m_render = GetComponent<SpriteRenderer>();
-        m_rotation = GetComponent<Rotation>();
+        m_rotation = GetComponent<UnitData>();
         m_health = m_maxHealth;
 
         Attack attack = GetComponentInChildren<Attack>();

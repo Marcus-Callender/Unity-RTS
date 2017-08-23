@@ -37,12 +37,12 @@ public class PlayerControl : MonoBehaviour
             }
 
             meanPos /= m_selectedUnits.Count;
-            
+
             for (int z = 0; z < m_selectedUnits.Count; z++)
             {
                 Vector3 moveTo = mousePos;
                 moveTo += m_selectedUnits[z].transform.position - meanPos;
-                
+
                 m_selectedUnits[z].Move(moveTo);
             }
         }
@@ -51,14 +51,12 @@ public class PlayerControl : MonoBehaviour
         {
             m_selectionBoxStart = mousePos;
         }
-        
+
         if (Input.GetButtonUp("Fire1"))
         {
             if (Vector2.Distance(mousePos, m_selectionBoxStart) < 0.01f)
             {
                 Debug.Log("Click");
-
-                RaycastHit hit;
 
                 for (int z = 0; z < m_selectedUnits.Count; z++)
                 {
@@ -67,17 +65,24 @@ public class PlayerControl : MonoBehaviour
 
                 m_selectedUnits.Clear();
 
-                if (Physics.Raycast(mousePos, Vector3.forward * 11, out hit))
+                RaycastHit[] hits = Physics.RaycastAll(mousePos, Vector3.forward * 11);
+
+                if (hits.Length > 0)
                 {
-                    Unit _unit = hit.transform.gameObject.GetComponent<Unit>();
-                    Debug.Log("Raycast Hit");
-
-                    if (_unit && !m_selectedUnits.Contains(_unit))
+                    for (int z = 0; z < hits.Length; z++)
                     {
-                        Debug.Log("Unit fouund");
+                        Unit _unit = hits[z].transform.gameObject.GetComponent<Unit>();
+                        Debug.Log("Raycast Hit");
 
-                        _unit.Select();
-                        m_selectedUnits.Add(_unit);
+                        if (_unit && !m_selectedUnits.Contains(_unit))
+                        {
+                            Debug.Log("Unit fouund");
+
+                            _unit.Select();
+                            m_selectedUnits.Add(_unit);
+                            break;
+                        }
+
                     }
                 }
             }
@@ -94,7 +99,7 @@ public class PlayerControl : MonoBehaviour
                     Debug.Log("Drag DeSelect");
                     m_selectedUnits[z].DeSelect();
                 }
-                
+
                 m_selectedUnits.Clear();
 
                 Debug.Log("Drag Clear Length: " + m_selectedUnits.Count);
