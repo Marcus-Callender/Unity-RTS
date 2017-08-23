@@ -10,6 +10,7 @@ public class Unit : MonoBehaviour
     public Vector2 m_moveTo;
     private Rigidbody m_rigb;
     private SpriteRenderer m_render;
+    private Rotation m_rotation;
 
     public float m_speed = 1.0f;
     public int m_maxHealth = 5;
@@ -30,6 +31,7 @@ public class Unit : MonoBehaviour
 
         m_rigb = GetComponent<Rigidbody>();
         m_render = GetComponent<SpriteRenderer>();
+        m_rotation = GetComponent<Rotation>();
         m_health = m_maxHealth;
 
         Attack attack = GetComponentInChildren<Attack>();
@@ -56,31 +58,21 @@ public class Unit : MonoBehaviour
         {
             Vector3 vel = Vector3.zero;
             
-            if (Mathf.Abs(transform.position.x - m_moveTo.x) > 0.05f)
+            if (Mathf.Abs(transform.position.x - m_moveTo.x) > 0.33f)
             {
                 vel.x = transform.position.x > m_moveTo.x ? -1.0f : 1.0f;
             }
             
-            if (Mathf.Abs(transform.position.y - m_moveTo.y) > 0.05f)
+            if (Mathf.Abs(transform.position.y - m_moveTo.y) > 0.33f)
             {
                 vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
             }
 
-            int spriteIndex = (1 + (int)vel.x) + ((1 + ((int)vel.y * -1)) * 3);
-
-            // this conpancates for the fact there is no sprite for no movement in eather direction
-            if (spriteIndex > 4)
-            {
-                spriteIndex -= 1;
-            }
-
-            m_render.sprite = m_sprites[spriteIndex];
-
-            vel.Normalize();
-
-            vel *= m_speed;
-
-            m_rigb.velocity = vel;
+            m_rotation.Rotate(m_rotation.Vec2ToIndex(vel));
+            
+            m_render.sprite = m_sprites[m_rotation.m_rotationIndex];
+            
+            m_rigb.velocity = m_rotation.RotationVec2() * m_speed;
         }
         else
         {
