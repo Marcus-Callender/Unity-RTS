@@ -10,7 +10,7 @@ public class Unit : MonoBehaviour
     public Vector2 m_moveTo;
     private Rigidbody m_rigb;
     private SpriteRenderer m_render;
-    private UnitData m_rotation;
+    public UnitData m_data;
 
     public float m_speed = 1.0f;
     public int m_maxHealth = 5;
@@ -31,7 +31,7 @@ public class Unit : MonoBehaviour
 
         m_rigb = GetComponent<Rigidbody>();
         m_render = GetComponent<SpriteRenderer>();
-        m_rotation = GetComponent<UnitData>();
+        m_data = GetComponent<UnitData>();
         m_health = m_maxHealth;
 
         Attack attack = GetComponentInChildren<Attack>();
@@ -43,40 +43,68 @@ public class Unit : MonoBehaviour
 
         TakeDamage(0);
     }
-    
+
     void Update()
     {
-        if (m_moveing)
+        if (m_data.m_targateUnit)
         {
-            if (Mathf.Abs(transform.position.x - m_moveTo.x) < 0.05f && Mathf.Abs(transform.position.y - m_moveTo.y) < 0.05f)
-            {
-                m_moveing = false;
-            }
-        }
+            Debug.DrawRay(transform.position, m_data.m_targateUnit.transform.position - transform.position, Color.red);
 
-        if (m_moveing)
-        {
-            Vector3 vel = Vector3.zero;
-            
-            if (Mathf.Abs(transform.position.x - m_moveTo.x) > 0.33f)
+            if (Vector3.Distance(transform.position, m_data.m_targateUnit.transform.position) > 2.0f)
             {
-                vel.x = transform.position.x > m_moveTo.x ? -1.0f : 1.0f;
-            }
-            
-            if (Mathf.Abs(transform.position.y - m_moveTo.y) > 0.33f)
-            {
-                vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
-            }
+                Vector3 vel = Vector3.zero;
 
-            m_rotation.Rotate(m_rotation.Vec2ToIndex(vel));
-            
-            m_render.sprite = m_sprites[m_rotation.m_rotationIndex];
-            
-            m_rigb.velocity = m_rotation.RotationVec2() * m_speed;
+                if (Mathf.Abs(transform.position.x - m_data.m_targateUnit.transform.position.x) > 0.33f)
+                {
+                    vel.x = transform.position.x > m_data.m_targateUnit.transform.position.x ? -1.0f : 1.0f;
+                }
+
+                if (Mathf.Abs(transform.position.y - m_data.m_targateUnit.transform.position.y) > 0.33f)
+                {
+                    vel.y = transform.position.y > m_data.m_targateUnit.transform.position.y ? -1.0f : 1.0f;
+                }
+
+                m_data.Rotate(m_data.Vec2ToIndex(vel));
+
+                m_render.sprite = m_sprites[m_data.m_rotationIndex];
+
+                m_rigb.velocity = m_data.RotationVec2() * m_speed;
+            }
         }
         else
         {
-            m_rigb.velocity = Vector3.zero;
+            if (m_moveing)
+            {
+                if (Mathf.Abs(transform.position.x - m_moveTo.x) < 0.05f && Mathf.Abs(transform.position.y - m_moveTo.y) < 0.05f)
+                {
+                    m_moveing = false;
+                }
+            }
+
+            if (m_moveing)
+            {
+                Vector3 vel = Vector3.zero;
+
+                if (Mathf.Abs(transform.position.x - m_moveTo.x) > 0.33f)
+                {
+                    vel.x = transform.position.x > m_moveTo.x ? -1.0f : 1.0f;
+                }
+
+                if (Mathf.Abs(transform.position.y - m_moveTo.y) > 0.33f)
+                {
+                    vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
+                }
+
+                m_data.Rotate(m_data.Vec2ToIndex(vel));
+
+                m_render.sprite = m_sprites[m_data.m_rotationIndex];
+
+                m_rigb.velocity = m_data.RotationVec2() * m_speed;
+            }
+            else
+            {
+                m_rigb.velocity = Vector3.zero;
+            }
         }
     }
 

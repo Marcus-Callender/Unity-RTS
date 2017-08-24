@@ -29,21 +29,59 @@ public class PlayerControl : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2"))
         {
-            Vector3 meanPos = Vector3.zero;
+            RaycastHit[] hits = Physics.RaycastAll(mousePos, Vector3.forward * 11);
 
-            for (int z = 0; z < m_selectedUnits.Count; z++)
+            UnitData taragte = null;
+
+            if (hits.Length > 0)
             {
-                meanPos += m_selectedUnits[z].transform.position;
+                for (int z = 0; z < hits.Length; z++)
+                {
+                    Unit _unit = hits[z].transform.gameObject.GetComponent<Unit>();
+                    Debug.Log("Raycast Hit");
+
+                    if (_unit && !m_selectedUnits.Contains(_unit))
+                    {
+                        Debug.Log("Unit fouund");
+
+                        taragte = _unit.m_data;
+
+                        break;
+                    }
+
+                }
             }
 
-            meanPos /= m_selectedUnits.Count;
-
-            for (int z = 0; z < m_selectedUnits.Count; z++)
+            if (taragte)
             {
-                Vector3 moveTo = mousePos;
-                moveTo += m_selectedUnits[z].transform.position - meanPos;
+                for (int z = 0; z < m_selectedUnits.Count; z++)
+                {
+                    m_selectedUnits[z].m_data.m_targateUnit = taragte;
+                }
+            }
+            else
+            {
+                for (int z = 0; z < m_selectedUnits.Count; z++)
+                {
+                    m_selectedUnits[z].m_data.m_targateUnit = null;
+                }
 
-                m_selectedUnits[z].Move(moveTo);
+                Vector3 meanPos = Vector3.zero;
+
+                for (int z = 0; z < m_selectedUnits.Count; z++)
+                {
+                    meanPos += m_selectedUnits[z].transform.position;
+                }
+
+                meanPos /= m_selectedUnits.Count;
+
+                for (int z = 0; z < m_selectedUnits.Count; z++)
+                {
+                    Vector3 moveTo = mousePos;
+                    moveTo += m_selectedUnits[z].transform.position - meanPos;
+
+                    m_selectedUnits[z].Move(moveTo);
+                }
             }
         }
 

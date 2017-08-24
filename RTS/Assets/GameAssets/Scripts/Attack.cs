@@ -21,24 +21,41 @@ public class Attack : MonoBehaviour
         m_fireTimer.m_time = m_fireDelay;
 
         m_targates = GetComponent<DetectObjectsInTrigger>();
+        m_data = GetComponentInParent<UnitData>();
     }
 
     void Update()
     {
-        m_data = GetComponentInParent<UnitData>();
-
         GameObject targate = null;
 
         m_targates.CheckRefrences();
 
+        // runs the loop for each uint in range
         foreach (Unit tempTargate in m_targates.m_UnitsInTrigger)
         {
+            // this ensures the target being looked at is the team this unit is supposed to be targeting
             if ((tempTargate.gameObject.tag == gameObject.tag) == m_targateFriendlyUnits)
             {
+                // this enures medics will not heal uints at full health
                 if (!(m_targateFriendlyUnits && (tempTargate.m_health == tempTargate.m_maxHealth)))
                 {
-                    targate = tempTargate.gameObject;
-                    break;
+                    // if the unit being looked at is the targate uint it will always be targeted
+                    if (m_data.m_targateUnit == tempTargate.m_data)
+                    {
+                        targate = tempTargate.gameObject;
+                        break;
+                    }
+
+                    if (targate && Vector3.Distance(tempTargate.transform.position, gameObject.transform.position) > Vector3.Distance(targate.transform.position, gameObject.transform.position))
+                    {
+                        // if there is already a unit targeted this will targate the closest unit
+                        targate = tempTargate.gameObject;
+                    }
+                    else
+                    {
+                        // if there is currently no targate assignes this uint as the targate 
+                        targate = tempTargate.gameObject;
+                    }
                 }
             }
         }
