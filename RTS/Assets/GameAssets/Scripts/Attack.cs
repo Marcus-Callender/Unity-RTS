@@ -60,17 +60,22 @@ public class Attack : MonoBehaviour
             }
         }
 
-        if (m_targateFriendlyUnits)
-        {
-            if (targate)
-            {
-                Debug.Log("Friendly Targate Found");
-            }
-            else
-            {
-                Debug.Log("Friendly Targate Not Found");
-            }
-        }
+        //if (targate)
+        //{
+        //    //Vector2 angle = targate.gameObject.transform.position - transform.position;
+        //    //angle.Normalize();
+        //    //
+        //    //if ((m_data.RotationVec2() - angle).magnitude <= 0.25f)
+        //
+        //    int angleIndex = m_data.Vec2ToIndex((targate.gameObject.transform.position - transform.position).normalized);
+        //
+        //    if (angleIndex != m_data.m_rotationIndex)
+        //    {
+        //        m_data.Rotate(angleIndex);
+        //
+        //        targate = null;
+        //    }
+        //}
 
         if (targate)
         {
@@ -90,8 +95,9 @@ public class Attack : MonoBehaviour
                 GameObject newProjectile = Instantiate(m_projectile, gameObject.transform.position, m_projectile.transform.rotation);
 
                 Vector3 BulletVelocity = targate.transform.position - transform.position;
-
                 BulletVelocity.Normalize();
+
+                //Vector3 BulletVelocity = m_data.RotationVec2();
 
                 BulletVelocity *= m_bulletSpeed;
 
