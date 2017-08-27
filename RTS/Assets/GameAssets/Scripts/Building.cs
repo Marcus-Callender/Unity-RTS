@@ -2,39 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Constructor : MonoBehaviour
+public class Building : Unit
 {
-    private GameObject m_healthBar;
-
-    public bool m_moveing = false;
-    public Vector2 m_moveTo;
-    private Rigidbody m_rigb;
-    private SpriteRenderer m_render;
-    public UnitData m_data;
-
-    public float m_speed = 1.0f;
-    public int m_maxHealth = 5;
-    public int m_health;
-
     public Sprite[] m_idle;
     public Sprite[] m_working;
     public Sprite[] m_appering;
     public Sprite[] m_damaged;
 
-    private Sprite[] m_currentAnim;
+    private SpriteAnimation m_idleAnim;
+    private SpriteAnimation m_workingAnim;
+    private SpriteAnimation m_apperingAnim;
+    private SpriteAnimation m_damagedAnim;
 
-    static int M_ID_COUNT = 0;
-    public int m_id;
+    //private Sprite[] m_currentAnim;
+    private SpriteAnimation m_currentAnim;
+
+    //private Timer m_animChange;
+    private float m_animChangeTime = 0.16f;
+    private int m_animIndex = 0;
 
     void Start()
     {
-        m_id = M_ID_COUNT;
-        M_ID_COUNT += 1;
 
         m_healthBar = transform.GetChild(0).gameObject;
         m_healthBar.SetActive(false);
+        m_healtharSize = m_healthBar.transform.localScale.x;
 
-        m_rigb = GetComponent<Rigidbody>();
         m_render = GetComponent<SpriteRenderer>();
         m_data = GetComponent<UnitData>();
         m_health = m_maxHealth;
@@ -47,6 +40,21 @@ public class Constructor : MonoBehaviour
         }
 
         TakeDamage(0);
+
+        //m_animChange = new Timer();
+        //m_animChange.m_time = m_animChangeTime;
+        //m_animChange.Play();
+
+        //m_currentAnim = m_appering;
+        //m_render.sprite = m_currentAnim[m_animIndex];
+
+        m_idleAnim = new SpriteAnimation(m_idle, true);
+        m_workingAnim = new SpriteAnimation(m_working, true);
+        m_apperingAnim = new SpriteAnimation(m_appering);
+        m_damagedAnim = new SpriteAnimation(m_damaged);
+
+        m_currentAnim = m_apperingAnim;
+        m_currentAnim.Play();
     }
 
     void Update()
@@ -72,8 +80,6 @@ public class Constructor : MonoBehaviour
                 m_data.Rotate(m_data.Vec2ToIndex(vel));
 
                 //m_render.sprite = m_sprites[m_data.m_rotationIndex];
-
-                m_rigb.velocity = m_data.RotationVec2() * m_speed;
             }
         }
         else
@@ -103,13 +109,40 @@ public class Constructor : MonoBehaviour
                 m_data.Rotate(m_data.Vec2ToIndex(vel));
 
                 //m_render.sprite = m_sprites[m_data.m_rotationIndex];
+            }
+        }
 
-                m_rigb.velocity = m_data.RotationVec2() * m_speed;
-            }
-            else
+        //m_animChange.Cycle();
+        //
+        //if (m_animChange.m_completed)
+        //{
+        //    m_animChange.Play();
+        //
+        //    m_animIndex++;
+        //
+        //    if (m_animIndex >= m_currentAnim.Length)
+        //    {
+        //        if (m_currentAnim == m_appering)
+        //        {
+        //            m_currentAnim = m_idle;
+        //        }
+        //
+        //        m_animIndex = 0;
+        //    }
+        //
+        //    m_render.sprite = m_currentAnim[m_animIndex];
+        //}
+        
+        m_render.sprite = m_currentAnim.Cyce();
+        
+        if (m_currentAnim.m_completed)
+        {
+            if (m_currentAnim == m_apperingAnim || m_currentAnim == m_workingAnim)
             {
-                m_rigb.velocity = Vector3.zero;
+                m_currentAnim = m_idleAnim;
             }
+
+            m_currentAnim.Play();
         }
     }
 
@@ -152,7 +185,7 @@ public class Constructor : MonoBehaviour
             Destroy(gameObject);
         }
 
-        m_healthBar.transform.localScale = new Vector3((float)m_health / (float)m_maxHealth, m_healthBar.transform.localScale.y, m_healthBar.transform.localScale.z);
+        m_healthBar.transform.localScale = new Vector3(((float)m_health / (float)m_maxHealth) * m_healtharSize, m_healthBar.transform.localScale.y, m_healthBar.transform.localScale.z);
         m_healthBar.transform.localPosition = new Vector3((-1.0f + ((float)m_health / (float)m_maxHealth)) * 0.5f, m_healthBar.transform.localPosition.y, m_healthBar.transform.localPosition.z);
     }
 }

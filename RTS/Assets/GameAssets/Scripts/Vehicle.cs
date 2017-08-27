@@ -2,31 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+public class Vehicle : Unit
 {
-    protected GameObject m_healthBar;
-    protected float m_healtharSize;
-
-    public bool m_moveing = false;
-    public Vector2 m_moveTo;
-    protected Rigidbody m_rigb;
-    protected SpriteRenderer m_render;
-    public UnitData m_data;
-
-    public float m_speed = 1.0f;
-    public int m_maxHealth = 5;
-    public int m_health;
-
-    public Sprite[] m_sprites;
-
-    static int M_ID_COUNT = 0;
-    public int m_id;
-
     void Start()
     {
-        m_id = M_ID_COUNT;
-        M_ID_COUNT += 1;
-
         m_healthBar = transform.GetChild(0).gameObject;
         m_healthBar.SetActive(false);
         m_healtharSize = m_healthBar.transform.localScale.x;
