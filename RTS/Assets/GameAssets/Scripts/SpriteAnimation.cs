@@ -9,10 +9,10 @@ public class SpriteAnimation
     public bool m_reverseAfterFinishing = false;
 
     private Timer m_animTime;
-    private bool m_reverse;
     private int m_animIndex = 0;
 
     public bool m_completed;
+    public bool m_reverse;
 
     public SpriteAnimation(Sprite[] sprites, bool reverseAfterFinishing = false)
     {
@@ -51,13 +51,11 @@ public class SpriteAnimation
                     else
                     {
                         m_completed = true;
-                        m_animIndex = 0;
                     }
                 }
                 else
                 {
                     m_animIndex++;
-
                 }
             }
             else
@@ -66,12 +64,10 @@ public class SpriteAnimation
                 if (m_animIndex <= 0)
                 {
                     m_completed = true;
-                    m_animIndex = 0;
                 }
                 else
                 {
                     m_animIndex--;
-
                 }
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -11,12 +12,18 @@ public class PlayerControl : MonoBehaviour
 
     public Vector2 m_selectionBoxStart;
 
+    public int m_silver = 10;
+    public Text m_silverUI;
+
     void Start()
     {
         m_cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         m_selectionBox = GameObject.Find("Selection Box").GetComponent<DetectObjectsInTrigger>();
 
         m_selectionBox.gameObject.SetActive(false);
+        m_silverUI = GameObject.Find("Resorces").GetComponent<Text>();
+
+        m_silverUI.text = "Ag: " + m_silver;
     }
 
     void Update()

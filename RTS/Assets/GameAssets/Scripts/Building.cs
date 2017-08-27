@@ -13,17 +13,14 @@ public class Building : Unit
     private SpriteAnimation m_workingAnim;
     private SpriteAnimation m_apperingAnim;
     private SpriteAnimation m_damagedAnim;
-
-    //private Sprite[] m_currentAnim;
+    
     private SpriteAnimation m_currentAnim;
 
-    //private Timer m_animChange;
     private float m_animChangeTime = 0.16f;
     private int m_animIndex = 0;
 
     void Start()
     {
-
         m_healthBar = transform.GetChild(0).gameObject;
         m_healthBar.SetActive(false);
         m_healtharSize = m_healthBar.transform.localScale.x;
