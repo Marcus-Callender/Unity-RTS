@@ -5,14 +5,41 @@ using UnityEngine;
 public class UnitOrder : MonoBehaviour
 {
     public string m_unitName;
+    private Camera m_cam;
 
     void Start()
     {
+        m_cam = GameObject.Find("Main Camera").GetComponent<Camera>();
 
     }
-    
+
     void Update()
     {
 
+    }
+
+    public void Drag()
+    {
+        Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit[] hits = Physics.RaycastAll(mousePos, Vector3.forward * 11);
+
+        if (hits.Length > 0)
+        {
+            for (int z = 0; z < hits.Length; z++)
+            {
+                BuildUnit _unit = hits[z].transform.gameObject.GetComponent<BuildUnit>();
+                Debug.Log("Raycast Hit");
+
+                if (_unit)
+                {
+                    Debug.Log("Unit found");
+
+                    _unit.Build(this);
+
+                    break;
+                }
+
+            }
+        }
     }
 }

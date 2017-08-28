@@ -4,16 +4,23 @@ using System.Collections;
 using UnityEngine.EventSystems;
 
 // QUILL18
-public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
-	
+public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+{
 	public Transform parentToReturnTo = null;
 	public Transform placeholderParent = null;
 
 	public GameObject placeholder = null;
 
     public BoxCollider m_coll = null;
-	
-	public void OnBeginDrag(PointerEventData eventData) {
+    private UnitOrder m_order = null;
+
+    private void Start()
+    {
+        m_order = GetComponent<UnitOrder>();
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
 		Debug.Log ("OnBeginDrag");
 		
 		placeholder = new GameObject();
@@ -31,18 +38,21 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 		this.transform.SetParent( this.transform.parent.parent );
         
         Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
-
-        //this.transform.position = cam.ScreenToWorldPoint(Input.mousePosition);
         
         GetComponent<CanvasGroup>().blocksRaycasts = false;
 
         m_coll = this.GetComponent<BoxCollider>();
 	}
 	
-	public void OnDrag(PointerEventData eventData) {
+	public void OnDrag(PointerEventData eventData)
+    {
         //Debug.Log ("OnDrag");
 
-        //this.transform.position = eventData.position;
+        if (m_order)
+        {
+            m_order.Drag();
+        }
+        
         this.transform.position = Input.mousePosition;
 
         if (placeholder.transform.parent != placeholderParent)
@@ -50,8 +60,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
 		int newSiblingIndex = placeholderParent.childCount;
 
-		for(int i=0; i < placeholderParent.childCount; i++) {
-			if(this.transform.position.x < placeholderParent.GetChild(i).position.x) {
+		for(int i=0; i < placeholderParent.childCount; i++)
+        {
+			if(this.transform.position.x < placeholderParent.GetChild(i).position.x)
+            {
 
 				newSiblingIndex = i;
 
@@ -69,7 +81,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
 	}
 	
-	public void OnEndDrag(PointerEventData eventData) {
+	public void OnEndDrag(PointerEventData eventData)
+    {
 		Debug.Log ("OnEndDrag");
 		this.transform.SetParent( parentToReturnTo );
 		this.transform.SetSiblingIndex( placeholder.transform.GetSiblingIndex() );
@@ -79,7 +92,4 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         Destroy(placeholder);
 	}
-	
-	
-	
 }

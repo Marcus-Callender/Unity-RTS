@@ -13,25 +13,31 @@ public class BuildUnit : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void Build(UnitOrder order)
     {
-        Debug.Log("BUILD TRIGGER: " + other.tag);
-        Debug.Log("BUILD NAME: " + other.gameObject.name);
+        GameObject _unitOrder = null;
 
-        if (other.tag == "UI")
+        for (int z = 0; z < m_canBuild.Length; z++)
         {
-            Debug.Log("UI TRIGGER");
+            if (m_canBuild[z].name == order.m_unitName)
+            {
+                _unitOrder = m_canBuild[z];
+            }
+        }
 
-            Draggable data = other.gameObject.GetComponent<Draggable>();
-            UnitOrder order = other.gameObject.GetComponent<UnitOrder>();
+        if (_unitOrder)
+        {
+            Draggable data = order.gameObject.GetComponent<Draggable>();
+
+            Instantiate(_unitOrder, transform.position + new Vector3(0.0f, -1.5f, 0.0f), Quaternion.identity);
 
             if (order)
             {
                 Destroy(data.placeholder);
-                Destroy(other.gameObject);
+                Destroy(order.gameObject);
             }
         }
     }
