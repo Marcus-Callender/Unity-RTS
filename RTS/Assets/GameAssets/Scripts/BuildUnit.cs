@@ -6,9 +6,11 @@ public class BuildUnit : MonoBehaviour
 {
     public GameObject[] m_canBuild;
 
+    private Building m_building;
+
     void Start()
     {
-
+        m_building = GetComponent<Building>();
     }
 
     void Update()
@@ -18,26 +20,30 @@ public class BuildUnit : MonoBehaviour
 
     public void Build(UnitOrder order)
     {
-        GameObject _unitOrder = null;
-
-        for (int z = 0; z < m_canBuild.Length; z++)
+        if (m_building.m_uintToBuild == null)
         {
-            if (m_canBuild[z].name == order.m_unitName)
+            GameObject _unitOrder = null;
+
+            for (int z = 0; z < m_canBuild.Length; z++)
             {
-                _unitOrder = m_canBuild[z];
+                if (m_canBuild[z].name == order.m_unitName)
+                {
+                    _unitOrder = m_canBuild[z];
+                }
             }
-        }
 
-        if (_unitOrder)
-        {
-            Draggable data = order.gameObject.GetComponent<Draggable>();
-
-            Instantiate(_unitOrder, transform.position + new Vector3(0.0f, -1.5f, 0.0f), Quaternion.identity);
-
-            if (order)
+            if (_unitOrder)
             {
-                Destroy(data.placeholder);
-                Destroy(order.gameObject);
+                Draggable data = order.gameObject.GetComponent<Draggable>();
+
+                //Instantiate(_unitOrder, transform.position + new Vector3(0.0f, -1.5f, 0.0f), Quaternion.identity);
+                m_building.BuildUnit(_unitOrder);
+
+                if (order)
+                {
+                    Destroy(data.placeholder);
+                    Destroy(order.gameObject);
+                }
             }
         }
     }

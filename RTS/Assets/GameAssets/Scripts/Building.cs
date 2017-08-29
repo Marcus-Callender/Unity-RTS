@@ -13,11 +13,13 @@ public class Building : Unit
     private SpriteAnimation m_workingAnim;
     private SpriteAnimation m_apperingAnim;
     private SpriteAnimation m_damagedAnim;
-    
+
     private SpriteAnimation m_currentAnim;
 
     private float m_animChangeTime = 0.16f;
     private int m_animIndex = 0;
+
+    public GameObject m_uintToBuild = null;
 
     void Start()
     {
@@ -38,13 +40,6 @@ public class Building : Unit
 
         TakeDamage(0);
 
-        //m_animChange = new Timer();
-        //m_animChange.m_time = m_animChangeTime;
-        //m_animChange.Play();
-
-        //m_currentAnim = m_appering;
-        //m_render.sprite = m_currentAnim[m_animIndex];
-
         m_idleAnim = new SpriteAnimation(m_idle, true);
         m_workingAnim = new SpriteAnimation(m_working, true);
         m_apperingAnim = new SpriteAnimation(m_appering);
@@ -56,6 +51,12 @@ public class Building : Unit
 
     void Update()
     {
+        if (m_currentAnim == m_workingAnim && m_uintToBuild && m_currentAnim.m_reverse)
+        {
+            Instantiate(m_uintToBuild, transform.position + new Vector3(0.0f, -1.5f, 0.0f), Quaternion.identity);
+            m_uintToBuild = null;
+        }
+
         if (m_data.m_targateUnit)
         {
             Debug.DrawRay(transform.position, m_data.m_targateUnit.transform.position - transform.position, Color.red);
@@ -75,8 +76,6 @@ public class Building : Unit
                 }
 
                 m_data.Rotate(m_data.Vec2ToIndex(vel));
-
-                //m_render.sprite = m_sprites[m_data.m_rotationIndex];
             }
         }
         else
@@ -104,34 +103,11 @@ public class Building : Unit
                 }
 
                 m_data.Rotate(m_data.Vec2ToIndex(vel));
-
-                //m_render.sprite = m_sprites[m_data.m_rotationIndex];
             }
         }
 
-        //m_animChange.Cycle();
-        //
-        //if (m_animChange.m_completed)
-        //{
-        //    m_animChange.Play();
-        //
-        //    m_animIndex++;
-        //
-        //    if (m_animIndex >= m_currentAnim.Length)
-        //    {
-        //        if (m_currentAnim == m_appering)
-        //        {
-        //            m_currentAnim = m_idle;
-        //        }
-        //
-        //        m_animIndex = 0;
-        //    }
-        //
-        //    m_render.sprite = m_currentAnim[m_animIndex];
-        //}
-        
         m_render.sprite = m_currentAnim.Cyce();
-        
+
         if (m_currentAnim.m_completed)
         {
             if (m_currentAnim == m_apperingAnim || m_currentAnim == m_workingAnim)
@@ -141,6 +117,14 @@ public class Building : Unit
 
             m_currentAnim.Play();
         }
+    }
+
+    public void BuildUnit(GameObject unitToBuild)
+    {
+        m_uintToBuild = unitToBuild;
+
+        m_currentAnim = m_workingAnim;
+        m_currentAnim.Play();
     }
 
     public void Select()
