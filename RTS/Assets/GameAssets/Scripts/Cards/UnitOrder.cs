@@ -18,12 +18,12 @@ public class UnitOrder : MonoBehaviour
 
     }
 
-    public Color ColourSprite()
+    public Color ColourSprite(bool canAfford)
     {
         Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll(mousePos, Vector3.forward * 11);
 
-        if (hits.Length > 0)
+        if (hits.Length > 0 && canAfford)
         {
             for (int z = 0; z < hits.Length; z++)
             {

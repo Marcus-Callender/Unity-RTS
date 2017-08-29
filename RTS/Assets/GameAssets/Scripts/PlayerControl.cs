@@ -28,6 +28,8 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
+        m_silverUI.text = "Ag: " + m_silver;
+
         Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
         Debug.DrawRay(mousePos, Vector3.forward * 11, Color.yellow);
 
