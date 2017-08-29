@@ -111,7 +111,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 442}
   m_MaxSize: {x: 22012, y: 10021}
   vertical: 0
-  controlID: 147
+  controlID: 68
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 442}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 47
+  controlID: 23
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -203,7 +203,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 776
     y: 0
-    width: 309
+    width: 398
     height: 947
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 4000, y: 4000}
@@ -227,9 +227,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1085
+    x: 1174
     y: 0
-    width: 359
+    width: 272
     height: 947
   m_MinSize: {x: 234, y: 271}
   m_MaxSize: {x: 10004, y: 10021}
@@ -252,9 +252,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1444
+    x: 1446
     y: 0
-    width: 476
+    width: 474
     height: 947
   m_MinSize: {x: 277, y: 71}
   m_MaxSize: {x: 4002, y: 4021}
@@ -367,14 +367,14 @@ MonoBehaviour:
     width: 774
     height: 452
   m_SceneLighting: 1
-  lastFramingTime: 3792.878301550611
+  lastFramingTime: 766.6515306770286
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 399.28906, y: 101.83008, z: 100.3125}
+    m_Target: {x: 567.85144, y: 81.63894, z: 0}
     speed: 2
-    m_Value: {x: 399.28906, y: 101.83008, z: 100.3125}
+    m_Value: {x: 567.85144, y: 81.63894, z: 0}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -393,17 +393,17 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
     zGrid:
-      m_Target: 0
+      m_Target: 1
       speed: 2
-      m_Value: 0
+      m_Value: 1
   m_Rotation:
-    m_Target: {x: 0.0314133, y: -0.07190223, z: 0.0022656093, w: 0.9969168}
+    m_Target: {x: 0, y: 0, z: 0, w: 1}
     speed: 2
-    m_Value: {x: -0.0314133, y: 0.07190224, z: -0.0022656093, w: -0.9969168}
+    m_Value: {x: 0, y: 0, z: 0, w: 0.99999994}
   m_Size:
-    m_Target: 231.44691
+    m_Target: 171.69296
     speed: 2
-    m_Value: 231.44691
+    m_Value: 171.69296
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -482,9 +482,9 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 785
+    x: 778
     y: 92
-    width: 298
+    width: 394
     height: 926
 --- !u!114 &16
 MonoBehaviour:
@@ -510,13 +510,13 @@ MonoBehaviour:
     serializedVersion: 2
     x: 778
     y: 92
-    width: 305
+    width: 394
     height: 926
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d8faffff
-    m_LastClickedID: -1320
-    m_ExpandedIDs: 1afcffff00000000
+    m_SelectedIDs: ecfaffff
+    m_LastClickedID: -1300
+    m_ExpandedIDs: d8faffff14fbffff3cfbffff64fbffff8cfbffffb4fbffffdcfbffff04fcffff1afcffff00000000f44800000c4f000024570000b66e0000e4760000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -561,9 +561,9 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 1087
+    x: 1176
     y: 92
-    width: 355
+    width: 268
     height: 926
   m_SearchFilter:
     m_NameFilter: 
@@ -577,18 +577,18 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/GameAssets/Prefabs
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 81
   m_LastFolders:
-  - Assets/GameAssets/Prefabs
+  - Assets
   m_LastFoldersGridSize: 81
   m_LastProjectPath: C:\Users\Marcus\Desktop\GitHub\Unity-RTS\RTS
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 4a270000
-    m_LastClickedID: 10058
+    m_SelectedIDs: 4c260000
+    m_LastClickedID: 9804
     m_ExpandedIDs: 000000004c26000010280000ce2800004229000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -644,8 +644,8 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
-    m_ExpandedInstanceIDs: 8c2c000072ab0100582600007a280000642600006226000066260000c62600002a26000088280000fe24000050f501004ef5010032260000122900006a26000018270000142a0000162a00001a2a0000
+    m_HadKeyboardFocusLastEvent: 1
+    m_ExpandedInstanceIDs: 8c2c000072ab0100582600007a280000642600006226000066260000c62600002a26000088280000fe24000050f501004ef5010032260000122900006a26000018270000142a0000162a00001a2a000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -694,9 +694,9 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 1446
+    x: 1448
     y: 92
-    width: 474
+    width: 472
     height: 926
   m_ScrollPosition: {x: 0, y: 0}
   m_InspectorMode: 0

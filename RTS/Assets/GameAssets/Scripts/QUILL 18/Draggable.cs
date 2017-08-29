@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.EventSystems;
 
 // QUILL18
-public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Transform parentToReturnTo = null;
     public Transform placeholderParent = null;
@@ -15,11 +15,16 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private UnitOrder m_order = null;
 
     private Image m_sprite;
+    public int m_cost = 5;
+    private Text m_text;
 
     private void Start()
     {
         m_order = GetComponent<UnitOrder>();
         m_sprite = GetComponent<Image>();
+        m_text = GetComponentInChildren<Text>();
+        m_text.text = "Ag : " + m_cost;
+        m_text.enabled = false;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -101,5 +106,17 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         m_coll.enabled = false;
 
         Destroy(placeholder);
+    }
+
+    public void OnPointerEnter(PointerEventData data)
+    {
+        Debug.Log("Mouse Enter");
+        m_text.enabled = true;
+    }
+
+    public void OnPointerExit(PointerEventData data)
+    {
+        Debug.Log("Mouse Exit");
+        m_text.enabled = false;
     }
 }
