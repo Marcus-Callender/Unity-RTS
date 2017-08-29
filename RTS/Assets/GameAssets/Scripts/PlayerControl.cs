@@ -15,6 +15,8 @@ public class PlayerControl : MonoBehaviour
     public int m_silver = 10;
     public Text m_silverUI;
 
+    public bool m_dragingCard = false;
+
     void Start()
     {
         m_cam = GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -94,12 +96,12 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && !m_dragingCard)
         {
             m_selectionBoxStart = mousePos;
         }
 
-        if (Input.GetButtonUp("Fire1"))
+        if (Input.GetButtonUp("Fire1") && !m_dragingCard)
         {
             if (Vector2.Distance(mousePos, m_selectionBoxStart) < 0.01f)
             {
@@ -137,7 +139,7 @@ public class PlayerControl : MonoBehaviour
             m_selectionBox.gameObject.SetActive(false);
         }
 
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && !m_dragingCard)
         {
             if (Vector2.Distance(mousePos, m_selectionBoxStart) > 0.01f)
             {

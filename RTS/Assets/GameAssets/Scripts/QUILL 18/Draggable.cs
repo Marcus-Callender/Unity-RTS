@@ -62,6 +62,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         this.transform.position = Input.mousePosition;
 
+        m_player.m_dragingCard = true;
+
         if (m_order)
         {
             m_sprite.color = m_order.ColourSprite(m_player.m_silver >= m_cost);
@@ -96,6 +98,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnEndDrag(PointerEventData eventData)
     {
         m_sprite.color = Color.white;
+
+        m_player.m_dragingCard = false;
 
         if (m_order)
         {
