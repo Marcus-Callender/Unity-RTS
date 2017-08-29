@@ -43,7 +43,7 @@ MonoBehaviour:
     y: 0
     width: 1920
     height: 997
-  m_MinSize: {x: 950, y: 492}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &3
 MonoBehaviour:
@@ -108,10 +108,10 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 947
-  m_MinSize: {x: 913, y: 442}
+  m_MinSize: {x: 813, y: 442}
   m_MaxSize: {x: 22008, y: 10021}
   vertical: 0
-  controlID: 46
+  controlID: 102
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -203,16 +203,16 @@ MonoBehaviour:
     serializedVersion: 2
     x: 776
     y: 0
-    width: 398
+    width: 354
     height: 947
-  m_MinSize: {x: 200, y: 200}
+  m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 16}
+  m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
   - {fileID: 16}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -227,9 +227,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1174
+    x: 1130
     y: 0
-    width: 272
+    width: 316
     height: 947
   m_MinSize: {x: 234, y: 271}
   m_MaxSize: {x: 10004, y: 10021}
@@ -372,9 +372,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 567.85144, y: 81.63894, z: 0}
+    m_Target: {x: 566.1737, y: 81.63895, z: 0}
     speed: 2
-    m_Value: {x: 567.85144, y: 81.63894, z: 0}
+    m_Value: {x: 566.1737, y: 81.63895, z: 0}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -484,7 +484,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 778
     y: 92
-    width: 394
+    width: 350
     height: 926
 --- !u!114 &16
 MonoBehaviour:
@@ -510,13 +510,13 @@ MonoBehaviour:
     serializedVersion: 2
     x: 778
     y: 92
-    width: 394
+    width: 350
     height: 926
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
-    m_LastClickedID: 0
-    m_ExpandedIDs: 1afcffff00000000
+    m_SelectedIDs: bc500000
+    m_LastClickedID: 20668
+    m_ExpandedIDs: 1afcffff00000000fc480000fe4f0000c66e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -561,9 +561,9 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 1176
+    x: 1132
     y: 92
-    width: 268
+    width: 312
     height: 926
   m_SearchFilter:
     m_NameFilter: 
@@ -577,19 +577,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets
+    - Assets/GameAssets/Scripts
   m_ViewMode: 1
-  m_StartGridSize: 81
+  m_StartGridSize: 70
   m_LastFolders:
-  - Assets
-  m_LastFoldersGridSize: 81
+  - Assets/GameAssets/Scripts
+  m_LastFoldersGridSize: 70
   m_LastProjectPath: C:\Users\Marcus\Desktop\GitHub\Unity-RTS\RTS
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 4c260000
-    m_LastClickedID: 9804
-    m_ExpandedIDs: 000000004c26000010280000ce2800004229000000ca9a3bffffff7f
+    m_SelectedIDs: ce280000
+    m_LastClickedID: 10446
+    m_ExpandedIDs: 000000004c2600004a27000010280000ce2800004229000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -644,8 +644,8 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
-    m_ExpandedInstanceIDs: 8c2c000072ab0100582600007a280000642600006226000066260000c62600002a26000088280000fe24000050f501004ef5010032260000122900006a26000018270000142a0000162a00001a2a000000000000
+    m_HadKeyboardFocusLastEvent: 1
+    m_ExpandedInstanceIDs: 8c2c000072ab0100582600007a280000642600006226000066260000c62600002a26000088280000fe24000050f501004ef5010032260000122900006a26000018270000142a0000162a000000000000122b000080260000d6280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -669,8 +669,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
-    m_GridSize: 81
+    m_ScrollPosition: {x: 0, y: 11.5}
+    m_GridSize: 70
   m_DirectoriesAreaWidth: 110
 --- !u!114 &18
 MonoBehaviour:
