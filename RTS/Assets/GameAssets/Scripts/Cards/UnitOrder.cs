@@ -18,7 +18,29 @@ public class UnitOrder : MonoBehaviour
 
     }
 
-    public void Drag()
+    public Color ColourSprite()
+    {
+        Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit[] hits = Physics.RaycastAll(mousePos, Vector3.forward * 11);
+
+        if (hits.Length > 0)
+        {
+            for (int z = 0; z < hits.Length; z++)
+            {
+                BuildUnit _unit = hits[z].transform.gameObject.GetComponent<BuildUnit>();
+                
+                if (_unit)
+                {
+                    return Color.green;
+                }
+
+            }
+        }
+
+        return Color.red;
+    }
+
+    public void CheckForBuilding()
     {
         Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll(mousePos, Vector3.forward * 11);
