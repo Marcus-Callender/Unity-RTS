@@ -33,5 +33,6 @@ public class CreateAreaDamage : MonoBehaviour
         Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
         Instantiate(m_radius, new Vector3(mousePos.x, mousePos.y, 0.0f), Quaternion.identity);
 
+        Destroy(gameObject);
     }
 }
