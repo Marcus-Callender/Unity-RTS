@@ -12,7 +12,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public GameObject placeholder = null;
 
     public BoxCollider m_coll = null;
+
     private UnitOrder m_order = null;
+    private CreateAreaDamage m_areaDamage = null;
 
     private Image m_sprite;
     public int m_cost = 5;
@@ -23,6 +25,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private void Start()
     {
         m_order = GetComponent<UnitOrder>();
+        m_areaDamage = GetComponent<CreateAreaDamage>();
         m_sprite = GetComponent<Image>();
         m_text = GetComponentInChildren<Text>();
         m_text.text = "Ag : " + m_cost;
@@ -52,8 +55,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         Camera cam = GameObject.Find("Main Camera").GetComponent<Camera>();
 
         GetComponent<CanvasGroup>().blocksRaycasts = false;
-
-        m_coll = this.GetComponent<BoxCollider>();
+        
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -67,6 +69,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (m_order)
         {
             m_sprite.color = m_order.ColourSprite(m_player.m_silver >= m_cost);
+        }
+        else if (m_areaDamage)
+        {
+            m_sprite.color = m_areaDamage.ColourSprite(m_player.m_silver >= m_cost);
         }
 
         if (placeholder.transform.parent != placeholderParent)
@@ -87,8 +93,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 break;
             }
         }
-
-        m_coll.enabled = true;
+        
 
         placeholder.transform.SetSiblingIndex(newSiblingIndex);
 
@@ -109,13 +114,20 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 m_player.m_silver -= m_cost;
             }
         }
+        else if (m_areaDamage)
+        {
+            if (m_player.m_silver >= m_cost)
+            {
+                m_areaDamage.Activate();
+                m_player.m_silver -= m_cost;
+            }
+        }
 
         Debug.Log("OnEndDrag");
         this.transform.SetParent(parentToReturnTo);
         this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
         GetComponent<CanvasGroup>().blocksRaycasts = true;
-
-        m_coll.enabled = false;
+        
 
         Destroy(placeholder);
     }
