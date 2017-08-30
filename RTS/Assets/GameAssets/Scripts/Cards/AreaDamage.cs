@@ -11,6 +11,8 @@ public class AreaDamage : MonoBehaviour
     private SpriteRenderer m_sprite;
     private SpriteAnimation m_anim;
 
+    public bool m_reverseAnim = false;
+
     void Start()
     {
         m_sprite = GetComponent<SpriteRenderer>();
@@ -18,6 +20,7 @@ public class AreaDamage : MonoBehaviour
         m_radius = GetComponent<SphereCollider>();
 
         m_anim = new SpriteAnimation(m_sprites);
+        m_anim.m_reverseAfterFinishing = m_reverseAnim;
         m_anim.Play();
     }
 
