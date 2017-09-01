@@ -110,8 +110,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             if (m_player.m_silver >= m_cost)
             {
-                m_order.CheckForBuilding();
-                m_player.m_silver -= m_cost;
+                if (m_order.CheckForBuilding())
+                {
+                    m_player.m_silver -= m_cost;
+                }
             }
         }
         else if (m_areaDamage)

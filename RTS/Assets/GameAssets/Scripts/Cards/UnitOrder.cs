@@ -40,7 +40,7 @@ public class UnitOrder : MonoBehaviour
         return Color.red;
     }
 
-    public void CheckForBuilding()
+    public bool CheckForBuilding()
     {
         Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll(mousePos, Vector3.forward * 11);
@@ -58,10 +58,12 @@ public class UnitOrder : MonoBehaviour
 
                     _unit.Build(this);
 
-                    break;
+                    return true;
                 }
 
             }
         }
+
+        return false;
     }
 }

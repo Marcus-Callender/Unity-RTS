@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 0bc39412955803e40b76e54d7680fbad
-timeCreated: 1503222897
+timeCreated: 1504275412
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -36,6 +36,8 @@ TextureImporter:
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -51,10 +53,13 @@ TextureImporter:
   textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
+    serializedVersion: 2
     filterMode: -1
     aniso: -1
     mipBias: -1
-    wrapMode: 1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -107,12 +112,13 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 121
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_1
@@ -120,12 +126,13 @@ TextureImporter:
         serializedVersion: 2
         x: 60
         y: 121
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_2
@@ -133,12 +140,13 @@ TextureImporter:
         serializedVersion: 2
         x: 120
         y: 121
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_3
@@ -146,12 +154,13 @@ TextureImporter:
         serializedVersion: 2
         x: 180
         y: 121
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_4
@@ -159,12 +168,13 @@ TextureImporter:
         serializedVersion: 2
         x: 240
         y: 121
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_5
@@ -172,12 +182,13 @@ TextureImporter:
         serializedVersion: 2
         x: 300
         y: 121
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_6
@@ -185,12 +196,13 @@ TextureImporter:
         serializedVersion: 2
         x: 360
         y: 121
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_7
@@ -198,12 +210,13 @@ TextureImporter:
         serializedVersion: 2
         x: 420
         y: 121
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_8
@@ -211,12 +224,13 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 61
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_9
@@ -224,12 +238,13 @@ TextureImporter:
         serializedVersion: 2
         x: 60
         y: 61
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_10
@@ -237,12 +252,13 @@ TextureImporter:
         serializedVersion: 2
         x: 120
         y: 61
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_11
@@ -250,12 +266,13 @@ TextureImporter:
         serializedVersion: 2
         x: 180
         y: 61
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_12
@@ -263,12 +280,13 @@ TextureImporter:
         serializedVersion: 2
         x: 240
         y: 61
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_13
@@ -276,12 +294,13 @@ TextureImporter:
         serializedVersion: 2
         x: 300
         y: 61
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_14
@@ -289,12 +308,13 @@ TextureImporter:
         serializedVersion: 2
         x: 360
         y: 61
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: base_15
@@ -302,14 +322,16 @@ TextureImporter:
         serializedVersion: 2
         x: 420
         y: 61
-        width: 60
+        width: 55
         height: 60
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.35, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     outline: []
+    physicsShape: []
   spritePackingTag: 
   userData: 
   assetBundleName: 
