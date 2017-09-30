@@ -15,18 +15,18 @@ public class Shield : MonoBehaviour
             m_data = data;
         }
     }
-    
-    void OnCollisionEnter(Collision collision)
+
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag != gameObject.tag)
+        if (other.tag != gameObject.tag)
         {
-            Projectile projData = collision.gameObject.GetComponent<Projectile>();
+            Projectile projData = other.GetComponent<Projectile>();
 
             if (projData && m_data)
             {
                 m_data.TakeDamage(projData.m_damage);
 
-                Destroy(collision.gameObject);
+                Destroy(other.gameObject);
             }
         }
     }
