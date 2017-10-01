@@ -16,6 +16,8 @@ public class Projectile : MonoBehaviour
 
     public int m_shooterid = -1;
 
+    Explosion m_explosion;
+
     private void Start()
     {
         m_rigb = GetComponent<Rigidbody>();
@@ -23,6 +25,8 @@ public class Projectile : MonoBehaviour
 
         m_lifeTimer.m_time = m_lifeTime;
         m_lifeTimer.Play();
+
+        m_explosion = GetComponent<Explosion>();
     }
 
     private void Update()
@@ -45,7 +49,14 @@ public class Projectile : MonoBehaviour
 
         if (m_lifeTimer.m_completed)
         {
-            Destroy(gameObject);
+            if (m_explosion)
+            {
+                m_explosion.Activate();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -62,7 +73,14 @@ public class Projectile : MonoBehaviour
                 data.TakeDamage(m_damage);
 
                 // destroy this attack
-                Destroy(gameObject);
+                if (m_explosion)
+                {
+                    m_explosion.Activate();
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }

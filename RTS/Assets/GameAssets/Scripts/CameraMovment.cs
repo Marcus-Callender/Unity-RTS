@@ -13,6 +13,8 @@ public class CameraMovment : MonoBehaviour
     public float m_minZ = -12.0f;
     public float m_maxZ = -8.0f;
 
+    public float m_scrollSpeed = 1.0f;
+
     private Camera m_cam;
 
     void Start()
@@ -38,7 +40,7 @@ public class CameraMovment : MonoBehaviour
         }
         else
         {
-            m_cam.orthographicSize -= Input.GetAxis("Mouse ScrollWheel");
+            m_cam.orthographicSize -= Input.GetAxis("Mouse ScrollWheel") * m_scrollSpeed;
 
             m_cam.orthographicSize = Mathf.Clamp(m_cam.orthographicSize, m_minZ, m_maxZ);
         }

@@ -70,7 +70,14 @@ public class Unit : MonoBehaviour
 
                 m_render.sprite = m_sprites[m_data.m_rotationIndex];
 
-                m_rigb.velocity = m_data.RotationVec2() * m_speed;
+                if (m_data.Vec2ToIndex(vel) == m_data.m_rotationIndex)
+                {
+                    m_rigb.velocity = m_data.RotationVec2() * m_speed;
+                }
+                else
+                {
+                    m_rigb.velocity = Vector3.zero;
+                }
             }
         }
         else
@@ -101,7 +108,14 @@ public class Unit : MonoBehaviour
 
                 m_render.sprite = m_sprites[m_data.m_rotationIndex];
 
-                m_rigb.velocity = m_data.RotationVec2() * m_speed;
+                if (m_data.Vec2ToIndex(vel) == m_data.m_rotationIndex)
+                {
+                    m_rigb.velocity = m_data.RotationVec2() * m_speed;
+                }
+                else
+                {
+                    m_rigb.velocity = Vector3.zero;
+                }
             }
             else
             {
