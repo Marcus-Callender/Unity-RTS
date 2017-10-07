@@ -22,6 +22,8 @@ public class Unit : MonoBehaviour
     static int M_ID_COUNT = 0;
     public int m_id;
 
+    UnitMovement m_movement;
+
     void Start()
     {
         m_id = M_ID_COUNT;
@@ -44,11 +46,20 @@ public class Unit : MonoBehaviour
         }
 
         TakeDamage(0);
+
+        m_movement = GetComponent<UnitMovement>();
     }
 
     void Update()
     {
-        if (m_data.m_targateUnit)
+        if (m_movement)
+        {
+            m_movement.Cycle();
+
+            m_render.sprite = m_sprites[m_movement.m_currentRot];
+        }
+        
+        /*if (m_data.m_targateUnit)
         {
             Debug.DrawRay(transform.position, m_data.m_targateUnit.transform.position - transform.position, Color.red);
 
@@ -121,7 +132,7 @@ public class Unit : MonoBehaviour
             {
                 m_rigb.velocity = Vector3.zero;
             }
-        }
+        }*/
     }
 
     public void Select()
@@ -141,6 +152,8 @@ public class Unit : MonoBehaviour
         // tells this uint it needs to move and where it needs to move to
         m_moveing = true;
         m_moveTo = MoveTo;
+
+        m_movement.m_destination = MoveTo;
     }
 
     public void TakeDamage(int damage)

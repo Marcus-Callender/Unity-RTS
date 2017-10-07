@@ -45,11 +45,11 @@ public class Vehicle : Unit
                     vel.y = transform.position.y > m_data.m_targateUnit.transform.position.y ? -1.0f : 1.0f;
                 }
 
-                m_data.Rotate(m_data.Vec2ToIndex(vel));
+                //m_data.Rotate(m_data.Vec2ToIndex(vel));
 
                 m_render.sprite = m_sprites[m_data.m_rotationIndex];
 
-                m_rigb.velocity = m_data.RotationVec2() * m_speed;
+                //m_rigb.velocity = m_data.RotationVec2() * m_speed;
             }
         }
         else
@@ -76,11 +76,11 @@ public class Vehicle : Unit
                     vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
                 }
 
-                m_data.Rotate(m_data.Vec2ToIndex(vel));
+                //m_data.Rotate(m_data.Vec2ToIndex(vel));
 
                 m_render.sprite = m_sprites[m_data.m_rotationIndex];
 
-                m_rigb.velocity = m_data.RotationVec2() * m_speed;
+                //m_rigb.velocity = m_data.RotationVec2() * m_speed;
             }
             else
             {

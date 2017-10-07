@@ -75,7 +75,7 @@ public class Building : Unit
                     vel.y = transform.position.y > m_data.m_targateUnit.transform.position.y ? -1.0f : 1.0f;
                 }
 
-                m_data.Rotate(m_data.Vec2ToIndex(vel));
+                //m_data.Rotate(m_data.Vec2ToIndex(vel));
             }
         }
         else
@@ -102,7 +102,7 @@ public class Building : Unit
                     vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
                 }
 
-                m_data.Rotate(m_data.Vec2ToIndex(vel));
+                //m_data.Rotate(m_data.Vec2ToIndex(vel));
             }
         }
 

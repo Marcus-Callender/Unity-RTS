@@ -17,15 +17,15 @@ public class UnitData : MonoBehaviour
 
     void Start()
     {
-        m_rotationTimer = new Timer();
+        /*m_rotationTimer = new Timer();
         m_rotationTimer.m_time = m_rotationSpeed;
 
         m_clockwiseRotations = new int[] { 1, 2, 4, 7, 6, 5, 3, 0 };
 
-        m_InverseRotations = new int[] { 7, 0, 1, 6, 2, 5, 4, 3 };
+        m_InverseRotations = new int[] { 7, 0, 1, 6, 2, 5, 4, 3 };*/
     }
 
-    public void Rotate(int newRotationIndex)
+    /*public void Rotate(int newRotationIndex)
     {
         if (newRotationIndex != m_rotationIndex)
         {
@@ -82,9 +82,9 @@ public class UnitData : MonoBehaviour
         {
             m_rotationTimer.Stop();
         }
-    }
+    }*/
 
-    public int Vec2ToIndex(Vector2 vec)
+    /*public int Vec2ToIndex(Vector2 vec)
     {
         int returnIndex = 0;
 
@@ -97,9 +97,9 @@ public class UnitData : MonoBehaviour
         }
 
         return returnIndex;
-    }
+    }*/
 
-    public Vector2 IndexToVec2(int index)
+    /*public Vector2 IndexToVec2(int index)
     {
         Vector2 returnVec = Vector2.zero;
 
@@ -114,9 +114,9 @@ public class UnitData : MonoBehaviour
         returnVec.Normalize();
 
         return returnVec;
-    }
+    }*/
 
-    public Vector2 RotationVec2()
+    /*public Vector2 RotationVec2()
     {
         Vector2 returnVec = Vector2.zero;
 
@@ -133,5 +133,5 @@ public class UnitData : MonoBehaviour
         returnVec.Normalize();
 
         return returnVec;
-    }
+    }*/
 }
