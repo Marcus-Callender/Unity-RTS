@@ -8,11 +8,12 @@ public class Unit : MonoBehaviour
     protected float m_healtharSize;
 
     public bool m_moveing = false;
+    public Vector2 m_moveTo;
     protected Rigidbody m_rigb;
     protected SpriteRenderer m_render;
     public UnitData m_data;
 
-    //public float m_speed = 1.0f;
+    public float m_speed = 1.0f;
     public int m_maxHealth = 5;
     public int m_health;
 
@@ -51,19 +52,87 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
-        //if (m_movement)
-        //{
-        //    m_movement.Cycle();
-        //
-        //    m_render.sprite = m_sprites[m_movement.m_currentRot];
-        //}
-        
         if (m_movement)
         {
-            m_movement.move();
+            m_movement.Cycle();
 
-            m_render.sprite = m_sprites[m_movement.m_currentRotation];
+            m_render.sprite = m_sprites[m_movement.m_currentRot];
         }
+        
+        /*if (m_data.m_targateUnit)
+        {
+            Debug.DrawRay(transform.position, m_data.m_targateUnit.transform.position - transform.position, Color.red);
+
+            if (Vector3.Distance(transform.position, m_data.m_targateUnit.transform.position) > 2.0f)
+            {
+                Vector3 vel = Vector3.zero;
+
+                if (Mathf.Abs(transform.position.x - m_data.m_targateUnit.transform.position.x) > 0.33f)
+                {
+                    vel.x = transform.position.x > m_data.m_targateUnit.transform.position.x ? -1.0f : 1.0f;
+                }
+
+                if (Mathf.Abs(transform.position.y - m_data.m_targateUnit.transform.position.y) > 0.33f)
+                {
+                    vel.y = transform.position.y > m_data.m_targateUnit.transform.position.y ? -1.0f : 1.0f;
+                }
+
+                m_data.Rotate(m_data.Vec2ToIndex(vel));
+
+                m_render.sprite = m_sprites[m_data.m_rotationIndex];
+
+                if (m_data.Vec2ToIndex(vel) == m_data.m_rotationIndex)
+                {
+                    m_rigb.velocity = m_data.RotationVec2() * m_speed;
+                }
+                else
+                {
+                    m_rigb.velocity = Vector3.zero;
+                }
+            }
+        }
+        else
+        {
+            if (m_moveing)
+            {
+                if (Mathf.Abs(transform.position.x - m_moveTo.x) < 0.05f && Mathf.Abs(transform.position.y - m_moveTo.y) < 0.05f)
+                {
+                    m_moveing = false;
+                }
+            }
+
+            if (m_moveing)
+            {
+                Vector3 vel = Vector3.zero;
+
+                if (Mathf.Abs(transform.position.x - m_moveTo.x) > 0.33f)
+                {
+                    vel.x = transform.position.x > m_moveTo.x ? -1.0f : 1.0f;
+                }
+
+                if (Mathf.Abs(transform.position.y - m_moveTo.y) > 0.33f)
+                {
+                    vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
+                }
+
+                m_data.Rotate(m_data.Vec2ToIndex(vel));
+
+                m_render.sprite = m_sprites[m_data.m_rotationIndex];
+
+                if (m_data.Vec2ToIndex(vel) == m_data.m_rotationIndex)
+                {
+                    m_rigb.velocity = m_data.RotationVec2() * m_speed;
+                }
+                else
+                {
+                    m_rigb.velocity = Vector3.zero;
+                }
+            }
+            else
+            {
+                m_rigb.velocity = Vector3.zero;
+            }
+        }*/
     }
 
     public void Select()
@@ -82,7 +151,7 @@ public class Unit : MonoBehaviour
     {
         // tells this uint it needs to move and where it needs to move to
         m_moveing = true;
-        m_data.m_moveTo = MoveTo;
+        m_moveTo = MoveTo;
 
         m_movement.m_destination = MoveTo;
     }
