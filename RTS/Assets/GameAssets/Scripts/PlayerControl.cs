@@ -17,6 +17,8 @@ public class PlayerControl : MonoBehaviour
 
     public bool m_dragingCard = false;
 
+    public GameObject m_clickIndicator;
+
     void Start()
     {
         m_cam = GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -40,6 +42,11 @@ public class PlayerControl : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2"))
         {
+            if (m_clickIndicator)
+            {
+                Instantiate(m_clickIndicator, new Vector3(mousePos.x, mousePos.y, 1.0f), Quaternion.identity);
+            }
+
             RaycastHit[] hits = Physics.RaycastAll(mousePos, Vector3.forward * 11);
 
             UnitData taragte = null;
@@ -89,7 +96,7 @@ public class PlayerControl : MonoBehaviour
                 for (int z = 0; z < m_selectedUnits.Count; z++)
                 {
                     Vector3 moveTo = mousePos;
-                    moveTo += m_selectedUnits[z].transform.position - meanPos;
+                    //moveTo += m_selectedUnits[z].transform.position - meanPos;
 
                     m_selectedUnits[z].Move(moveTo);
                 }

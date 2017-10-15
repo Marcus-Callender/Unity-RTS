@@ -84,7 +84,7 @@ public class Unit : MonoBehaviour
         {
             if (m_moveing)
             {
-                if (Mathf.Abs(transform.position.x - m_moveTo.x) < 0.05f && Mathf.Abs(transform.position.y - m_moveTo.y) < 0.05f)
+                if (Mathf.Abs(transform.position.x - m_moveTo.x) < 0.1f && Mathf.Abs(transform.position.y - m_moveTo.y) < 0.1f)
                 {
                     m_moveing = false;
                 }
@@ -103,6 +103,8 @@ public class Unit : MonoBehaviour
                 {
                     vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
                 }
+
+                Debug.DrawRay(transform.position, (Vector3)m_moveTo - transform.position, Color.yellow);
 
                 m_data.Rotate(m_data.Vec2ToIndex(vel));
 
