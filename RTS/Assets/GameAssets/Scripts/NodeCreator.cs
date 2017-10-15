@@ -42,7 +42,7 @@ public class NodeCreator : MonoBehaviour
             for (int x = 0; x < horizontalChecks; x++)
             {
                 Debug.DrawRay(new Vector3(startX + (m_horizontalSpacing * z), startY + (m_verticalSpacing * x), -10.0f), Vector3.forward * 15.0f, Color.yellow, 15.0f);
-                bool hitResult = Physics.Raycast(new Vector3(startX + (m_horizontalSpacing * z), startY + (m_verticalSpacing * x), -10.0f), Vector3.forward * 15.0f, 15.0f);
+                bool hitResult = Physics.Raycast(new Vector3(startX + (m_horizontalSpacing * z), startY + (m_verticalSpacing * x), -10.0f), Vector3.forward * 15.0f, 15.0f, 1 << 8);
 
                 if (!hitResult)
                 {
