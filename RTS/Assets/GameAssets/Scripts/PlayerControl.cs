@@ -19,6 +19,8 @@ public class PlayerControl : MonoBehaviour
 
     public GameObject m_clickIndicator;
 
+    public NodeCreator m_nodes;
+
     void Start()
     {
         m_cam = GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -28,6 +30,8 @@ public class PlayerControl : MonoBehaviour
         m_silverUI = GameObject.Find("Resorces").GetComponent<Text>();
 
         m_silverUI.text = "Ag: " + m_silver;
+
+        m_nodes = GameObject.Find("Node Tracker").GetComponent<NodeCreator>();
     }
 
     void Update()
@@ -99,6 +103,8 @@ public class PlayerControl : MonoBehaviour
                     //moveTo += m_selectedUnits[z].transform.position - meanPos;
 
                     m_selectedUnits[z].Move(moveTo);
+
+                    m_nodes.findPath(m_selectedUnits[z].transform.position, moveTo);
                 }
             }
         }
