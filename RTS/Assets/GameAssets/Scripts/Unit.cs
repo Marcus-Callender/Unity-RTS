@@ -22,6 +22,8 @@ public class Unit : MonoBehaviour
     static int M_ID_COUNT = 0;
     public int m_id;
 
+    public Vector2[] m_path;
+
     void Start()
     {
         m_id = M_ID_COUNT;
@@ -48,6 +50,13 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
+        if (m_path.Length > 0 && !m_moveing)
+        {
+            m_moveTo = m_path[m_path.Length -1];
+            m_path[m_path.Length - 1] = Vector2.zero;
+            m_moveing = true;
+        }
+
         if (m_data.m_targateUnit)
         {
             Debug.DrawRay(transform.position, m_data.m_targateUnit.transform.position - transform.position, Color.red);

@@ -105,6 +105,7 @@ public class PlayerControl : MonoBehaviour
                     m_selectedUnits[z].Move(moveTo);
 
                     m_nodes.findPath(m_selectedUnits[z].transform.position, moveTo);
+                    m_selectedUnits[z].m_path = m_nodes.pathTo(m_selectedUnits[z].transform.position, moveTo).ToArray();
                 }
             }
         }
