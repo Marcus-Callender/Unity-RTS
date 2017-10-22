@@ -82,6 +82,33 @@ public class NodeCreator : MonoBehaviour
                 //yield return new WaitForSeconds(0);
             }
         }
+
+        int[,] toRemove = new int[horizontalChecks * verticalChecks, 2];
+        int toRemoveLength = 0;
+
+        for (int z = 0; z < verticalChecks; z++)
+        {
+            for (int x = 0; x < horizontalChecks; x++)
+            {
+                if (!IsNodeSurrounded(z, x))
+                {
+                    toRemove[toRemoveLength, 0] = z;
+                    toRemove[toRemoveLength, 1] = x;
+
+                    toRemoveLength++;
+                }
+            }
+        }
+
+        for (int z = 0; z < toRemoveLength; z++)
+        {
+            Debug.Log("Removing: " + toRemove[z, 0] + ", " + toRemove[z, 1]);
+
+            m_nodes[toRemove[z, 0], toRemove[z, 1]] = false;
+
+            Renderer rend = m_debugNodes[toRemove[z, 0], toRemove[z, 1]].GetComponent<Renderer>();
+            rend.material.color = Color.grey;
+        }
     }
 
     public void findPath(Vector3 start, Vector3 end)
@@ -104,6 +131,16 @@ public class NodeCreator : MonoBehaviour
 
         startRenderer.material.color = Color.green;
         endRenderer.material.color = Color.red;
+
+        /*GetSurroundingNodes(m_startNode[0], m_startNode[1]);
+        GetSurroundingNodes(m_endNode[0], m_endNode[1]);
+
+        for (int z = 0; z < m_toCheck.Length; z++)
+        {
+            Renderer rend = m_debugNodes[m_toCheck[z, 0], m_toCheck[z, 1]].GetComponent<Renderer>();
+
+            rend.material.color = Color.yellow;
+        }*/
     }
 
     public List<Vector2> pathTo(Vector3 start, Vector3 end)
@@ -138,14 +175,12 @@ public class NodeCreator : MonoBehaviour
 
             int nextNode = GetClosestNode(m_endNode[0], m_endNode[1]);
 
-            m_path[m_pathLength, 0] = 
-                m_toCheck[nextNode, 0];
-            m_path[m_pathLength, 1] = 
-                m_toCheck[nextNode, 1];
+            m_path[m_pathLength, 0] = m_toCheck[nextNode, 0];
+            m_path[m_pathLength, 1] = m_toCheck[nextNode, 1];
 
             m_pathLength++;
 
-            for (int z = nextNode; z < m_toChecLength -1; z++)
+            for (int z = nextNode; z < m_toChecLength - 1; z++)
             {
                 m_toCheck[z, 0] = m_toCheck[z + 1, 0];
                 m_toCheck[z, 1] = m_toCheck[z + 1, 1];
@@ -165,7 +200,7 @@ public class NodeCreator : MonoBehaviour
                 Debug.Log("Path: " + m_path[z, 0] + ", " + m_path[z, 1] + ".");
 
                 Renderer _rend = m_debugNodes[m_path[z, 0], m_path[z, 1]].GetComponent<Renderer>();
-                
+
                 _rend.material.color = Color.yellow;
             }
 
@@ -202,7 +237,7 @@ public class NodeCreator : MonoBehaviour
         {
             for (int c = -1; c < 2; c++)
             {
-                if (z != 0 && c != 0)
+                if (!(z == 0 && c == 0))
                 {
                     int[] newNode = new int[2];
 
@@ -226,13 +261,45 @@ public class NodeCreator : MonoBehaviour
         }
     }
 
+    private bool IsNodeSurrounded(int x, int y)
+    {
+        if (!m_nodes[x, y])
+        {
+            return true;
+        }
+
+        for (int z = -1; z < 2; z++)
+        {
+            for (int c = -1; c < 2; c++)
+            {
+                if (!(z == 0 && c == 0))
+                {
+                    int[] newNode = new int[2];
+
+                    newNode[0] = x + z;
+                    newNode[1] = y + c;
+
+                    if (newNode[0] > 0 && newNode[0] < m_divisions[0] && newNode[1] > 0 && newNode[1] < m_divisions[1])
+                    {
+                        if (!m_nodes[newNode[0], newNode[1]])
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
     private int GetClosestNode(int compX, int compY)
     {
         int toReturn = 0;
 
         for (int z = 1; z < m_toChecLength; z++)
         {
-            if (nodeDistance(m_toCheck[z,0], m_toCheck[z, 1], compX, compY) <= nodeDistance(m_toCheck[toReturn, 0], m_toCheck[toReturn, 1], compX, compY))
+            if (nodeDistance(m_toCheck[z, 0], m_toCheck[z, 1], compX, compY) <= nodeDistance(m_toCheck[toReturn, 0], m_toCheck[toReturn, 1], compX, compY))
             {
                 toReturn = z;
             }
@@ -243,7 +310,16 @@ public class NodeCreator : MonoBehaviour
 
     private float nodeDistance(int x1, int y1, int x2, int y2)
     {
+        float result = 0.0f;
+
+        result += /*Mathf.Abs*/Mathf.Pow(x2 - x1, 2);
+        result += /*Mathf.Abs*/Mathf.Pow(y2 - y1, 2);
+
+        result = Mathf.Sqrt(result);
+
+        return result;
+
         //return Mathf.Sqrt((Mathf.Abs(x1 - x2)) ^ 2 + (Mathf.Abs(y1 - y2)) ^ 2);
-        return ((Mathf.Abs(x1 - x2)) + (Mathf.Abs(y1 - y2)));
+        //return ((Mathf.Abs(x1 - x2)) + (Mathf.Abs(y1 - y2)));
     }
 }

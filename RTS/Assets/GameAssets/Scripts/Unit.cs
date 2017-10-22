@@ -93,7 +93,8 @@ public class Unit : MonoBehaviour
         {
             if (m_moveing)
             {
-                if (Mathf.Abs(transform.position.x - m_moveTo.x) < 0.1f && Mathf.Abs(transform.position.y - m_moveTo.y) < 0.1f)
+                //if (Mathf.Abs(transform.position.x - m_moveTo.x) < 0.1f && Mathf.Abs(transform.position.y - m_moveTo.y) < 0.1f)
+                if (findDistance(transform.position.x, transform.position.y, m_moveTo.x, m_moveTo.y) < 0.1f)
                 {
                     m_moveing = false;
                 }
@@ -103,12 +104,20 @@ public class Unit : MonoBehaviour
             {
                 Vector3 vel = Vector3.zero;
 
-                if (Mathf.Abs(transform.position.x - m_moveTo.x) > 0.33f)
+                float xDelta = Mathf.Abs(transform.position.x - m_moveTo.x);
+                float yDelta = Mathf.Abs(transform.position.y - m_moveTo.y);
+                float TotalDelta = xDelta + yDelta;
+                xDelta = xDelta / TotalDelta;
+                yDelta = yDelta / TotalDelta;
+
+                //if (xDelta > 0.33f)
+                if (xDelta > 0.40f)
                 {
                     vel.x = transform.position.x > m_moveTo.x ? -1.0f : 1.0f;
                 }
 
-                if (Mathf.Abs(transform.position.y - m_moveTo.y) > 0.33f)
+                //if (yDelta > 0.33f)
+                if (yDelta > 0.40f)
                 {
                     vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
                 }
@@ -150,8 +159,8 @@ public class Unit : MonoBehaviour
     public void Move(Vector2 MoveTo)
     {
         // tells this uint it needs to move and where it needs to move to
-        m_moveing = true;
-        m_moveTo = MoveTo;
+        //m_moveing = true;
+        //m_moveTo = MoveTo;
     }
 
     public void TakeDamage(int damage)
@@ -176,5 +185,17 @@ public class Unit : MonoBehaviour
 
         m_healthBar.transform.localScale = new Vector3(((float)m_health / (float)m_maxHealth) * m_healtharSize, m_healthBar.transform.localScale.y, m_healthBar.transform.localScale.z);
         m_healthBar.transform.localPosition = new Vector3((-1.0f + ((float)m_health / (float)m_maxHealth)) * 0.5f, m_healthBar.transform.localPosition.y, m_healthBar.transform.localPosition.z);
+    }
+
+    private float findDistance(float x1, float y1, float x2, float y2)
+    {
+        float result = 0.0f;
+
+        result += Mathf.Pow(x2 - x1, 2);
+        result += Mathf.Pow(y2 - y1, 2);
+
+        result = Mathf.Sqrt(result);
+
+        return result;
     }
 }
