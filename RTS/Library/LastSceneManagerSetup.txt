@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/CatHex/Scene.unity
+- path: Assets/GameAssets/Scenes/HexTest.unity
   isLoaded: 1
   isActive: 1
