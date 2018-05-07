@@ -29,9 +29,8 @@ public class CreateHexGrid : MonoBehaviour
 
     [SerializeField]
     private GameObject m_hexPrefab;
-
-    private GameObject[,] m_createdHexes;
-    private SpriteRenderer[,] m_createdHexSprites;
+    
+    private HexTile[,] m_createdHexes;
 
     [SerializeField]
     private E_HexType m_hexType;
@@ -44,6 +43,9 @@ public class CreateHexGrid : MonoBehaviour
 
     [SerializeField]
     private float m_hexSize = 0.5f;
+
+    [SerializeField]
+    private LayerMask m_hexMask;
 
     private hexIndex m_selectedHexIndex = new hexIndex();
 
@@ -59,8 +61,7 @@ public class CreateHexGrid : MonoBehaviour
     void Start()
     {
         m_selectedHexIndex.set(-1, -1);
-        m_createdHexes = new GameObject[m_width, m_height];
-        m_createdHexSprites = new SpriteRenderer[m_width, m_height];
+        m_createdHexes = new HexTile[m_width, m_height];
         UpdateGrid();
 
         xHexPixelSize = Mathf.RoundToInt(m_hexSize * (xScreenSize / m_cam.pixelWidth));
@@ -72,13 +73,11 @@ public class CreateHexGrid : MonoBehaviour
 
     void Update()
     {
-        Layout pointy = new Layout(Layout.pointy, new Point(42, 63), new Point(0, 0));
-        FractionalHex hex = pointy.PixelToHex(new Point(Input.mousePosition.x, Input.mousePosition.y));
-        Debug.Log(hex.q + " : " + hex.r + " : " + hex.s);
-
+        Debug.DrawRay(m_cam.ScreenToWorldPoint(Input.mousePosition), Vector3.forward * 11, Color.green);
+        
         if (Input.GetButtonDown("Fire1"))
         {
-            StartHexPathing(m_cam.ScreenToWorldPoint(Input.mousePosition) * pixelToUU /*- new Vector3(0.5f * xScreenSize, 0.5f * yScreenSize)*/);
+            StartHexPathing();
         }
         else if (Input.GetButtonDown("Fire2"))
         {
@@ -86,36 +85,20 @@ public class CreateHexGrid : MonoBehaviour
         }
     }
 
-    private void StartHexPathing(Vector2 pos)
+    private void StartHexPathing()
     {
-
-
-
-        // convert unity position to hex
-        float x = (Mathf.Sqrt(3) / 3.0f * pos.x - 1.0f / 3.0f * pos.y) / m_hexSize;
-        float y =                                (2.0f / 3.0f * pos.y) / m_hexSize;
+        Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
+        Ray click = m_cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitinfo;
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        RaycastHit2D[] results = new RaycastHit2D[3];
         
-        //float rx = Mathf.Round(x);
-        //float ry = Mathf.Round(y);
-
-        //Vector3 roundedHex = cubeRound(x, -x - y, y);
-        //Vector3 roundedHex = cubeRound(x, -y, -x+y);
-        Vector3 roundedHex = new Vector3(x, y, 0.0f);
-
-        ///roundedHex.x += Mathf.Round(m_width * 0.5f);
-        ///roundedHex.y += Mathf.Round(m_height * 0.5f);
-        //roundedHex.y = m_height - roundedHex.y;
-
-        HexUtils.Hex selectedHex = HexUtils.HexUtils.pixel_to_pointy_hex(roundedHex);
-        //selectedHex.q = m_height - selectedHex.q;
-        Debug.Log("q: " + selectedHex.q + ", r: " + selectedHex.r);
-
-        m_createdHexSprites[(int)selectedHex.q, (int)selectedHex.r].color = Color.red;
-        m_createdHexSprites[(int)selectedHex.r, (int)selectedHex.q].color = Color.yellow;
-
-        //Debug.Log("x: " + (Mathf.Sqrt(3) / 3 * pos.x - 1.0f / 3.0f * pos.y) + "y: " + (2.0f / 3.0f * pos.y));
+        if (0 < Physics2D.Raycast(mousePos, Vector3.forward * 100.0f, contactFilter, results, m_hexMask))
+        {
+            results[0].collider.gameObject.GetComponent<HexTile>().Selected();
+        }
     }
-
+    
     private void ResetHexPaths()
     {
         m_selectedHexIndex.set(-1, -1);
@@ -124,7 +107,7 @@ public class CreateHexGrid : MonoBehaviour
         {
             for (int x = 0; x < m_height; x++)
             {
-                m_createdHexSprites[z, x].color = Color.white;
+                m_createdHexes[z, x].DeSelect();
             }
         }
     }
@@ -135,11 +118,10 @@ public class CreateHexGrid : MonoBehaviour
         {
             for (int x = 0; x < m_height; x++)
             {
-                m_createdHexes[z, x] = Instantiate(m_hexPrefab, new Vector3((z * (Mathf.Sqrt(3.0f) * m_hexSize)) + ((Mathf.Sqrt(3.0f) * m_hexSize * 0.5f) * (x % 2)), x * 1.5f * -m_hexSize, 0.0f), Quaternion.identity, transform);
+                GameObject go = Instantiate(m_hexPrefab, new Vector3((z * (Mathf.Sqrt(3.0f) * m_hexSize)) + ((Mathf.Sqrt(3.0f) * m_hexSize * 0.5f) * (x % 2)), x * 1.5f * -m_hexSize, 0.0f), Quaternion.identity, transform);
+                m_createdHexes[z, x] = go.GetComponent<HexTile>();
                 m_createdHexes[z, x].transform.localPosition = m_createdHexes[z, x].transform.position;
                 m_createdHexes[z, x].GetComponentInChildren<TextMesh>().text = ("(" + z + ", " + x + ")");
-
-                m_createdHexSprites[z, x] = m_createdHexes[z, x].GetComponent<SpriteRenderer>();
             }
         }
     }
