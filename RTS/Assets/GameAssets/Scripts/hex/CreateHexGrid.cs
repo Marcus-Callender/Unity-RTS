@@ -11,6 +11,7 @@ public class CreateHexGrid : MonoBehaviour
         FLAT_TOP = 1
     }
 
+    #region hexIndex
     [Serializable]
     public struct hexIndex
     {
@@ -45,7 +46,87 @@ public class CreateHexGrid : MonoBehaviour
             q = -1;
             r = -1;
         }
+
+        public static bool operator == (hexIndex i1, hexIndex i2)
+        {
+            return (i1.q == i2.q) && (i1.r == i2.r);
+        }
+
+        public static bool operator != (hexIndex i1, hexIndex i2)
+        {
+            return (i1.q != i2.q) || (i1.r != i2.r);
+        }
     }
+    #endregion
+
+    #region Tuple
+    // https://answers.unity.com/questions/381993/does-unity-4-mono-support-tuples.html
+    public class Tuple<T1, T2>
+    {
+        public T1 First { get; private set; }
+        public T2 Second { get; private set; }
+        internal Tuple(T1 first, T2 second)
+        {
+            First = first;
+            Second = second;
+        }
+    }
+
+    public static class Tuple
+    {
+        public static Tuple<T1, T2> New<T1, T2>(T1 first, T2 second)
+        {
+            var tuple = new Tuple<T1, T2>(first, second);
+            return tuple;
+        }
+    }
+    #endregion
+
+    #region PriorityQueue
+    // https://www.redblobgames.com/pathfinding/a-star/implementation.html#csharp
+    public class PriorityQueue<T>
+    {
+        // I'm using an unsorted array for this example, but ideally this
+        // would be a binary heap. There's an open issue for adding a binary
+        // heap to the standard C# library: https://github.com/dotnet/corefx/issues/574
+        //
+        // Until then, find a binary heap class:
+        // * https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp
+        // * http://visualstudiomagazine.com/articles/2012/11/01/priority-queues-with-c.aspx
+        // * http://xfleury.github.io/graphsearch.html
+        // * http://stackoverflow.com/questions/102398/priority-queue-in-net
+
+        private List<Tuple<T, double>> elements = new List<Tuple<T, double>>();
+
+        public int Count
+        {
+            get { return elements.Count; }
+        }
+
+        public void Enqueue(T item, double priority)
+        {
+            //elements.Add(Tuple.Create(item, priority));
+            elements.Add(new Tuple<T, double>(item, priority));
+        }
+
+        public T Dequeue()
+        {
+            int bestIndex = 0;
+
+            for (int i = 0; i < elements.Count; i++)
+            {
+                if (elements[i].Second < elements[bestIndex].Second)
+                {
+                    bestIndex = i;
+                }
+            }
+
+            T bestItem = elements[bestIndex].First;
+            elements.RemoveAt(bestIndex);
+            return bestItem;
+        }
+    }
+    #endregion
 
     [SerializeField]
     private Camera m_cam;
@@ -114,6 +195,10 @@ public class CreateHexGrid : MonoBehaviour
         }
         else if (Input.GetButtonDown("Fire2"))
         {
+            SetHexInactive();
+        }
+        else if (Input.GetButtonDown("Fire3"))
+        {
             ResetHexPaths();
         }
     }
@@ -127,49 +212,9 @@ public class CreateHexGrid : MonoBehaviour
         if (0 < Physics2D.Raycast(mousePos, Vector3.forward * 100.0f, contactFilter, results, m_hexMask))
         {
             hexIndex index = GetHexIndex(results[0].collider.gameObject.transform.localPosition);
-            Vector3Int cubeIndex = index.CubeCoordinates();
-            //Debug.Log("Index: " + index.q + ", " + index.r);
 
-            m_createdHexes[index.q, index.r].Selected();
+            m_createdHexes[index.q, index.r].StartPath();
             m_selectedHexIndex = index;
-
-            hexIndex[] m_adjesentHexes = GetAdjacentHexes(index, 3);
-            for (int z = 0; z < m_adjesentHexes.Length/*AdjacentCoordenatesCount*/; z++)
-            {
-                if (!m_adjesentHexes[z].isNull() && (m_adjesentHexes[z].q < m_width && m_adjesentHexes[z].r < m_height))
-                {
-                    hexIndex hex = m_adjesentHexes[z];
-                    Vector3Int cubeHex = hex.CubeCoordinates();
-                    //m_createdHexes[(index.q /*- (((index.r % 2) * 2) + 2 == hex.r ? 1 : 0 /*== 1 ? 1 : 0*#/)*/ /*- ((int)(hex.r * 0.5f))*/), hex.r].Selected(Mathf.Abs(AdjacentCoordenates[z, 0]), Mathf.Abs(AdjacentCoordenates[z, 1]), Mathf.Abs(-AdjacentCoordenates[z, 0] - AdjacentCoordenates[z, 1]));
-                    //m_createdHexes[(hex.q + ((index.r + (hex.r % 2 == 1 ? 1 : -1) == hex.r) ? 0 : 1)), hex.r].Selected(Mathf.Abs(AdjacentCoordenates[z, 0]), Mathf.Abs(AdjacentCoordenates[z, 1]), Mathf.Abs(-AdjacentCoordenates[z, 0] - AdjacentCoordenates[z, 1]));
-
-                    /*if (index.r % 2 == 1 && hex.r == index.r + 1)
-                    {
-                        m_createdHexes[hex.q + 1, hex.r].Selected(Mathf.Abs(AdjacentCoordenates[z, 0]), Mathf.Abs(AdjacentCoordenates[z, 1]), Mathf.Abs(-AdjacentCoordenates[z, 0] - AdjacentCoordenates[z, 1]));
-                    }
-                    else if (index.r % 2 == 0 && hex.r == index.r - 1)
-                    {
-                        m_createdHexes[hex.q - 1, hex.r].Selected(Mathf.Abs(AdjacentCoordenates[z, 0]), Mathf.Abs(AdjacentCoordenates[z, 1]), Mathf.Abs(-AdjacentCoordenates[z, 0] - AdjacentCoordenates[z, 1]));
-                    }
-                    else
-                    {
-                        m_createdHexes[hex.q, hex.r].Selected(Mathf.Abs(AdjacentCoordenates[z, 0]), Mathf.Abs(AdjacentCoordenates[z, 1]), Mathf.Abs(-AdjacentCoordenates[z, 0] - AdjacentCoordenates[z, 1]));
-                    }*/
-
-                    //Debug.Log("### " + AdjacentCoordenates[z, 0] + ", " + AdjacentCoordenates[z, 1] + " : " + hex.q + ", " + hex.r);
-                    //m_createdHexes[hex.q + (index.r % 2 == 1 ? 1 : 0) + ((hex.r == index.r + 1 || hex.r == index.r) ? 1 : 0) - 1, hex.r].Selected(Mathf.Abs(AdjacentCoordenates[z, 0]), Mathf.Abs(AdjacentCoordenates[z, 1]), Mathf.Abs(-AdjacentCoordenates[z, 0] - AdjacentCoordenates[z, 1]));
-
-                    //m_createdHexes[hex.q, hex.r].Selected(Mathf.Abs(AdjacentCoordenates[z, 0]), Mathf.Abs(AdjacentCoordenates[z, 1]), Mathf.Abs(-AdjacentCoordenates[z, 0] - AdjacentCoordenates[z, 1]));
-                    //m_createdHexes[hex.q, hex.r].Selected(Mathf.Abs(index.q - hex.q), Mathf.Abs(index.r - hex.r), Mathf.Abs(-(index.q - hex.q) - (index.r - hex.r)));
-
-                    //m_createdHexes[hex.q, hex.r].Selected(Mathf.Abs(index.q - hex.q), 0.0f, 0.0f);
-                    //m_createdHexes[hex.q, hex.r].Selected(0.0f, Mathf.Abs(index.r - hex.r), 0.0f);
-                    //m_createdHexes[hex.q, hex.r].Selected(0.0f, 0.0f, Mathf.Abs(-(index.q - hex.q) - (index.r - hex.r)));
-
-                    //Debug.Log(Mathf.Abs(index.q - hex.q) + ", " + Mathf.Abs(index.r - hex.r) + ", " + Mathf.Abs(-(index.q - hex.q) - (index.r - hex.r)));
-                    m_createdHexes[hex.q, hex.r].Selected(Mathf.Abs(cubeIndex.x - cubeHex.x), Mathf.Abs(cubeIndex.z - cubeHex.z), Mathf.Abs(cubeIndex.y - cubeHex.y));
-                }
-            }
         }
     }
 
@@ -182,15 +227,59 @@ public class CreateHexGrid : MonoBehaviour
         if (0 < Physics2D.Raycast(mousePos, Vector3.forward * 100.0f, contactFilter, results, m_hexMask))
         {
             hexIndex index = GetHexIndex(results[0].collider.gameObject.transform.localPosition);
-            ///Debug.Log("Index: " + index.q + ", " + index.r);
-            ///Debug.Log("Distance: " + HexDistance(m_selectedHexIndex, index));
 
-            m_createdHexes[index.q, index.r].Selected();
-            /*for (int z = 0; z < m_width; z++)
+            m_createdHexes[index.q, index.r].EndPath();
+
+            hexIndex[] Path = PathBetweenHexes(m_selectedHexIndex, index);
+
+            Debug.Log("---Path Start: " + m_selectedHexIndex.q + ", " + m_selectedHexIndex.r);
+
+            for (int z = 0; z < Path.Length; z++)
             {
-                for (int x = 0; x < m_height; x++)
+                Debug.Log("Path: " + Path[z].q + ", " + Path[z].r);
+
+                m_createdHexes[Path[z].q, Path[z].r].OnPath();
+            }
+
+            Debug.Log("---Path End: " + index.q + ", " + index.r);
+
+            /*List<hexIndex> frontier = new List<hexIndex>();
+            frontier.Add(m_selectedHexIndex);
+            ICollection<KeyValuePair<hexIndex, hexIndex>> came_from = new Dictionary<hexIndex, hexIndex>();
+            ICollection<KeyValuePair<hexIndex, int>> cost_so_far = new Dictionary<hexIndex, int>();
+            //came_from[start] = None;
+            came_from.Add(new KeyValuePair<hexIndex, hexIndex>(m_selectedHexIndex, m_selectedHexIndex));
+            //cost_so_far[start] = 0;
+            cost_so_far.Add(new KeyValuePair<hexIndex, int>(m_selectedHexIndex, 0));
+
+            while (frontier.Count > 0)
+            {
+                //hexIndex current = frontier.get();
+                hexIndex current = frontier[0];
+                //frontier.Remove(current);
+
+                if (current == m_selectedHexIndex)
+                    break;
+
+
+                foreach (hexIndex next in GetAdjacentHexes(current, 1))
                 {
-                    m_createdHexes[z, x].SetText(HexDistance(index, GetHexIndex(m_createdHexes[z, x].transform.localPosition)).ToString());
+                    //int new_cost = cost_so_far[current] + graph.cost(current, next);
+                    int new_cost = cost_so_far.[current];
+
+                    //if (next not in cost_so_far || new_cost < cost_so_far[next])
+                    if (DictContains(cost_so_far, next) || new_cost < GetIntVal(cost_so_far, next))
+                    {
+                        //cost_so_far[next] = new_cost;
+                        //priority = new_cost + heuristic(goal, next);
+                        //frontier.put(next, priority);
+                        //came_from[next] = current;
+
+                        cost_so_far.Add(new KeyValuePair<hexIndex, int>(next, new_cost));
+                        int priority = new_cost + HexDistance(index, next);
+                        frontier.put(next, priority);
+                        came_from[next] = current;
+                    }
                 }
             }*/
         }
@@ -198,11 +287,79 @@ public class CreateHexGrid : MonoBehaviour
         m_selectedHexIndex.set(-1, -1);
     }
 
+    hexIndex[] PathBetweenHexes(hexIndex start, hexIndex end)
+    {
+        Dictionary<hexIndex, hexIndex> cameFrom = new Dictionary<hexIndex, hexIndex>();
+        Dictionary<hexIndex, double> costSoFar = new Dictionary<hexIndex, double>();
+
+        var frontier = new PriorityQueue<hexIndex>();
+        frontier.Enqueue(start, 0);
+
+        cameFrom[start] = start;
+        costSoFar[start] = 0;
+
+        while (frontier.Count > 0)
+        {
+            var current = frontier.Dequeue();
+
+            if (current.Equals(end))
+            {
+                break;
+            }
+
+            foreach (var next in GetAdjacentHexes(current, 1))
+            {
+                double newCost = costSoFar[current];
+
+                if (!costSoFar.ContainsKey(next) || newCost < costSoFar[next])
+                {
+                    costSoFar[next] = newCost;
+                    double priority = newCost + HexDistance(next, end);
+                    frontier.Enqueue(next, priority);
+
+                    //if (!cameFrom.ContainsKey(next) && !cameFrom.ContainsValue(current))
+                    cameFrom[next] = current;
+                }
+            }
+        }
+        
+        List<hexIndex> toReturn = new List<hexIndex>();
+        
+        /*foreach (hexIndex index in cameFrom.Values)
+        {
+            toReturn.Add(index);
+        }*/
+
+        while (true)
+        {
+            toReturn.Add(null);
+            break;
+        }
+
+        //toReturn.RemoveAt(0);
+
+        return toReturn.ToArray();
+    }
+
     private int HexDistance(hexIndex a, hexIndex b)
     {
         Vector3Int aCube = a.CubeCoordinates();
         Vector3Int bCube = b.CubeCoordinates();
         return Mathf.Max(Mathf.Abs(aCube.x - bCube.x), Mathf.Abs(aCube.y - bCube.y), Mathf.Abs(aCube.z - bCube.z));
+    }
+
+    private void SetHexInactive()
+    {
+        Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        RaycastHit2D[] results = new RaycastHit2D[3];
+
+        if (0 < Physics2D.Raycast(mousePos, Vector3.forward * 100.0f, contactFilter, results, m_hexMask))
+        {
+            hexIndex index = GetHexIndex(results[0].collider.gameObject.transform.localPosition);
+
+            m_createdHexes[index.q, index.r].SetInactive();
+        }
     }
 
     private void ResetHexPaths()
@@ -213,7 +370,8 @@ public class CreateHexGrid : MonoBehaviour
         {
             for (int x = 0; x < m_height; x++)
             {
-                m_createdHexes[z, x].DeSelect();
+                //m_createdHexes[z, x].DeSelect();
+                m_createdHexes[z, x].SetActive();
             }
         }
     }
@@ -227,16 +385,9 @@ public class CreateHexGrid : MonoBehaviour
                 GameObject go = Instantiate(m_hexPrefab, new Vector3((z * (Mathf.Sqrt(3.0f) * m_hexSize)) + ((Mathf.Sqrt(3.0f) * m_hexSize * 0.5f) * (x % 2)), x * 1.5f * -m_hexSize, 0.0f), Quaternion.identity, transform);
                 m_createdHexes[z, x] = go.GetComponent<HexTile>();
                 m_createdHexes[z, x].transform.localPosition = m_createdHexes[z, x].transform.position;
-                //m_createdHexes[z, x].GetComponentInChildren<TextMesh>().text = (z + "\n" + (-z - x) + "\n" + x);
-                //m_createdHexes[z, x].GetComponentInChildren<TextMesh>().text = ("(" + (z - ((int)(x * 0.5f))) + ", " + x + ")");
-
-                //m_createdHexes[z, x].SetText("(" + (z - ((int)(x * 0.5f))) + ", " + x + ")");
-                //m_createdHexes[z, x].SetText("(" + z + ", " + x + ")");
-
+                
                 Vector3Int cubeHex = new hexIndex(z, x).CubeCoordinates();
-                //Debug.Log("hex: " + z + ", " + x);
-                //Debug.Log("hex: " + CubeToHexIndex(cubeHex).q + ", " + CubeToHexIndex(cubeHex).r);
-                //Debug.Log("------");
+                
                 m_createdHexes[z, x].SetText("(" + cubeHex.x + ",\n" + cubeHex.y + ",\n" + cubeHex.z + ")");
             }
         }
@@ -251,24 +402,16 @@ public class CreateHexGrid : MonoBehaviour
     hexIndex[] GetAdjacentHexes(hexIndex index)
     {
         hexIndex[] toReturn = new hexIndex[6];
-
-        //Debug.Log(" -> " + index.q + ", " + index.r);
-        Debug.Log(" -> " + index.CubeCoordinates().x + ", " + index.CubeCoordinates().y);
-
+        
         for (int z = 0; z < AdjacentCoordenatesCount; z++)
         {
-            //toReturn[z] = new hexIndex(index.q + AdjacentCoordenates[z, 0], index.r + AdjacentCoordenates[z, 1]);
-            //hexIndex tmp = index;
-            //tmp.q += AdjacentCoordenates[z, 0];
-            //tmp.r += AdjacentCoordenates[z, 1];
-
             Vector3Int cubeHex = index.CubeCoordinates();
             cubeHex.x += AdjacentCoordenates[z, 0];
             cubeHex.z += AdjacentCoordenates[z, 1];
 
             Debug.Log("### " + AdjacentCoordenates[z, 0] + ", " + AdjacentCoordenates[z, 1] + " : " + cubeHex.x + ", " + cubeHex.y);
             Debug.Log("###### " + AdjacentCoordenates[z, 0] + ", " + AdjacentCoordenates[z, 1] + " : " + CubeToHexIndex(cubeHex).q + ", " + CubeToHexIndex(cubeHex).r);
-            toReturn[z] = CubeToHexIndex(cubeHex/*tmp.CubeCoordinates()*/);
+            toReturn[z] = CubeToHexIndex(cubeHex);
         }
 
         return toReturn;
@@ -276,7 +419,6 @@ public class CreateHexGrid : MonoBehaviour
     
     hexIndex[] GetAdjacentHexes(hexIndex index, int dist)
     {
-        //hexIndex[] toReturn = new hexIndex[dist * 6];
         List<hexIndex> toReturn = new List<hexIndex>();
         
         for (int z = -dist; z <= dist; z++)
@@ -286,11 +428,14 @@ public class CreateHexGrid : MonoBehaviour
                 if (!(z == 0 && x == 0) && (Mathf.Abs(z + x) <= dist))
                 {
                     Vector3Int cubeHex = index.CubeCoordinates();
-                    cubeHex.x += z;//AdjacentCoordenates[z, 0];
-                    cubeHex.z += x;//AdjacentCoordenates[z, 1];
+                    cubeHex.x += z;
+                    cubeHex.z += x;
 
-                    //toReturn[z] = CubeToHexIndex(cubeHex);
-                    toReturn.Add(CubeToHexIndex(cubeHex));
+                    hexIndex hex = CubeToHexIndex(cubeHex);
+                    if (m_createdHexes[hex.q, hex.r].isActive())
+                        toReturn.Add(hex);
+                    
+                    //toReturn.Add(CubeToHexIndex(cubeHex));
                 }
             }
         }
@@ -301,5 +446,57 @@ public class CreateHexGrid : MonoBehaviour
     hexIndex CubeToHexIndex(Vector3Int cube)
     {
         return new hexIndex(((int)(cube.z * 0.5f)) + cube.x, cube.z);
+    }
+
+    bool DictContains(ICollection<KeyValuePair<hexIndex, hexIndex>> dict, hexIndex Val)
+    {
+        foreach (KeyValuePair<hexIndex, hexIndex> KV in dict)
+        {
+            if (KV.Key == Val)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool DictContains(ICollection<KeyValuePair<hexIndex, int>> dict, hexIndex Val)
+    {
+        foreach (KeyValuePair<hexIndex, int> KV in dict)
+        {
+            if (KV.Key == Val)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    hexIndex GetHexVal(ICollection<KeyValuePair<hexIndex, hexIndex>> dict, hexIndex Val)
+    {
+        foreach (KeyValuePair<hexIndex, hexIndex> KV in dict)
+        {
+            if (KV.Key == Val)
+            {
+                return KV.Value;
+            }
+        }
+
+        return new hexIndex(-1, -1);
+    }
+
+    int GetIntVal(ICollection<KeyValuePair<hexIndex, int>> dict, hexIndex Val)
+    {
+        foreach (KeyValuePair<hexIndex, int> KV in dict)
+        {
+            if (KV.Key == Val)
+            {
+                return KV.Value;
+            }
+        }
+
+        return -1;
     }
 }

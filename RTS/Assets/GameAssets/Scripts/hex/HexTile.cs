@@ -10,9 +10,26 @@ public class HexTile : MonoBehaviour
     [SerializeField]
     TextMesh m_text;
 
+    private bool m_active = true;
+
     public void Selected()
     {
         m_sprite.color = Color.red;
+    }
+
+    public void StartPath()
+    {
+        m_sprite.color = Color.red;
+    }
+
+    public void OnPath()
+    {
+        m_sprite.color = Color.yellow;
+    }
+
+    public void EndPath()
+    {
+        m_sprite.color = Color.green;
     }
 
     public void Selected(float r, float g, float b)
@@ -23,6 +40,23 @@ public class HexTile : MonoBehaviour
     public void DeSelect()
     {
         m_sprite.color = Color.white;
+    }
+
+    public void SetInactive()
+    {
+        m_active = false;
+        m_sprite.color = Color.black;
+    }
+
+    public void SetActive()
+    {
+        m_active = true;
+        m_sprite.color = Color.white;
+    }
+
+    public bool isActive()
+    {
+        return m_active;
     }
 
     public void SetText(string text)
