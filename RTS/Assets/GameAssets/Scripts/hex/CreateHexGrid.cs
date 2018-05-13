@@ -127,17 +127,19 @@ public class CreateHexGrid : MonoBehaviour
         if (0 < Physics2D.Raycast(mousePos, Vector3.forward * 100.0f, contactFilter, results, m_hexMask))
         {
             hexIndex index = GetHexIndex(results[0].collider.gameObject.transform.localPosition);
+            Vector3Int cubeIndex = index.CubeCoordinates();
             //Debug.Log("Index: " + index.q + ", " + index.r);
 
             m_createdHexes[index.q, index.r].Selected();
             m_selectedHexIndex = index;
 
-            hexIndex[] m_adjesentHexes = GetAdjacentHexes(index, 2);
+            hexIndex[] m_adjesentHexes = GetAdjacentHexes(index, 3);
             for (int z = 0; z < m_adjesentHexes.Length/*AdjacentCoordenatesCount*/; z++)
             {
                 if (!m_adjesentHexes[z].isNull() && (m_adjesentHexes[z].q < m_width && m_adjesentHexes[z].r < m_height))
                 {
                     hexIndex hex = m_adjesentHexes[z];
+                    Vector3Int cubeHex = hex.CubeCoordinates();
                     //m_createdHexes[(index.q /*- (((index.r % 2) * 2) + 2 == hex.r ? 1 : 0 /*== 1 ? 1 : 0*#/)*/ /*- ((int)(hex.r * 0.5f))*/), hex.r].Selected(Mathf.Abs(AdjacentCoordenates[z, 0]), Mathf.Abs(AdjacentCoordenates[z, 1]), Mathf.Abs(-AdjacentCoordenates[z, 0] - AdjacentCoordenates[z, 1]));
                     //m_createdHexes[(hex.q + ((index.r + (hex.r % 2 == 1 ? 1 : -1) == hex.r) ? 0 : 1)), hex.r].Selected(Mathf.Abs(AdjacentCoordenates[z, 0]), Mathf.Abs(AdjacentCoordenates[z, 1]), Mathf.Abs(-AdjacentCoordenates[z, 0] - AdjacentCoordenates[z, 1]));
 
@@ -158,8 +160,14 @@ public class CreateHexGrid : MonoBehaviour
                     //m_createdHexes[hex.q + (index.r % 2 == 1 ? 1 : 0) + ((hex.r == index.r + 1 || hex.r == index.r) ? 1 : 0) - 1, hex.r].Selected(Mathf.Abs(AdjacentCoordenates[z, 0]), Mathf.Abs(AdjacentCoordenates[z, 1]), Mathf.Abs(-AdjacentCoordenates[z, 0] - AdjacentCoordenates[z, 1]));
 
                     //m_createdHexes[hex.q, hex.r].Selected(Mathf.Abs(AdjacentCoordenates[z, 0]), Mathf.Abs(AdjacentCoordenates[z, 1]), Mathf.Abs(-AdjacentCoordenates[z, 0] - AdjacentCoordenates[z, 1]));
-                    m_createdHexes[hex.q, hex.r].Selected(Mathf.Abs(index.q - hex.q), Mathf.Abs(index.r - hex.r), Mathf.Abs(-(index.q - hex.q) - (index.r - hex.r)));
-                    Debug.Log(Mathf.Abs(index.q - hex.q) + ", " + Mathf.Abs(index.r - hex.r) + ", " + Mathf.Abs(-(index.q - hex.q) - (index.r - hex.r)));
+                    //m_createdHexes[hex.q, hex.r].Selected(Mathf.Abs(index.q - hex.q), Mathf.Abs(index.r - hex.r), Mathf.Abs(-(index.q - hex.q) - (index.r - hex.r)));
+
+                    //m_createdHexes[hex.q, hex.r].Selected(Mathf.Abs(index.q - hex.q), 0.0f, 0.0f);
+                    //m_createdHexes[hex.q, hex.r].Selected(0.0f, Mathf.Abs(index.r - hex.r), 0.0f);
+                    //m_createdHexes[hex.q, hex.r].Selected(0.0f, 0.0f, Mathf.Abs(-(index.q - hex.q) - (index.r - hex.r)));
+
+                    //Debug.Log(Mathf.Abs(index.q - hex.q) + ", " + Mathf.Abs(index.r - hex.r) + ", " + Mathf.Abs(-(index.q - hex.q) - (index.r - hex.r)));
+                    m_createdHexes[hex.q, hex.r].Selected(Mathf.Abs(cubeIndex.x - cubeHex.x), Mathf.Abs(cubeIndex.z - cubeHex.z), Mathf.Abs(cubeIndex.y - cubeHex.y));
                 }
             }
         }
