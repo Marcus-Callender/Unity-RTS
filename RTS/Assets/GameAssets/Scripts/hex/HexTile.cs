@@ -15,6 +15,11 @@ public class HexTile : MonoBehaviour
         m_sprite.color = Color.red;
     }
 
+    public void Selected(float r, float g, float b)
+    {
+        m_sprite.color = new Color(Mathf.Clamp01(r), Mathf.Clamp01(g), Mathf.Clamp01(b), 0.5f);
+    }
+
     public void DeSelect()
     {
         m_sprite.color = Color.white;
