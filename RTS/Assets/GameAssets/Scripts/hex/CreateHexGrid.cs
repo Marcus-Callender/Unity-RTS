@@ -47,12 +47,12 @@ public class CreateHexGrid : MonoBehaviour
             r = -1;
         }
 
-        public static bool operator == (hexIndex i1, hexIndex i2)
+        public static bool operator ==(hexIndex i1, hexIndex i2)
         {
             return (i1.q == i2.q) && (i1.r == i2.r);
         }
 
-        public static bool operator != (hexIndex i1, hexIndex i2)
+        public static bool operator !=(hexIndex i1, hexIndex i2)
         {
             return (i1.q != i2.q) || (i1.r != i2.r);
         }
@@ -322,21 +322,36 @@ public class CreateHexGrid : MonoBehaviour
                 }
             }
         }
-        
+
         List<hexIndex> toReturn = new List<hexIndex>();
-        
+
         /*foreach (hexIndex index in cameFrom.Values)
         {
             toReturn.Add(index);
         }*/
 
+        toReturn.Add(end);
+
         while (true)
         {
-            toReturn.Add(null);
-            break;
+            for (int z = 0; z < cameFrom.Count; z++)
+            {
+                hexIndex toAdd;
+                if (cameFrom.TryGetValue(toReturn[toReturn.Count - 1], out toAdd))
+                {
+                    toReturn.Add(toAdd);
+                    break;
+                }
+            }
+
+            Debug.Log(toReturn[0].q + ", " + toReturn[0].r);
+            
+            if (toReturn[toReturn.Count - 1] == start)
+                break;
         }
 
-        //toReturn.RemoveAt(0);
+        toReturn.RemoveAt(0);
+        toReturn.RemoveAt(toReturn.Count - 1);
 
         return toReturn.ToArray();
     }
@@ -385,9 +400,9 @@ public class CreateHexGrid : MonoBehaviour
                 GameObject go = Instantiate(m_hexPrefab, new Vector3((z * (Mathf.Sqrt(3.0f) * m_hexSize)) + ((Mathf.Sqrt(3.0f) * m_hexSize * 0.5f) * (x % 2)), x * 1.5f * -m_hexSize, 0.0f), Quaternion.identity, transform);
                 m_createdHexes[z, x] = go.GetComponent<HexTile>();
                 m_createdHexes[z, x].transform.localPosition = m_createdHexes[z, x].transform.position;
-                
+
                 Vector3Int cubeHex = new hexIndex(z, x).CubeCoordinates();
-                
+
                 m_createdHexes[z, x].SetText("(" + cubeHex.x + ",\n" + cubeHex.y + ",\n" + cubeHex.z + ")");
             }
         }
@@ -402,7 +417,7 @@ public class CreateHexGrid : MonoBehaviour
     hexIndex[] GetAdjacentHexes(hexIndex index)
     {
         hexIndex[] toReturn = new hexIndex[6];
-        
+
         for (int z = 0; z < AdjacentCoordenatesCount; z++)
         {
             Vector3Int cubeHex = index.CubeCoordinates();
@@ -416,11 +431,11 @@ public class CreateHexGrid : MonoBehaviour
 
         return toReturn;
     }
-    
+
     hexIndex[] GetAdjacentHexes(hexIndex index, int dist)
     {
         List<hexIndex> toReturn = new List<hexIndex>();
-        
+
         for (int z = -dist; z <= dist; z++)
         {
             for (int x = -dist; x <= dist; x++)
@@ -430,11 +445,14 @@ public class CreateHexGrid : MonoBehaviour
                     Vector3Int cubeHex = index.CubeCoordinates();
                     cubeHex.x += z;
                     cubeHex.z += x;
-
-                    hexIndex hex = CubeToHexIndex(cubeHex);
-                    if (m_createdHexes[hex.q, hex.r].isActive())
-                        toReturn.Add(hex);
                     
+                    hexIndex hex = CubeToHexIndex(cubeHex);
+                    if (hex.q >= 0 && hex.r >= 0 && hex.q < m_width && hex.r < m_height)
+                    {
+                        if (m_createdHexes[hex.q, hex.r].isActive())
+                            toReturn.Add(hex);
+                    }
+
                     //toReturn.Add(CubeToHexIndex(cubeHex));
                 }
             }
