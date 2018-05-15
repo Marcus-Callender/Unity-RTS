@@ -151,6 +151,9 @@ public class CreateHexGrid : MonoBehaviour
     [SerializeField]
     private LayerMask m_hexMask;
 
+    [SerializeField]
+    private HexUnit m_unit;
+
     private hexIndex m_selectedHexIndex = new hexIndex();
 
     private float xScreenSize = 17.77778f;
@@ -234,12 +237,20 @@ public class CreateHexGrid : MonoBehaviour
 
             Debug.Log("---Path Start: " + m_selectedHexIndex.q + ", " + m_selectedHexIndex.r);
 
-            for (int z = 0; z < Path.Length; z++)
+            for (int z = 1; z < Path.Length - 1; z++)
             {
                 Debug.Log("Path: " + Path[z].q + ", " + Path[z].r);
 
                 m_createdHexes[Path[z].q, Path[z].r].OnPath();
             }
+
+            List<Vector3> movementPath = new List<Vector3>();
+            for (int z = 0; z < Path.Length; z++)
+            {
+                movementPath.Add(GetHexPosition(Path[z]));
+            }
+
+            m_unit.m_path = movementPath;
 
             Debug.Log("---Path End: " + index.q + ", " + index.r);
 
@@ -350,8 +361,8 @@ public class CreateHexGrid : MonoBehaviour
                 break;
         }
 
-        toReturn.RemoveAt(0);
-        toReturn.RemoveAt(toReturn.Count - 1);
+        //toReturn.RemoveAt(0);
+        //toReturn.RemoveAt(toReturn.Count - 1);
 
         return toReturn.ToArray();
     }
@@ -516,5 +527,10 @@ public class CreateHexGrid : MonoBehaviour
         }
 
         return -1;
+    }
+
+    Vector3 GetHexPosition(hexIndex hex)
+    {
+        return transform.TransformPoint(new Vector3((hex.q * (Mathf.Sqrt(3.0f) * m_hexSize)) + ((Mathf.Sqrt(3.0f) * m_hexSize * 0.5f) * (hex.r % 2)), hex.r * 1.5f * -m_hexSize, 0.0f));
     }
 }
