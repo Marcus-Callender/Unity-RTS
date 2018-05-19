@@ -29,14 +29,14 @@ public class CameraMovment : MonoBehaviour
 
         if (Input.GetButton("Fire3"))
         {
-            Debug.Log("Fire3");
+            //Debug.Log("Fire3");
             newX -= Input.GetAxis("Mouse X") * 0.5f;
             newY -= Input.GetAxis("Mouse Y") * 0.5f;
 
-             if (Input.GetAxis("Mouse X") != 0.0f)
+            /*if (Input.GetAxis("Mouse X") != 0.0f)
             {
                 Debug.Log("X axis");
-            }
+            }*/
         }
         else
         {

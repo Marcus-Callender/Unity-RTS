@@ -41,13 +41,5 @@ public class HexUnit : MonoBehaviour
         {
             Debug.DrawLine(m_path[z], m_path[z + 1], Color.red);
         }
-
-        /*for (int z = 0; z < m_path.Count; z++)
-        {
-            for (int x = 1; x < m_path.Count; x++)
-            {
-                Debug.DrawLine(m_path[z], m_path[x], Color.red);
-            }
-        }*/
     }
 }

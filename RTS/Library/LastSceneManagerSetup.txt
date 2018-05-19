@@ -1,4 +1,7 @@
 sceneSetups:
-- path: Assets/GameAssets/Scenes/HexTest.unity
+- path: Assets/GameAssets/Scenes/HexMapTest.unity
   isLoaded: 1
   isActive: 1
+- path: Assets/GameAssets/Scenes/Movement Test.unity
+  isLoaded: 0
+  isActive: 0

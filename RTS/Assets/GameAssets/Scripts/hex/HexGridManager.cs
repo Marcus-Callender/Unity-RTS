@@ -1,0 +1,493 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class HexGridManager : MonoBehaviour
+{
+    [Serializable]
+    enum E_HexType
+    {
+        POINTED_TOP = 0,
+        FLAT_TOP = 1
+    }
+
+    #region hexIndex
+    [Serializable]
+    public struct hexIndex
+    {
+        public int q;
+        public int r;
+
+        public hexIndex(int _q, int _r)
+        {
+            q = _q;
+            r = _r;
+        }
+
+        public void set(int _q, int _r)
+        {
+            q = _q;
+            r = _r;
+        }
+
+        public Vector3Int CubeCoordinates()
+        {
+            int adjustedQ = q - ((int)(r * 0.5f));
+            return new Vector3Int(adjustedQ, (-adjustedQ - r), r);
+        }
+
+        public bool isNull()
+        {
+            return q < 0 || r < 0;
+        }
+
+        public void Null()
+        {
+            q = -1;
+            r = -1;
+        }
+
+        public static bool operator ==(hexIndex i1, hexIndex i2)
+        {
+            return (i1.q == i2.q) && (i1.r == i2.r);
+        }
+
+        public static bool operator !=(hexIndex i1, hexIndex i2)
+        {
+            return (i1.q != i2.q) || (i1.r != i2.r);
+        }
+    }
+    #endregion
+
+    #region Tuple
+    // https://answers.unity.com/questions/381993/does-unity-4-mono-support-tuples.html
+    public class Tuple<T1, T2>
+    {
+        public T1 First { get; private set; }
+        public T2 Second { get; private set; }
+        internal Tuple(T1 first, T2 second)
+        {
+            First = first;
+            Second = second;
+        }
+    }
+
+    public static class Tuple
+    {
+        public static Tuple<T1, T2> New<T1, T2>(T1 first, T2 second)
+        {
+            var tuple = new Tuple<T1, T2>(first, second);
+            return tuple;
+        }
+    }
+    #endregion
+
+    #region PriorityQueue
+    // https://www.redblobgames.com/pathfinding/a-star/implementation.html#csharp
+    public class PriorityQueue<T>
+    {
+        // I'm using an unsorted array for this example, but ideally this
+        // would be a binary heap. There's an open issue for adding a binary
+        // heap to the standard C# library: https://github.com/dotnet/corefx/issues/574
+        //
+        // Until then, find a binary heap class:
+        // * https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp
+        // * http://visualstudiomagazine.com/articles/2012/11/01/priority-queues-with-c.aspx
+        // * http://xfleury.github.io/graphsearch.html
+        // * http://stackoverflow.com/questions/102398/priority-queue-in-net
+
+        private List<Tuple<T, double>> elements = new List<Tuple<T, double>>();
+
+        public int Count
+        {
+            get { return elements.Count; }
+        }
+
+        public void Enqueue(T item, double priority)
+        {
+            //elements.Add(Tuple.Create(item, priority));
+            elements.Add(new Tuple<T, double>(item, priority));
+        }
+
+        public T Dequeue()
+        {
+            int bestIndex = 0;
+
+            for (int i = 0; i < elements.Count; i++)
+            {
+                if (elements[i].Second < elements[bestIndex].Second)
+                {
+                    bestIndex = i;
+                }
+            }
+
+            T bestItem = elements[bestIndex].First;
+            elements.RemoveAt(bestIndex);
+            return bestItem;
+        }
+    }
+    #endregion
+
+    [SerializeField]
+    private Camera m_cam;
+
+    [SerializeField]
+    private GameObject m_hexPrefab;
+
+    private HexTile[,] m_createdHexes;
+
+    [SerializeField]
+    private int m_width = 5;
+
+    [SerializeField]
+    private int m_height = 5;
+
+    [SerializeField]
+    private float m_hexSize = 0.5f;
+
+    [SerializeField]
+    private LayerMask m_unitMask;
+
+    [SerializeField]
+    private LayerMask m_hexMask;
+
+    /*[SerializeField]
+    private HexUnit m_unit;*/
+
+    //private hexIndex m_selectedHexIndex = new hexIndex();
+    private HexUnit m_selectedUnit = null;
+    
+    void Start()
+    {
+        //m_selectedHexIndex.set(-1, -1);
+        m_createdHexes = new HexTile[m_width, m_height];
+        UpdateGrid();
+    }
+
+    void Update()
+    {
+        //Debug.Log("Mouse pos: " + Input.mousePosition);
+        Debug.DrawRay(m_cam.ScreenToWorldPoint(Input.mousePosition), Vector3.forward * 11, Color.green);
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            //if (m_selectedHexIndex.isNull())
+            if (m_selectedUnit == null)
+            {
+                StartHexPathing();
+            }
+            else
+            {
+                PathTo();
+            }
+        }
+        /*else if (Input.GetButtonDown("Fire2"))
+        {
+            SetHexInactive();
+        }
+        else if (Input.GetButtonDown("Fire3"))
+        {
+            ResetHexPaths();
+        }*/
+    }
+
+    private void StartHexPathing()
+    {
+        Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
+        //ContactFilter2D contactFilter = new ContactFilter2D();
+        //RaycastHit2D[] results = new RaycastHit2D[3];
+        //RaycastHit2D result = Physics2D.Raycast(mousePos, Vector3.forward * 100.0f, m_unitMask);
+        //RaycastHit2D result = Physics2D.Raycast(mousePos, Vector3.forward /** 100.0f*/, 10.0f, m_unitMask);
+        RaycastHit result;
+        Physics.Raycast(mousePos, Vector3.forward, out result, 100.0f/*, m_unitMask*/);
+
+        //if (0 < Physics2D.Raycast(mousePos, Vector3.forward * 100.0f, contactFilter, results, m_unitMask))
+        if (result.collider != null)
+        {
+            //hexIndex index = GetHexIndex(results[0].collider.gameObject.transform.localPosition);
+            //hexIndex index = GetHexIndex(result.collider.gameObject.transform.localPosition);
+            hexIndex index = GetHexIndex(transform.InverseTransformPoint(result.collider.gameObject.transform.position));
+
+            //Debug.Log("Closest Unit Index: " + index.q + ", " + index.r);
+            m_createdHexes[index.q, index.r].StartPath();
+            //m_selectedHexIndex = index;
+            m_selectedUnit = result.collider.gameObject.GetComponent<HexUnit>();
+        }
+
+        /*if (0 < Physics2D.Raycast(mousePos, Vector3.forward * 100.0f, contactFilter, results, m_hexMask))
+        {
+            hexIndex index = GetHexIndex(results[0].collider.gameObject.transform.localPosition);
+
+            Debug.Log("Hex Index: " + index.q + ", " + index.r);
+            m_createdHexes[index.q, index.r].StartPath();
+            m_selectedHexIndex = index;
+        }*/
+    }
+
+    private void PathTo()
+    {
+        Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        RaycastHit2D[] results = new RaycastHit2D[3];
+
+        if (0 < Physics2D.Raycast(mousePos, Vector3.forward * 100.0f, contactFilter, results, m_hexMask))
+        {
+            hexIndex index = GetHexIndex(results[0].collider.gameObject.transform.localPosition);
+
+            m_createdHexes[index.q, index.r].EndPath();
+
+            //hexIndex[] Path = PathBetweenHexes(m_selectedHexIndex, index);
+            hexIndex[] Path = PathBetweenHexes(GetHexIndex(transform.InverseTransformPoint(m_selectedUnit.transform.position)), index);
+
+            //Debug.Log("---Path Start: " + m_selectedHexIndex.q + ", " + m_selectedHexIndex.r);
+
+            for (int z = 1; z < Path.Length - 1; z++)
+            {
+                //Debug.Log("Path: " + Path[z].q + ", " + Path[z].r);
+
+                m_createdHexes[Path[z].q, Path[z].r].OnPath();
+            }
+
+            List<Vector3> movementPath = new List<Vector3>();
+            for (int z = 0; z < Path.Length; z++)
+            {
+                movementPath.Add(GetHexPosition(Path[z]));
+            }
+
+            movementPath.Reverse();
+
+            //m_unit.m_path = movementPath;
+            m_selectedUnit.m_path = movementPath;
+
+            //Debug.Log("---Path End: " + index.q + ", " + index.r);
+        }
+
+        //m_selectedHexIndex.set(-1, -1);
+        m_selectedUnit = null;
+    }
+
+    hexIndex[] PathBetweenHexes(hexIndex start, hexIndex end)
+    {
+        Dictionary<hexIndex, hexIndex> cameFrom = new Dictionary<hexIndex, hexIndex>();
+        Dictionary<hexIndex, double> costSoFar = new Dictionary<hexIndex, double>();
+
+        var frontier = new PriorityQueue<hexIndex>();
+        frontier.Enqueue(start, 0);
+
+        cameFrom[start] = start;
+        costSoFar[start] = 0;
+
+        while (frontier.Count > 0)
+        {
+            var current = frontier.Dequeue();
+
+            if (current.Equals(end))
+            {
+                break;
+            }
+
+            foreach (var next in GetAdjacentHexes(current, 1))
+            {
+                double newCost = costSoFar[current];
+
+                if (!costSoFar.ContainsKey(next) || newCost < costSoFar[next])
+                {
+                    costSoFar[next] = newCost;
+                    double priority = newCost + HexDistance(next, end);
+                    frontier.Enqueue(next, priority);
+
+                    //if (!cameFrom.ContainsKey(next) && !cameFrom.ContainsValue(current))
+                    cameFrom[next] = current;
+                }
+            }
+        }
+
+        List<hexIndex> toReturn = new List<hexIndex>();
+        
+        toReturn.Add(end);
+
+        // TODO: clean this code
+        while (true)
+        {
+            for (int z = 0; z < cameFrom.Count; z++)
+            {
+                hexIndex toAdd;
+                if (cameFrom.TryGetValue(toReturn[toReturn.Count - 1], out toAdd))
+                {
+                    toReturn.Add(toAdd);
+                    break;
+                }
+            }
+
+            //Debug.Log(toReturn[0].q + ", " + toReturn[0].r);
+            
+            if (toReturn[toReturn.Count - 1] == start)
+                break;
+        }
+
+        //toReturn.RemoveAt(0);
+        //toReturn.RemoveAt(toReturn.Count - 1);
+
+        return toReturn.ToArray();
+    }
+
+    private int HexDistance(hexIndex a, hexIndex b)
+    {
+        Vector3Int aCube = a.CubeCoordinates();
+        Vector3Int bCube = b.CubeCoordinates();
+        return Mathf.Max(Mathf.Abs(aCube.x - bCube.x), Mathf.Abs(aCube.y - bCube.y), Mathf.Abs(aCube.z - bCube.z));
+    }
+
+    private void SetHexInactive()
+    {
+        Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        RaycastHit2D[] results = new RaycastHit2D[3];
+
+        if (0 < Physics2D.Raycast(mousePos, Vector3.forward * 100.0f, contactFilter, results, m_hexMask))
+        {
+            hexIndex index = GetHexIndex(results[0].collider.gameObject.transform.localPosition);
+
+            m_createdHexes[index.q, index.r].SetInactive();
+        }
+    }
+
+    private void ResetHexPaths()
+    {
+        //m_selectedHexIndex.set(-1, -1);
+        m_selectedUnit = null;
+
+        for (int z = 0; z < m_width; z++)
+        {
+            for (int x = 0; x < m_height; x++)
+            {
+                //m_createdHexes[z, x].DeSelect();
+                m_createdHexes[z, x].SetActive();
+            }
+        }
+    }
+
+    void UpdateGrid()
+    {
+        for (int z = 0; z < m_width; z++)
+        {
+            for (int x = 0; x < m_height; x++)
+            {
+                Vector3 pos = new Vector3((z * (Mathf.Sqrt(3.0f) * m_hexSize)) + ((Mathf.Sqrt(3.0f) * m_hexSize * 0.5f) * (x % 2)), x * 1.5f * -m_hexSize, 0.0f);
+                
+                //GameObject go = Instantiate(m_hexPrefab, new Vector3((z * (Mathf.Sqrt(3.0f) * m_hexSize)) + ((Mathf.Sqrt(3.0f) * m_hexSize * 0.5f) * (x % 2)), x * 1.5f * -m_hexSize, 0.0f), Quaternion.identity, transform);
+                GameObject go = Instantiate(m_hexPrefab, pos, Quaternion.identity, transform);
+                m_createdHexes[z, x] = go.GetComponent<HexTile>();
+                m_createdHexes[z, x].transform.localPosition = m_createdHexes[z, x].transform.position;
+
+                Vector3Int cubeHex = new hexIndex(z, x).CubeCoordinates();
+                m_createdHexes[z, x].SetText("(" + cubeHex.x + ",\n" + cubeHex.y + ",\n" + cubeHex.z + ")");
+
+                //Debug.DrawRay(pos + (Vector3.back * 20.0f), Vector3.forward * 30.0f, Color.red, 5.0f);
+                if (Physics.Raycast(transform.TransformPoint(pos) + (Vector3.back * 20.0f), Vector3.forward * 30.0f))
+                {
+                    m_createdHexes[z, x].SetInactive();
+                }
+                else
+                {
+                    m_createdHexes[z, x].SetActive();
+                }
+            }
+        }
+    }
+
+    hexIndex GetHexIndex(Vector3 pos)
+    {
+        int _y = Mathf.RoundToInt(pos.y / (1.5f * -m_hexSize));
+        return new hexIndex(Mathf.RoundToInt((pos.x / (Mathf.Sqrt(3.0f) * m_hexSize)) - (((Mathf.Sqrt(3.0f) * m_hexSize * 0.5f) * (_y % 2)) / (Mathf.Sqrt(3.0f) * m_hexSize))), _y);
+    }
+
+    hexIndex[] GetAdjacentHexes(hexIndex index, int dist)
+    {
+        List<hexIndex> toReturn = new List<hexIndex>();
+
+        for (int z = -dist; z <= dist; z++)
+        {
+            for (int x = -dist; x <= dist; x++)
+            {
+                if (!(z == 0 && x == 0) && (Mathf.Abs(z + x) <= dist))
+                {
+                    Vector3Int cubeHex = index.CubeCoordinates();
+                    cubeHex.x += z;
+                    cubeHex.z += x;
+                    
+                    hexIndex hex = CubeToHexIndex(cubeHex);
+                    if (hex.q >= 0 && hex.r >= 0 && hex.q < m_width && hex.r < m_height)
+                    {
+                        if (m_createdHexes[hex.q, hex.r].isActive())
+                            toReturn.Add(hex);
+                    }
+                }
+            }
+        }
+
+        return toReturn.ToArray();
+    }
+
+    hexIndex CubeToHexIndex(Vector3Int cube)
+    {
+        return new hexIndex(((int)(cube.z * 0.5f)) + cube.x, cube.z);
+    }
+
+    bool DictContains(ICollection<KeyValuePair<hexIndex, hexIndex>> dict, hexIndex Val)
+    {
+        foreach (KeyValuePair<hexIndex, hexIndex> KV in dict)
+        {
+            if (KV.Key == Val)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool DictContains(ICollection<KeyValuePair<hexIndex, int>> dict, hexIndex Val)
+    {
+        foreach (KeyValuePair<hexIndex, int> KV in dict)
+        {
+            if (KV.Key == Val)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    hexIndex GetHexVal(ICollection<KeyValuePair<hexIndex, hexIndex>> dict, hexIndex Val)
+    {
+        foreach (KeyValuePair<hexIndex, hexIndex> KV in dict)
+        {
+            if (KV.Key == Val)
+            {
+                return KV.Value;
+            }
+        }
+
+        return new hexIndex(-1, -1);
+    }
+
+    int GetIntVal(ICollection<KeyValuePair<hexIndex, int>> dict, hexIndex Val)
+    {
+        foreach (KeyValuePair<hexIndex, int> KV in dict)
+        {
+            if (KV.Key == Val)
+            {
+                return KV.Value;
+            }
+        }
+
+        return -1;
+    }
+
+    Vector3 GetHexPosition(hexIndex hex)
+    {
+        return transform.TransformPoint(new Vector3((hex.q * (Mathf.Sqrt(3.0f) * m_hexSize)) + ((Mathf.Sqrt(3.0f) * m_hexSize * 0.5f) * (hex.r % 2)), hex.r * 1.5f * -m_hexSize, 0.0f));
+    }
+}
