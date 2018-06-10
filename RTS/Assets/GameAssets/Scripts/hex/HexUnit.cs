@@ -29,12 +29,7 @@ public class HexUnit : MonoBehaviour
             Vector3 direction = m_path[0] - transform.position;
             direction.z = 0.0f;
             direction.Normalize();
-
-            if (m_path.Count > 1)
-            {
-                SetSpriteFromDir();
-            }
-            else
+            
             {
                 SetSpriteFromDir(direction);
             }
