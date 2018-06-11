@@ -5,7 +5,11 @@ using UnityEngine;
 public class HexAttack : MonoBehaviour
 {
     public GameObject m_projectile;
+
+    [SerializeField]
     private DetectHexObjectsInTrigger m_targates;
+
+    [SerializeField]
     private HexUnit m_unit;
 
     public float m_fireDelay = 1.0f;
@@ -19,9 +23,6 @@ public class HexAttack : MonoBehaviour
     {
         m_fireTimer = new Timer();
         m_fireTimer.m_time = m_fireDelay;
-
-        m_targates = GetComponent<DetectHexObjectsInTrigger>();
-        m_unit = GetComponentInParent<HexUnit>();
     }
 
     void Update()
@@ -59,23 +60,6 @@ public class HexAttack : MonoBehaviour
                 }
             }
         }
-
-        //if (targate)
-        //{
-        //    //Vector2 angle = targate.gameObject.transform.position - transform.position;
-        //    //angle.Normalize();
-        //    //
-        //    //if ((m_data.RotationVec2() - angle).magnitude <= 0.25f)
-        //
-        //    int angleIndex = m_data.Vec2ToIndex((targate.gameObject.transform.position - transform.position).normalized);
-        //
-        //    if (angleIndex != m_data.m_rotationIndex)
-        //    {
-        //        m_data.Rotate(angleIndex);
-        //
-        //        targate = null;
-        //    }
-        //}
 
         if (targate)
         {

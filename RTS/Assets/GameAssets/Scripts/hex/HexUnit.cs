@@ -17,6 +17,9 @@ public class HexUnit : MonoBehaviour
 
     public Sprite[] m_sprites;
 
+    public delegate void BecameInvisible();
+    public BecameInvisible del_OnBecameInvisible;
+
     void Start()
     {
 
@@ -75,5 +78,22 @@ public class HexUnit : MonoBehaviour
         int xIndex = dir.x > 0.333f ? 2 : (dir.x < -0.333f ? 0 : 1);
         int yIndex = dir.y > 0.333f ? 2 : (dir.y < -0.333f ? 0 : 1);
         m_renderer.sprite = m_sprites[(yIndex * 3) + xIndex];
+    }
+
+    private void OnBecameVisible()
+    {
+        Debug.Log("Now visable.");
+
+        HealthBarManager.m_instance.Register(this);
+    }
+
+    private void OnBecameInvisible()
+    {
+        Debug.Log("Now invisable.");
+
+        if (del_OnBecameInvisible != null)
+        {
+            del_OnBecameInvisible();
+        }
     }
 }
