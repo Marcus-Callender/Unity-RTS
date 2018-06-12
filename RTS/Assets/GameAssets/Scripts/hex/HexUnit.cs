@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+enum playerColour
+{
+    GREEN,
+    BLUE
+}
+
 public class HexUnit : MonoBehaviour
 {
     [SerializeField]
@@ -13,16 +19,43 @@ public class HexUnit : MonoBehaviour
     [SerializeField]
     private float m_speed = 1.0f;
 
-    public List<Vector3> m_path;
+    [SerializeField]
+    private HexUnit m_targate;
 
+    [SerializeField]
+    private playerColour m_colour;
+
+    public List<Vector3> m_path;
     public Sprite[] m_sprites;
+
+    [SerializeField]
+    public int m_maxHealth = 5;
+
+    private int m_healthInternal;
+
+    public int m_health {
+        get { return m_healthInternal; }
+        set
+        {
+            if (value != m_healthInternal)
+            {
+                if (del_OnHealthChanged != null)
+                    del_OnHealthChanged(value);
+
+                m_healthInternal = value;
+            }
+        }
+    }
 
     public delegate void BecameInvisible();
     public BecameInvisible del_OnBecameInvisible;
 
-    void Start()
-    {
+    public delegate void HealthChanged(int val);
+    public HealthChanged del_OnHealthChanged;
 
+    void Awake()
+    {
+        m_health = m_maxHealth;
     }
 
     void Update()
@@ -62,7 +95,7 @@ public class HexUnit : MonoBehaviour
     // 0 | 0 1 2
     private void SetSpriteFromDir(Vector3 dir)
     {
-        Debug.Log("Direction: " + dir.x.ToString("F2") + ", " + dir.y.ToString("F2"));
+        //Debug.Log("Direction: " + dir.x.ToString("F2") + ", " + dir.y.ToString("F2"));
         int yIndex = dir.y > 0.333f ? 2 : (dir.y < -0.333f ? 0 : 1);
         int xIndex = dir.x > 0.333f ? 2 : (dir.x < -0.333f ? 0 : 1);
         m_renderer.sprite = m_sprites[(yIndex * 3) + xIndex];
@@ -74,7 +107,7 @@ public class HexUnit : MonoBehaviour
         dir.z = 0.0f;
         dir.Normalize();
 
-        Debug.Log("Direction: " + dir.x.ToString("F2") + ", " + dir.y.ToString("F2"));
+        //Debug.Log("Direction: " + dir.x.ToString("F2") + ", " + dir.y.ToString("F2"));
         int xIndex = dir.x > 0.333f ? 2 : (dir.x < -0.333f ? 0 : 1);
         int yIndex = dir.y > 0.333f ? 2 : (dir.y < -0.333f ? 0 : 1);
         m_renderer.sprite = m_sprites[(yIndex * 3) + xIndex];
@@ -94,6 +127,21 @@ public class HexUnit : MonoBehaviour
         if (del_OnBecameInvisible != null)
         {
             del_OnBecameInvisible();
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        m_health -= damage;
+
+        m_health = Mathf.Min(m_health, m_maxHealth);
+
+        if (m_health <= 0)
+        {
+            Destroy(gameObject);
+
+            if (del_OnBecameInvisible != null)
+                del_OnBecameInvisible();
         }
     }
 }

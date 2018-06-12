@@ -11,7 +11,10 @@ public class HexProjectile : MonoBehaviour
     public float m_lifeTime = 20.0f;
     private Timer m_lifeTimer = new Timer();
 
+    [SerializeField]
     private SpriteRenderer m_render;
+
+    [SerializeField]
     private Rigidbody m_rigb;
 
     public int m_shooterid = -1;
@@ -20,9 +23,6 @@ public class HexProjectile : MonoBehaviour
 
     private void Start()
     {
-        m_rigb = GetComponent<Rigidbody>();
-        m_render = GetComponent<SpriteRenderer>();
-
         m_lifeTimer.m_time = m_lifeTime;
         m_lifeTimer.Play();
 
@@ -70,7 +70,7 @@ public class HexProjectile : MonoBehaviour
             // and the hit object can take damage
             if (data /*&& (data.m_id != m_shooterid)*/)
             {
-                ///data.TakeDamage(m_damage);
+                data.TakeDamage(m_damage);
 
                 // destroy this attack
                 if (m_explosion)

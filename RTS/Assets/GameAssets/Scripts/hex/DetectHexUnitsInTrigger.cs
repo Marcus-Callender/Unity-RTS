@@ -19,8 +19,20 @@ public class DetectHexUnitsInTrigger : MonoBehaviour
         m_UnitsInTrigger.Clear();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("#### " + other.gameObject + " entered in trigger");
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Debug.Log("#### " + other.gameObject + " exited in trigger");
+    }
+
     private void OnTriggerStay(Collider other)
     {
+        Debug.Log("## " + other.gameObject + " stay in trigger");
+
         m_InTrigger.Add(other.gameObject);
 
         HexUnit data = other.gameObject.GetComponent<HexUnit>();

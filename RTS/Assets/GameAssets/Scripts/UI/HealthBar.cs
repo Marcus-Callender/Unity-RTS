@@ -6,10 +6,10 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField]
-    GameObject m_redBar;
+    Image m_redBar;
 
     [SerializeField]
-    GameObject m_greenBar;
+    Image m_greenBar;
 
     [SerializeField]
     private float m_offset = 0.5f;
@@ -23,12 +23,24 @@ public class HealthBar : MonoBehaviour
 
     HexUnit m_currentUnit;
 
+    [SerializeField]
+    float m_redHealthDelay = 0.25f;
+    float m_redHealthTimer;
+
+    [SerializeField]
+    float m_redHealthSpeed = 3.0f;
+
+    private float m_redHealth;
+
     void Start()
     {
         for (int z = 0; z < m_images.Length; z++)
         {
             m_images[z].enabled = false;
         }
+
+        m_redBar.fillAmount = 1.0f;
+        m_greenBar.fillAmount = 1.0f;
     }
 
     void Update()
@@ -37,6 +49,22 @@ public class HealthBar : MonoBehaviour
         {
             transform.position = Camera.main.WorldToScreenPoint(m_toFollow.transform.position);
             transform.position += Vector3.up * m_offset;
+
+            if (m_redHealthTimer > 0.0f)
+            {
+                m_redHealthTimer -= Time.deltaTime;
+            }
+            else
+            {
+                if (m_redHealth != m_currentUnit.m_health)
+                {
+                    m_redHealth -= m_redHealthSpeed * Time.deltaTime;
+
+                    m_redHealth = Mathf.Max(m_redHealth, m_currentUnit.m_health, 0.0f);
+
+                    m_redBar.fillAmount = m_redHealth / m_currentUnit.m_maxHealth;
+                }
+            }
         }
     }
 
@@ -52,6 +80,10 @@ public class HealthBar : MonoBehaviour
         }
 
         m_currentUnit.del_OnBecameInvisible += DeRegister;
+        m_currentUnit.del_OnHealthChanged += OnHealthChanged;
+
+        m_redBar.fillAmount = m_currentUnit.m_health / m_currentUnit.m_maxHealth;
+        m_greenBar.fillAmount = m_currentUnit.m_health / m_currentUnit.m_maxHealth;
     }
 
     private void DeRegister()
@@ -65,7 +97,16 @@ public class HealthBar : MonoBehaviour
         }
 
         m_currentUnit.del_OnBecameInvisible -= DeRegister;
+        m_currentUnit.del_OnHealthChanged -= OnHealthChanged;
 
         m_currentUnit = null;
+    }
+
+    private void OnHealthChanged(int health)
+    {
+        m_greenBar.fillAmount = (float)health / m_currentUnit.m_maxHealth;
+
+        if (m_redHealthTimer <= 0.0f)
+            m_redHealthTimer = m_redHealthDelay;
     }
 }

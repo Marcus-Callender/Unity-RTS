@@ -189,12 +189,12 @@ public class SquareGridManager : MonoBehaviour
             
             squareIndex[] Path = PathBetweenTiles(GetTileIndex(transform.InverseTransformPoint(m_selectedUnit.transform.position)), index);
 
-            Debug.Log("---Path Start: " + GetTileIndex(transform.InverseTransformPoint(m_selectedUnit.transform.position)).q + ", " + GetTileIndex(transform.InverseTransformPoint(m_selectedUnit.transform.position)).r);
+            //Debug.Log("---Path Start: " + GetTileIndex(transform.InverseTransformPoint(m_selectedUnit.transform.position)).q + ", " + GetTileIndex(transform.InverseTransformPoint(m_selectedUnit.transform.position)).r);
 
             List<Vector3> movementPath = new List<Vector3>();
             for (int z = 0; z < Path.Length; z++)
             {
-                Debug.Log("Path: " + Path[z].q + ", " + Path[z].r);
+                //Debug.Log("Path: " + Path[z].q + ", " + Path[z].r);
 
                 movementPath.Add(GetTilePosition(Path[z]));
             }
@@ -208,7 +208,7 @@ public class SquareGridManager : MonoBehaviour
                 Debug.DrawLine(movementPath[z], movementPath[z + 1], Color.red);
             }
 
-            Debug.Log("---Path End: " + index.q + ", " + index.r);
+            //Debug.Log("---Path End: " + index.q + ", " + index.r);
         }
 
         m_selectedUnit = null;
