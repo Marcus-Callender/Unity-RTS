@@ -490,4 +490,10 @@ public class HexGridManager : MonoBehaviour
     {
         return transform.TransformPoint(new Vector3((hex.q * (Mathf.Sqrt(3.0f) * m_hexSize)) + ((Mathf.Sqrt(3.0f) * m_hexSize * 0.5f) * (hex.r % 2)), hex.r * 1.5f * -m_hexSize, 0.0f));
     }
+
+    public void FreeHex(Vector3 position)
+    {
+        hexIndex hexIn = GetHexIndex(position);
+        m_createdHexes[hexIn.q, hexIn.r].SetActive();
+    }
 }

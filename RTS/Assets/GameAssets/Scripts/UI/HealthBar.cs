@@ -30,15 +30,14 @@ public class HealthBar : MonoBehaviour
     [SerializeField]
     float m_redHealthSpeed = 3.0f;
 
+    [SerializeField]
+    private Animator m_animator;
+    private int m_isVisableHash = Animator.StringToHash("IsVisable");
+
     private float m_redHealth;
 
     void Start()
     {
-        for (int z = 0; z < m_images.Length; z++)
-        {
-            m_images[z].enabled = false;
-        }
-
         m_redBar.fillAmount = 1.0f;
         m_greenBar.fillAmount = 1.0f;
     }
@@ -73,11 +72,8 @@ public class HealthBar : MonoBehaviour
         m_active = true;
         m_currentUnit = unit;
         m_toFollow = unit.gameObject;
-
-        for (int z = 0; z < m_images.Length; z++)
-        {
-            m_images[z].enabled = true;
-        }
+        
+        m_animator.SetBool(m_isVisableHash, true);
 
         m_currentUnit.del_OnBecameInvisible += DeRegister;
         m_currentUnit.del_OnHealthChanged += OnHealthChanged;
@@ -90,11 +86,8 @@ public class HealthBar : MonoBehaviour
     {
         m_active = false;
         m_toFollow = null;
-
-        for (int z = 0; z < m_images.Length; z++)
-        {
-            m_images[z].enabled = false;
-        }
+        
+        m_animator.SetBool(m_isVisableHash, false);
 
         m_currentUnit.del_OnBecameInvisible -= DeRegister;
         m_currentUnit.del_OnHealthChanged -= OnHealthChanged;
@@ -108,5 +101,14 @@ public class HealthBar : MonoBehaviour
 
         if (m_redHealthTimer <= 0.0f)
             m_redHealthTimer = m_redHealthDelay;
+    }
+
+    void OnDestroy()
+    {
+        if (m_currentUnit)
+        {
+            m_currentUnit.del_OnBecameInvisible -= DeRegister;
+            m_currentUnit.del_OnHealthChanged -= OnHealthChanged;
+        }
     }
 }

@@ -22,7 +22,7 @@ public class SquareGridManager : MonoBehaviour
             q = _q;
             r = _r;
         }
-        
+
         public bool isNull()
         {
             return q < 0 || r < 0;
@@ -115,6 +115,8 @@ public class SquareGridManager : MonoBehaviour
     }
     #endregion
 
+    public static SquareGridManager m_instance;
+
     [SerializeField]
     private Camera m_cam;
 
@@ -137,7 +139,19 @@ public class SquareGridManager : MonoBehaviour
 
     [SerializeField]
     private LayerMask m_TileMask;
-    private HexUnit m_selectedUnit = null;
+
+    private void Awake()
+    {
+        if (m_instance == null)
+        {
+            m_instance = this;
+        }
+        else
+        {
+            Debug.LogError("Two Square grid amangers detected in scene.");
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -145,39 +159,7 @@ public class SquareGridManager : MonoBehaviour
         UpdateGrid();
     }
 
-    void Update()
-    {
-        Debug.DrawRay(m_cam.ScreenToWorldPoint(Input.mousePosition), Vector3.forward * 11, Color.green);
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            if (m_selectedUnit == null)
-            {
-                StartPathing();
-            }
-            else
-            {
-                PathTo();
-            }
-        }
-    }
-
-    private void StartPathing()
-    {
-        Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
-
-        RaycastHit result;
-        Physics.Raycast(mousePos, Vector3.forward, out result, 100.0f);
-
-        if (result.collider != null)
-        {
-            squareIndex index = GetTileIndex(transform.InverseTransformPoint(result.collider.gameObject.transform.position));
-            
-            m_selectedUnit = result.collider.gameObject.GetComponent<HexUnit>();
-        }
-    }
-
-    private void PathTo()
+    public void PathTo(HexUnit unit)
     {
         Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
         ContactFilter2D contactFilter = new ContactFilter2D();
@@ -186,32 +168,62 @@ public class SquareGridManager : MonoBehaviour
         if (0 < Physics2D.Raycast(mousePos, Vector3.forward * 100.0f, contactFilter, results, m_TileMask))
         {
             squareIndex index = GetTileIndex(results[0].collider.gameObject.transform.localPosition);
-            
-            squareIndex[] Path = PathBetweenTiles(GetTileIndex(transform.InverseTransformPoint(m_selectedUnit.transform.position)), index);
 
-            //Debug.Log("---Path Start: " + GetTileIndex(transform.InverseTransformPoint(m_selectedUnit.transform.position)).q + ", " + GetTileIndex(transform.InverseTransformPoint(m_selectedUnit.transform.position)).r);
+            squareIndex[] Path = PathBetweenTiles(GetTileIndex(transform.InverseTransformPoint(unit.transform.position)), index);
 
             List<Vector3> movementPath = new List<Vector3>();
-            for (int z = 0; z < Path.Length; z++)
+            for (int x = 0; x < Path.Length; x++)
             {
-                //Debug.Log("Path: " + Path[z].q + ", " + Path[z].r);
-
-                movementPath.Add(GetTilePosition(Path[z]));
+                movementPath.Add(GetTilePosition(Path[x]));
             }
 
             movementPath.Reverse();
 
-            m_selectedUnit.m_path = movementPath;
+            unit.m_path = movementPath;
 
-            for (int z = 0; z < movementPath.Count - 1; z++)
+            for (int x = 0; x < movementPath.Count - 1; x++)
             {
-                Debug.DrawLine(movementPath[z], movementPath[z + 1], Color.red);
+                Debug.DrawLine(movementPath[x], movementPath[x + 1], Color.red);
             }
-
-            //Debug.Log("---Path End: " + index.q + ", " + index.r);
         }
+    }
 
-        m_selectedUnit = null;
+    public void PathTo(List<HexUnit> units)
+    {
+        Vector3 mousePos = m_cam.ScreenToWorldPoint(Input.mousePosition);
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        RaycastHit2D[] results = new RaycastHit2D[3];
+
+        if (0 < Physics2D.Raycast(mousePos, Vector3.forward * 100.0f, contactFilter, results, m_TileMask))
+        {
+            for (int z = 0; z < units.Count; z++)
+            {
+                squareIndex index = GetTileIndex(results[0].collider.gameObject.transform.localPosition);
+
+                squareIndex[] Path = PathBetweenTiles(GetTileIndex(transform.InverseTransformPoint(units[z].transform.position)), index);
+
+                //Debug.Log("---Path Start: " + GetTileIndex(transform.InverseTransformPoint(m_selectedUnit.transform.position)).q + ", " + GetTileIndex(transform.InverseTransformPoint(m_selectedUnit.transform.position)).r);
+
+                List<Vector3> movementPath = new List<Vector3>();
+                for (int x = 0; x < Path.Length; x++)
+                {
+                    //Debug.Log("Path: " + Path[z].q + ", " + Path[z].r);
+
+                    movementPath.Add(GetTilePosition(Path[x]));
+                }
+
+                movementPath.Reverse();
+
+                units[z].m_path = movementPath;
+
+                for (int x = 0; x < movementPath.Count - 1; x++)
+                {
+                    Debug.DrawLine(movementPath[x], movementPath[x + 1], Color.red);
+                }
+
+                //Debug.Log("---Path End: " + index.q + ", " + index.r);
+            }
+        }
     }
 
     squareIndex[] PathBetweenTiles(squareIndex start, squareIndex end)
@@ -266,20 +278,16 @@ public class SquareGridManager : MonoBehaviour
                     break;
                 }
             }
-            
+
             if (toReturn[toReturn.Count - 1] == start)
                 break;
         }
-        
+
         return toReturn.ToArray();
     }
 
-    private float/*int*/ TileDistance(squareIndex a, squareIndex b)
+    private float TileDistance(squareIndex a, squareIndex b)
     {
-        //Vector3Int aCube = a.CubeCoordinates();
-        //Vector3Int bCube = b.CubeCoordinates();
-        //return Mathf.Max(Mathf.Abs(aCube.x - bCube.x), Mathf.Abs(aCube.y - bCube.y), Mathf.Abs(aCube.z - bCube.z));
-        ///return (/*Mathf.Abs*/(Mathf.Sqrt(Mathf.Pow((a.q - b.q), 2) + Mathf.Pow((a.r - b.r), 2))));
         return Mathf.Sqrt(Mathf.Pow((a.q - b.q), 2) + Mathf.Pow((a.r - b.r), 2));
     }
 
@@ -297,19 +305,6 @@ public class SquareGridManager : MonoBehaviour
         }
     }
 
-    private void ResetPaths()
-    {
-        m_selectedUnit = null;
-
-        for (int z = 0; z < m_width; z++)
-        {
-            for (int x = 0; x < m_height; x++)
-            {
-                m_createdTiles[z, x].SetActive();
-            }
-        }
-    }
-
     void UpdateGrid()
     {
         for (int z = 0; z < m_width; z++)
@@ -321,7 +316,7 @@ public class SquareGridManager : MonoBehaviour
                 GameObject go = Instantiate(m_TilePrefab, pos, Quaternion.identity, transform);
                 m_createdTiles[z, x] = go.GetComponent<SquareTile>();
                 m_createdTiles[z, x].transform.localPosition = m_createdTiles[z, x].transform.position;
-                
+
                 if (Physics.Raycast(transform.TransformPoint(pos) + (Vector3.back * 20.0f), Vector3.forward * 30.0f))
                 {
                     m_createdTiles[z, x].SetInactive();
@@ -336,8 +331,6 @@ public class SquareGridManager : MonoBehaviour
 
     squareIndex GetTileIndex(Vector3 pos)
     {
-        //int _y = Mathf.RoundToInt(pos.y / (1.5f * -m_hexSize));
-        //return new squareIndex(Mathf.RoundToInt((pos.x / (Mathf.Sqrt(3.0f) * m_hexSize)) - (((Mathf.Sqrt(3.0f) * m_hexSize * 0.5f) * (_y % 2)) / (Mathf.Sqrt(3.0f) * m_hexSize))), _y);
         return new squareIndex(Mathf.RoundToInt(pos.x / (m_TileSize * 2.0f)), -Mathf.RoundToInt(pos.y / (m_TileSize * 2.0f)));
     }
 
@@ -349,20 +342,8 @@ public class SquareGridManager : MonoBehaviour
         {
             for (int x = -dist; x <= dist; x++)
             {
-                //if (!(z == 0 && x == 0) && (Mathf.Abs(z + x) <= dist))
                 if (!(z == 0 && x == 0))
                 {
-                    /*Vector3Int cubeHex = index.CubeCoordinates();
-                    cubeHex.x += z;
-                    cubeHex.z += x;
-
-                    squareIndex hex = CubeToHexIndex(cubeHex);
-                    if (hex.q >= 0 && hex.r >= 0 && hex.q < m_width && hex.r < m_height)
-                    {
-                        if (m_createdTiles[hex.q, hex.r].isActive())
-                            toReturn.Add(hex);
-                    }*/
-
                     squareIndex newIndex = new squareIndex(index.q + z, index.r + x);
 
                     if (newIndex.q >= 0 && newIndex.r >= 0 && newIndex.q < m_width && newIndex.r < m_height)
@@ -376,11 +357,6 @@ public class SquareGridManager : MonoBehaviour
 
         return toReturn.ToArray();
     }
-
-    /*squareIndex CubeToHexIndex(Vector3Int cube)
-    {
-        return new squareIndex(((int)(cube.z * 0.5f)) + cube.x, cube.z);
-    }*/
 
     bool DictContains(ICollection<KeyValuePair<squareIndex, squareIndex>> dict, squareIndex Val)
     {
@@ -436,7 +412,18 @@ public class SquareGridManager : MonoBehaviour
 
     Vector3 GetTilePosition(squareIndex hex)
     {
-        //return transform.TransformPoint(new Vector3((hex.q * (Mathf.Sqrt(3.0f) * m_hexSize)) + ((Mathf.Sqrt(3.0f) * m_hexSize * 0.5f) * (hex.r % 2)), hex.r * 1.5f * -m_hexSize, 0.0f));
-        return transform.TransformPoint(new Vector3(hex.q * m_TileSize * 2.0f, -hex.r * m_TileSize * 2.0f , 0.0f));
+        return transform.TransformPoint(new Vector3(hex.q * m_TileSize * 2.0f, -hex.r * m_TileSize * 2.0f, 0.0f));
+    }
+
+    public void FreeHex(Vector3 position)
+    {
+        squareIndex hexIn = GetTileIndex(transform.InverseTransformPoint(position));
+        m_createdTiles[hexIn.q, hexIn.r].SetActive();
+    }
+
+    public void BlockHex(Vector3 position)
+    {
+        squareIndex hexIn = GetTileIndex(transform.InverseTransformPoint(position));
+        m_createdTiles[hexIn.q, hexIn.r].SetInactive();
     }
 }

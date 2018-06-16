@@ -8,7 +8,7 @@ public class HealthBarManager : MonoBehaviour
     private GameObject m_healthbarPrefab;
 
     [SerializeField]
-    private int m_healthbarPoolSize = 2;
+    private int m_healthbarPoolSize = 6;
     
     private HealthBar[] m_instantiatedHealthbars;
 

@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum playerColour
-{
-    GREEN,
-    BLUE
-}
-
 public class HexUnit : MonoBehaviour
 {
     [SerializeField]
@@ -23,13 +17,17 @@ public class HexUnit : MonoBehaviour
     private HexUnit m_targate;
 
     [SerializeField]
-    private playerColour m_colour;
+    private E_playerColours m_colour;
 
     public List<Vector3> m_path;
     public Sprite[] m_sprites;
 
     [SerializeField]
     public int m_maxHealth = 5;
+
+    [SerializeField]
+    private Animator m_animator;
+    private int m_ShowCircleHash = Animator.StringToHash("ShowCircle");
 
     private int m_healthInternal;
 
@@ -56,6 +54,7 @@ public class HexUnit : MonoBehaviour
     void Awake()
     {
         m_health = m_maxHealth;
+        PlayerManager.m_instance.RegisterUnit(this, m_colour);
     }
 
     void Update()
@@ -74,7 +73,11 @@ public class HexUnit : MonoBehaviour
 
             if (Mathf.Abs((transform.position - m_path[0]).magnitude) < 0.05f)
             {
+                SquareGridManager.m_instance.FreeHex(m_path[0]);
+
                 m_path.RemoveAt(0);
+
+                SquareGridManager.m_instance.BlockHex(transform.position);
             }
         }
         else
@@ -140,8 +143,26 @@ public class HexUnit : MonoBehaviour
         {
             Destroy(gameObject);
 
+            SquareGridManager.m_instance.FreeHex(transform.position);
+
             if (del_OnBecameInvisible != null)
                 del_OnBecameInvisible();
         }
+    }
+
+    public void Select()
+    {
+        m_animator.SetBool(m_ShowCircleHash, true);
+    }
+
+    public void DeSelect()
+    {
+        m_animator.SetBool(m_ShowCircleHash, false);
+    }
+
+    void OnDestroy()
+    {
+        del_OnBecameInvisible = null;
+        del_OnHealthChanged = null;
     }
 }
