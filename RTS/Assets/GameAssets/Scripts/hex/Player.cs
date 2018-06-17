@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+enum e_playerType
+{
+    HUMAN_PLAYER = 0,
+    AI_PLAYER = 1
+}
+
 public class Player : MonoBehaviour
 {
     [SerializeField]
@@ -22,6 +28,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float m_selectionBoxPadding = 0.2f;
 
+    [SerializeField]
+    private e_playerType m_myType;
+
     void Awake()
     {
         m_units = new List<HexUnit>();
@@ -31,19 +40,22 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButton("Fire1"))
+        if (m_myType == e_playerType.HUMAN_PLAYER)
         {
-            UnitSelection();
-        }
-        else if (Input.GetButtonDown("Fire2"))
-        {
-            if (m_selectedUnitsIndex.Count > 0)
-                SquareGridManager.m_instance.PathTo(m_units[m_selectedUnitsIndex[0]]);
-        }
+            if (Input.GetButton("Fire1"))
+            {
+                UnitSelection();
+            }
+            else if (Input.GetButtonDown("Fire2"))
+            {
+                if (m_selectedUnitsIndex.Count > 0)
+                    SquareGridManager.m_instance.PathTo(m_units[m_selectedUnitsIndex[0]]);
+            }
 
-        if (Input.GetButtonUp("Fire1"))
-        {
-            m_selectionBox.gameObject.SetActive(false);
+            if (Input.GetButtonUp("Fire1"))
+            {
+                m_selectionBox.gameObject.SetActive(false);
+            }
         }
     }
     
