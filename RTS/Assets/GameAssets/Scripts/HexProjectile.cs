@@ -22,13 +22,12 @@ public class HexProjectile : MonoBehaviour
 
     public int m_shooterid = -1;
 
-    Explosion m_explosion;
+    [SerializeField]
+    private Explosion m_explosion;
 
     private void Start()
     {
         m_lifeTimer = m_lifeTime;
-
-        m_explosion = GetComponent<Explosion>();
     }
 
     private void Update()
