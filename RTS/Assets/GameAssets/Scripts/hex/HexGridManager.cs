@@ -307,7 +307,8 @@ public class HexGridManager : MonoBehaviour
         toReturn.Add(end);
 
         // TODO: clean this code
-        while (true)
+        ///while (true)
+        ///while (cameFrom.Count > 0)
         {
             for (int z = 0; z < cameFrom.Count; z++)
             {
@@ -315,14 +316,14 @@ public class HexGridManager : MonoBehaviour
                 if (cameFrom.TryGetValue(toReturn[toReturn.Count - 1], out toAdd))
                 {
                     toReturn.Add(toAdd);
-                    break;
+                    ///break;
                 }
             }
 
             //Debug.Log(toReturn[0].q + ", " + toReturn[0].r);
             
-            if (toReturn[toReturn.Count - 1] == start)
-                break;
+            ///if (toReturn[toReturn.Count - 1] == start)
+                ///break;
         }
 
         //toReturn.RemoveAt(0);

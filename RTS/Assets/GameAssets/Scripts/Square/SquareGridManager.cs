@@ -228,6 +228,8 @@ public class SquareGridManager : MonoBehaviour
 
     squareIndex[] PathBetweenTiles(squareIndex start, squareIndex end)
     {
+        List<squareIndex> toReturn = new List<squareIndex>();
+
         var frontier = new PriorityQueue<squareIndex>();
         frontier.Enqueue(start, 0);
 
@@ -243,6 +245,34 @@ public class SquareGridManager : MonoBehaviour
 
             if (current.Equals(end))
             {
+                toReturn.Add(end);
+
+                // TODO: clean this code
+                ///int breakCount = (m_width * m_height) / 8;
+                //while (true)
+                while (toReturn[toReturn.Count - 1] != start)
+                {
+                    for (int z = 0; z < cameFrom.Count; z++)
+                    {
+                        squareIndex toAdd;
+                        if (cameFrom.TryGetValue(toReturn[toReturn.Count - 1], out toAdd))
+                        {
+                            toReturn.Add(toAdd);
+                            break;
+                        }
+                    }
+
+                    ///breakCount--;
+                    ///if (breakCount <= 0)
+                    ///{
+                    ///    Debug.LogWarning("Break count was excided.");
+                    ///    break;
+                    ///}
+
+                    ///if (toReturn[toReturn.Count - 1] == start)
+                    ///    break;
+                }
+
                 break;
             }
 
@@ -260,27 +290,6 @@ public class SquareGridManager : MonoBehaviour
                     cameFrom[next] = current;
                 }
             }
-        }
-
-        List<squareIndex> toReturn = new List<squareIndex>();
-
-        toReturn.Add(end);
-
-        // TODO: clean this code
-        while (true)
-        {
-            for (int z = 0; z < cameFrom.Count; z++)
-            {
-                squareIndex toAdd;
-                if (cameFrom.TryGetValue(toReturn[toReturn.Count - 1], out toAdd))
-                {
-                    toReturn.Add(toAdd);
-                    break;
-                }
-            }
-
-            if (toReturn[toReturn.Count - 1] == start)
-                break;
         }
 
         return toReturn.ToArray();

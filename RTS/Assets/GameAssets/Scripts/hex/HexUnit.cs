@@ -141,12 +141,14 @@ public class HexUnit : MonoBehaviour
 
         if (m_health <= 0)
         {
-            Destroy(gameObject);
-
             SquareGridManager.m_instance.FreeHex(transform.position);
+
+            PlayerManager.m_instance.DeRegisterUnit(this, m_colour);
 
             if (del_OnBecameInvisible != null)
                 del_OnBecameInvisible();
+
+            Destroy(gameObject);
         }
     }
 

@@ -95,4 +95,28 @@ public class Player : MonoBehaviour
             Debug.Log(gameObject.name + " added " + unit.gameObject.name);
         }
     }
+
+    public void RemoveUnit(HexUnit unit)
+    {
+        if (m_units.Contains(unit))
+        {
+            Debug.Log(gameObject.name + " removed " + unit.gameObject.name);
+
+            int index = m_units.IndexOf(unit);
+
+            for (int z = 0; z < m_selectedUnitsIndex.Count; z++)
+            {
+                if (m_selectedUnitsIndex[z] == index)
+                {
+                    m_selectedUnitsIndex.Remove(z);
+                }
+                else if (m_selectedUnitsIndex[z] > index)
+                {
+                    m_selectedUnitsIndex[z]--;
+                }
+            }
+
+            m_units.Remove(unit);
+        }
+    }
 }

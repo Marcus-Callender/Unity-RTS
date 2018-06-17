@@ -31,4 +31,9 @@ public class PlayerManager : MonoBehaviour
     {
         m_players[(int)colour].AddUnit(unit);
     }
+
+    public void DeRegisterUnit(HexUnit unit, E_playerColours colour)
+    {
+        m_players[(int)colour].RemoveUnit(unit);
+    }
 }

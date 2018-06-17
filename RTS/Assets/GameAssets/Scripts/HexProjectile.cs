@@ -8,8 +8,11 @@ public class HexProjectile : MonoBehaviour
     public Sprite[] m_sprites;
     public bool m_targateFriendlyUnits = false;
 
-    public float m_lifeTime = 20.0f;
-    private Timer m_lifeTimer = new Timer();
+    [SerializeField]
+    private float m_lifeTime = 3.0f;
+    private float m_lifeTimer = 0.0f;
+
+    ///private Timer m_lifeTimer = new Timer();
 
     [SerializeField]
     private SpriteRenderer m_render;
@@ -23,8 +26,7 @@ public class HexProjectile : MonoBehaviour
 
     private void Start()
     {
-        m_lifeTimer.m_time = m_lifeTime;
-        m_lifeTimer.Play();
+        m_lifeTimer = m_lifeTime;
 
         m_explosion = GetComponent<Explosion>();
     }
@@ -45,9 +47,9 @@ public class HexProjectile : MonoBehaviour
             m_render.sprite = m_sprites[spriteIndex];
         }
 
-        m_lifeTimer.Cycle();
+        m_lifeTimer -= Time.deltaTime;
 
-        if (m_lifeTimer.m_completed)
+        if (m_lifeTimer <= 0.0f)
         {
             if (m_explosion)
             {
