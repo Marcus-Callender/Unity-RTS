@@ -77,7 +77,10 @@ public class HexUnit : MonoBehaviour
 
                 m_path.RemoveAt(0);
 
-                SquareGridManager.m_instance.BlockHex(transform.position);
+                if (m_path.Count > 0)
+                    SquareGridManager.m_instance.BlockHex(m_path[0]);
+                else
+                    SquareGridManager.m_instance.BlockHex(transform.position);
             }
         }
         else

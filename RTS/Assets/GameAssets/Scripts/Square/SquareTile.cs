@@ -8,23 +8,21 @@ public class SquareTile : MonoBehaviour
     SpriteRenderer m_sprite;
 
     private bool m_active = true;
-
     
-
     public void SetInactive()
     {
         m_active = false;
-        //Color col = m_sprite.color;
-        //col.a = 0.5f;
-        //m_sprite.color = col;
+        Color col = m_sprite.color;
+        col.a = 0.75f;
+        m_sprite.color = col;
     }
 
     public void SetActive()
     {
         m_active = true;
-        //Color col = m_sprite.color;
-        //col.a = 0.0f;
-        //m_sprite.color = col;
+        Color col = m_sprite.color;
+        col.a = 0.0f;
+        m_sprite.color = col;
     }
 
     public bool isActive()

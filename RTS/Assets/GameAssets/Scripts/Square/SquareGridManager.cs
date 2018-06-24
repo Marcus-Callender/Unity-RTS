@@ -466,11 +466,13 @@ public class SquareGridManager : MonoBehaviour
     {
         squareIndex hexIn = GetTileIndex(transform.InverseTransformPoint(position));
         m_createdTiles[hexIn.q, hexIn.r].SetActive();
+        Debug.Log("Hex was freed at: " + hexIn.q.ToString() + ", " + hexIn.r.ToString());
     }
 
     public void BlockHex(Vector3 position)
     {
         squareIndex hexIn = GetTileIndex(transform.InverseTransformPoint(position));
         m_createdTiles[hexIn.q, hexIn.r].SetInactive();
+        Debug.Log("Hex was blocked at: " + hexIn.q.ToString() + ", " + hexIn.r.ToString());
     }
 }
