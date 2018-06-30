@@ -57,6 +57,11 @@ public class HexUnit : MonoBehaviour
         PlayerManager.m_instance.RegisterUnit(this, m_colour);
     }
 
+    private void Start()
+    {
+        SquareGridManager.m_instance.BlockHex(transform.position);
+    }
+
     void Update()
     {
         if (m_path.Count > 0)
@@ -169,5 +174,13 @@ public class HexUnit : MonoBehaviour
     {
         del_OnBecameInvisible = null;
         del_OnHealthChanged = null;
+    }
+
+    public Vector3 PathDestination
+    {
+        get
+        {
+            return m_path[m_path.Count - 1];
+        }
     }
 }

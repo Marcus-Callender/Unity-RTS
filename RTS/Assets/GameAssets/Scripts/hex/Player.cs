@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private List<HexUnit> m_units;
     private List<int> m_selectedUnitsIndex;
-    
+
     private Vector3 m_selectionStartPoint;
 
     [SerializeField]
@@ -48,8 +48,49 @@ public class Player : MonoBehaviour
             }
             else if (Input.GetButtonDown("Fire2"))
             {
-                if (m_selectedUnitsIndex.Count > 0)
-                    SquareGridManager.m_instance.PathTo(m_units[m_selectedUnitsIndex[0]]);
+                for (int z = 0; z < m_selectedUnitsIndex.Count; z++)
+                {
+                    SquareGridManager.m_instance.PathTo(m_units[m_selectedUnitsIndex[z]]);
+                }
+
+                for (int z = 0; z < m_selectedUnitsIndex.Count - 1; z++)
+                {
+                    for (int x = z + 1; x < m_selectedUnitsIndex.Count; x++)
+                    {
+                        if (m_units[m_selectedUnitsIndex[z]].m_path.Count > m_units[m_selectedUnitsIndex[x]].m_path.Count)
+                        {
+                            int tmp = m_selectedUnitsIndex[z];
+                            m_selectedUnitsIndex[z] = m_selectedUnitsIndex[x];
+                            m_selectedUnitsIndex[x] = tmp;
+                        }
+                    }
+                }
+
+                for (int z = 0; z < m_selectedUnitsIndex.Count; z++)
+                {
+                    if (z > 1)
+                    {
+                        SquareGridManager.m_instance.FreeHex(m_units[m_selectedUnitsIndex[0]].PathDestination);
+
+                        SquareGridManager.m_instance.PathTo(m_units[m_selectedUnitsIndex[z]]);
+
+                        SquareGridManager.m_instance.BlockHex(m_units[m_selectedUnitsIndex[0]].PathDestination);
+                    }
+
+                    HexUnit unit = m_units[m_selectedUnitsIndex[z]];
+
+                    while (unit.m_path.Count > 0 && !SquareGridManager.m_instance.IsTileActive(unit.PathDestination))
+                    {
+                        unit.m_path.RemoveAt(unit.m_path.Count - 1);
+                    }
+
+                    SquareGridManager.m_instance.BlockHex(unit.PathDestination);
+                }
+
+                for (int z = 0; z < m_selectedUnitsIndex.Count; z++)
+                {
+                    SquareGridManager.m_instance.FreeHex(m_units[m_selectedUnitsIndex[z]].PathDestination);
+                }
             }
 
             if (Input.GetButtonUp("Fire1"))
@@ -58,7 +99,7 @@ public class Player : MonoBehaviour
             }
         }
     }
-    
+
     private void UnitSelection()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -80,7 +121,7 @@ public class Player : MonoBehaviour
         m_selectionBox.sizeDelta = new Vector2(botRight.x - topLeft.x, topLeft.y - botRight.y);
 
         m_selectedUnitsIndex.Clear();
-        
+
         for (int z = 0; z < m_units.Count; z++)
         {
             if (m_units[z].transform.position.x > topLeftWorld.x - m_selectionBoxPadding
@@ -97,7 +138,7 @@ public class Player : MonoBehaviour
             }
         }
     }
-    
+
     public void AddUnit(HexUnit unit)
     {
         if (!m_units.Contains(unit))

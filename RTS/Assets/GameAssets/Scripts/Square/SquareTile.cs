@@ -8,7 +8,15 @@ public class SquareTile : MonoBehaviour
     SpriteRenderer m_sprite;
 
     private bool m_active = true;
-    
+
+    [SerializeField]
+    private TextMesh m_text;
+
+    public void SetText(string text)
+    {
+        m_text.text = text;
+    }
+
     public void SetInactive()
     {
         m_active = false;

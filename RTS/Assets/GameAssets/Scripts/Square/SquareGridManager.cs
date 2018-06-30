@@ -140,6 +140,8 @@ public class SquareGridManager : MonoBehaviour
     [SerializeField]
     private LayerMask m_TileMask;
 
+    private int[,] m_searchPriority = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { -1, -1 }, { 1, -1 }, { -1, 1 } };
+
     private void Awake()
     {
         if (m_instance == null)
@@ -284,10 +286,7 @@ public class SquareGridManager : MonoBehaviour
             if (current.Equals(end))
             {
                 toReturn.Add(end);
-
-                // TODO: clean this code
-                ///int breakCount = (m_width * m_height) / 8;
-                //while (true)
+                
                 while (toReturn[toReturn.Count - 1] != start)
                 {
                     for (int z = 0; z < cameFrom.Count; z++)
@@ -299,16 +298,6 @@ public class SquareGridManager : MonoBehaviour
                             break;
                         }
                     }
-
-                    ///breakCount--;
-                    ///if (breakCount <= 0)
-                    ///{
-                    ///    Debug.LogWarning("Break count was excided.");
-                    ///    break;
-                    ///}
-
-                    ///if (toReturn[toReturn.Count - 1] == start)
-                    ///    break;
                 }
 
                 break;
@@ -363,6 +352,7 @@ public class SquareGridManager : MonoBehaviour
                 GameObject go = Instantiate(m_TilePrefab, pos, Quaternion.identity, transform);
                 m_createdTiles[z, x] = go.GetComponent<SquareTile>();
                 m_createdTiles[z, x].transform.localPosition = m_createdTiles[z, x].transform.position;
+                m_createdTiles[z, x].SetText(z + ", " + x);
 
                 if (Physics.Raycast(transform.TransformPoint(pos) + (Vector3.back * 20.0f), Vector3.forward * 30.0f))
                 {
@@ -384,25 +374,31 @@ public class SquareGridManager : MonoBehaviour
     squareIndex[] GetAdjacentTiles(squareIndex index, int dist)
     {
         List<squareIndex> toReturn = new List<squareIndex>();
-
-        for (int z = -dist; z <= dist; z++)
+        
+        for (int z = 0; z < m_searchPriority.GetLength(0); z++)
         {
-            for (int x = -dist; x <= dist; x++)
-            {
-                if (!(z == 0 && x == 0))
-                {
-                    squareIndex newIndex = new squareIndex(index.q + z, index.r + x);
+            squareIndex newIndex = new squareIndex(index.q + m_searchPriority[z, 0], index.r + m_searchPriority[z, 1]);
 
-                    if (newIndex.q >= 0 && newIndex.r >= 0 && newIndex.q < m_width && newIndex.r < m_height)
-                    {
-                        if (m_createdTiles[newIndex.q, newIndex.r].isActive())
-                            toReturn.Add(newIndex);
-                    }
-                }
+            if (newIndex.q >= 0 && newIndex.r >= 0 && newIndex.q < m_width && newIndex.r < m_height)
+            {
+                if (m_createdTiles[newIndex.q, newIndex.r].isActive())
+                    toReturn.Add(newIndex);
             }
         }
 
         return toReturn.ToArray();
+    }
+
+    public bool IsTileActive(squareIndex index)
+    {
+        return m_createdTiles[index.q, index.r].isActive();
+    }
+
+    public bool IsTileActive(Vector3 pos)
+    {
+        squareIndex index = GetTileIndex(transform.InverseTransformPoint(pos));
+        Debug.Log("Hex " + index.q + ", " + index.r + " is " + (m_createdTiles[index.q, index.r].isActive() ? "free" : "blocked"));
+        return m_createdTiles[index.q, index.r].isActive();
     }
 
     bool DictContains(ICollection<KeyValuePair<squareIndex, squareIndex>> dict, squareIndex Val)
