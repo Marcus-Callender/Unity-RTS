@@ -69,6 +69,18 @@ TextureImporter:
     21300124: starport_63
     21300126: starport_64
     21300128: starport_75
+    21300130: starport_32
+    21300132: starport_65
+    21300134: starport_66
+    21300136: starport_67
+    21300138: starport_68
+    21300140: starport_69
+    21300142: starport_70
+    21300144: starport_71
+    21300146: starport_72
+    21300148: starport_73
+    21300150: starport_74
+  externalObjects: {}
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -95,7 +107,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -121,29 +133,35 @@ TextureImporter:
   textureFormatSet: 0
   platformSettings:
   - buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    androidETC2FallbackOverride: 0
   - buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    androidETC2FallbackOverride: 0
   - buildTarget: WebGL
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -151,12 +169,12 @@ TextureImporter:
       name: starport_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -165,12 +183,12 @@ TextureImporter:
       name: starport_1
       rect:
         serializedVersion: 2
-        x: 40
+        x: 41
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -179,12 +197,12 @@ TextureImporter:
       name: starport_2
       rect:
         serializedVersion: 2
-        x: 80
+        x: 81
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -193,12 +211,12 @@ TextureImporter:
       name: starport_3
       rect:
         serializedVersion: 2
-        x: 120
+        x: 121
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -207,12 +225,12 @@ TextureImporter:
       name: starport_4
       rect:
         serializedVersion: 2
-        x: 160
+        x: 161
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -221,12 +239,12 @@ TextureImporter:
       name: starport_5
       rect:
         serializedVersion: 2
-        x: 200
+        x: 201
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -235,12 +253,12 @@ TextureImporter:
       name: starport_6
       rect:
         serializedVersion: 2
-        x: 240
+        x: 241
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -249,12 +267,12 @@ TextureImporter:
       name: starport_7
       rect:
         serializedVersion: 2
-        x: 280
+        x: 281
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -263,12 +281,12 @@ TextureImporter:
       name: starport_8
       rect:
         serializedVersion: 2
-        x: 320
+        x: 321
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -277,12 +295,12 @@ TextureImporter:
       name: starport_9
       rect:
         serializedVersion: 2
-        x: 360
+        x: 361
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -291,12 +309,12 @@ TextureImporter:
       name: starport_10
       rect:
         serializedVersion: 2
-        x: 400
+        x: 401
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -305,12 +323,12 @@ TextureImporter:
       name: starport_11
       rect:
         serializedVersion: 2
-        x: 440
+        x: 441
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -319,12 +337,12 @@ TextureImporter:
       name: starport_12
       rect:
         serializedVersion: 2
-        x: 480
+        x: 481
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -333,12 +351,12 @@ TextureImporter:
       name: starport_13
       rect:
         serializedVersion: 2
-        x: 520
+        x: 521
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -347,12 +365,12 @@ TextureImporter:
       name: starport_14
       rect:
         serializedVersion: 2
-        x: 560
+        x: 561
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -361,12 +379,12 @@ TextureImporter:
       name: starport_15
       rect:
         serializedVersion: 2
-        x: 600
+        x: 601
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -375,12 +393,12 @@ TextureImporter:
       name: starport_16
       rect:
         serializedVersion: 2
-        x: 640
+        x: 641
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -389,12 +407,12 @@ TextureImporter:
       name: starport_17
       rect:
         serializedVersion: 2
-        x: 680
+        x: 681
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -403,12 +421,12 @@ TextureImporter:
       name: starport_18
       rect:
         serializedVersion: 2
-        x: 720
+        x: 721
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -417,12 +435,12 @@ TextureImporter:
       name: starport_19
       rect:
         serializedVersion: 2
-        x: 760
+        x: 761
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -431,12 +449,12 @@ TextureImporter:
       name: starport_20
       rect:
         serializedVersion: 2
-        x: 800
+        x: 801
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -445,12 +463,12 @@ TextureImporter:
       name: starport_21
       rect:
         serializedVersion: 2
-        x: 840
+        x: 841
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -459,12 +477,12 @@ TextureImporter:
       name: starport_22
       rect:
         serializedVersion: 2
-        x: 880
+        x: 881
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -473,12 +491,12 @@ TextureImporter:
       name: starport_23
       rect:
         serializedVersion: 2
-        x: 920
+        x: 921
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -487,12 +505,12 @@ TextureImporter:
       name: starport_24
       rect:
         serializedVersion: 2
-        x: 960
+        x: 961
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -501,12 +519,12 @@ TextureImporter:
       name: starport_25
       rect:
         serializedVersion: 2
-        x: 1000
+        x: 1001
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -515,12 +533,12 @@ TextureImporter:
       name: starport_26
       rect:
         serializedVersion: 2
-        x: 1040
+        x: 1041
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -529,12 +547,12 @@ TextureImporter:
       name: starport_27
       rect:
         serializedVersion: 2
-        x: 1080
+        x: 1081
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -543,12 +561,12 @@ TextureImporter:
       name: starport_28
       rect:
         serializedVersion: 2
-        x: 1120
+        x: 1121
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -557,12 +575,12 @@ TextureImporter:
       name: starport_29
       rect:
         serializedVersion: 2
-        x: 1160
+        x: 1161
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -571,12 +589,12 @@ TextureImporter:
       name: starport_30
       rect:
         serializedVersion: 2
-        x: 1200
+        x: 1201
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -585,12 +603,12 @@ TextureImporter:
       name: starport_31
       rect:
         serializedVersion: 2
-        x: 1240
+        x: 1241
         y: 121
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -599,12 +617,12 @@ TextureImporter:
       name: starport_33
       rect:
         serializedVersion: 2
-        x: 0
-        y: 61
+        x: 1
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -613,12 +631,12 @@ TextureImporter:
       name: starport_34
       rect:
         serializedVersion: 2
-        x: 40
-        y: 61
+        x: 41
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -627,12 +645,12 @@ TextureImporter:
       name: starport_35
       rect:
         serializedVersion: 2
-        x: 80
+        x: 81
         y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -641,12 +659,12 @@ TextureImporter:
       name: starport_36
       rect:
         serializedVersion: 2
-        x: 120
-        y: 61
+        x: 121
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -655,12 +673,12 @@ TextureImporter:
       name: starport_37
       rect:
         serializedVersion: 2
-        x: 160
-        y: 61
+        x: 161
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -669,12 +687,12 @@ TextureImporter:
       name: starport_38
       rect:
         serializedVersion: 2
-        x: 200
-        y: 61
+        x: 201
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -683,12 +701,12 @@ TextureImporter:
       name: starport_39
       rect:
         serializedVersion: 2
-        x: 240
-        y: 61
+        x: 241
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -697,12 +715,12 @@ TextureImporter:
       name: starport_40
       rect:
         serializedVersion: 2
-        x: 280
-        y: 61
+        x: 281
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -711,12 +729,12 @@ TextureImporter:
       name: starport_41
       rect:
         serializedVersion: 2
-        x: 320
-        y: 61
+        x: 321
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -725,12 +743,12 @@ TextureImporter:
       name: starport_42
       rect:
         serializedVersion: 2
-        x: 360
-        y: 61
+        x: 361
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -739,12 +757,12 @@ TextureImporter:
       name: starport_43
       rect:
         serializedVersion: 2
-        x: 400
-        y: 61
+        x: 401
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -753,12 +771,12 @@ TextureImporter:
       name: starport_44
       rect:
         serializedVersion: 2
-        x: 440
-        y: 61
+        x: 441
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -767,12 +785,12 @@ TextureImporter:
       name: starport_45
       rect:
         serializedVersion: 2
-        x: 480
-        y: 61
+        x: 481
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -781,12 +799,12 @@ TextureImporter:
       name: starport_46
       rect:
         serializedVersion: 2
-        x: 520
-        y: 61
+        x: 521
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -795,12 +813,12 @@ TextureImporter:
       name: starport_47
       rect:
         serializedVersion: 2
-        x: 560
-        y: 61
+        x: 561
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -809,12 +827,12 @@ TextureImporter:
       name: starport_48
       rect:
         serializedVersion: 2
-        x: 600
-        y: 61
+        x: 601
+        y: 60
         width: 40
-        height: 59
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -823,12 +841,12 @@ TextureImporter:
       name: starport_49
       rect:
         serializedVersion: 2
-        x: 640
-        y: 61
+        x: 641
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -837,12 +855,12 @@ TextureImporter:
       name: starport_50
       rect:
         serializedVersion: 2
-        x: 680
-        y: 61
+        x: 681
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -851,12 +869,12 @@ TextureImporter:
       name: starport_51
       rect:
         serializedVersion: 2
-        x: 720
-        y: 61
+        x: 721
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -865,12 +883,12 @@ TextureImporter:
       name: starport_52
       rect:
         serializedVersion: 2
-        x: 760
-        y: 61
+        x: 761
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -879,12 +897,12 @@ TextureImporter:
       name: starport_53
       rect:
         serializedVersion: 2
-        x: 800
-        y: 61
+        x: 801
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -893,12 +911,12 @@ TextureImporter:
       name: starport_54
       rect:
         serializedVersion: 2
-        x: 840
-        y: 61
+        x: 841
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -907,12 +925,12 @@ TextureImporter:
       name: starport_55
       rect:
         serializedVersion: 2
-        x: 880
-        y: 61
+        x: 881
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -921,12 +939,12 @@ TextureImporter:
       name: starport_56
       rect:
         serializedVersion: 2
-        x: 920
-        y: 61
+        x: 921
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -935,12 +953,12 @@ TextureImporter:
       name: starport_57
       rect:
         serializedVersion: 2
-        x: 960
-        y: 61
+        x: 961
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -949,12 +967,12 @@ TextureImporter:
       name: starport_58
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 61
+        x: 1001
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -963,12 +981,12 @@ TextureImporter:
       name: starport_59
       rect:
         serializedVersion: 2
-        x: 1040
-        y: 61
+        x: 1041
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -977,12 +995,12 @@ TextureImporter:
       name: starport_60
       rect:
         serializedVersion: 2
-        x: 1080
-        y: 61
+        x: 1081
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -991,12 +1009,12 @@ TextureImporter:
       name: starport_61
       rect:
         serializedVersion: 2
-        x: 1120
-        y: 61
+        x: 1121
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1005,12 +1023,12 @@ TextureImporter:
       name: starport_62
       rect:
         serializedVersion: 2
-        x: 1160
-        y: 61
+        x: 1161
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1019,12 +1037,12 @@ TextureImporter:
       name: starport_63
       rect:
         serializedVersion: 2
-        x: 1200
-        y: 61
+        x: 1201
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1033,12 +1051,12 @@ TextureImporter:
       name: starport_64
       rect:
         serializedVersion: 2
-        x: 1240
-        y: 61
+        x: 1241
+        y: 60
         width: 40
         height: 60
-      alignment: 9
-      pivot: {x: 0.5, y: 0.8}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
