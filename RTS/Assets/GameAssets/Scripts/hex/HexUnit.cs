@@ -19,7 +19,7 @@ public class HexUnit : MonoBehaviour
     [SerializeField]
     private E_playerColours m_colour;
 
-    public List<Vector3> m_path;
+    private List<Vector3> m_path;
     public Sprite[] m_sprites;
 
     [SerializeField]
@@ -55,6 +55,8 @@ public class HexUnit : MonoBehaviour
     {
         m_health = m_maxHealth;
         PlayerManager.m_instance.RegisterUnit(this, m_colour);
+
+        m_path = new List<Vector3>();
     }
 
     private void Start()
@@ -97,6 +99,29 @@ public class HexUnit : MonoBehaviour
         {
             Debug.DrawLine(m_path[z], m_path[z + 1], Color.red);
         }
+    }
+
+    public void SetNewPath(List<Vector3> path)
+    {
+        if (m_path != null && PathLength > 0)
+            SquareGridManager.m_instance.FreeHex(m_path[0]);
+
+        m_path = path;
+
+        SquareGridManager.m_instance.BlockHex(transform.position);
+    }
+
+    public int PathLength
+    {
+        get
+        {
+            return m_path.Count;
+        }
+    }
+
+    public void RemoveFromPath(int index)
+    {
+        m_path.RemoveAt(index);
     }
 
     //     0 1 2
@@ -162,12 +187,14 @@ public class HexUnit : MonoBehaviour
 
     public void Select()
     {
-        m_animator.SetBool(m_ShowCircleHash, true);
+        if (m_animator != null)
+            m_animator.SetBool(m_ShowCircleHash, true);
     }
 
     public void DeSelect()
     {
-        m_animator.SetBool(m_ShowCircleHash, false);
+        if (m_animator != null)
+            m_animator.SetBool(m_ShowCircleHash, false);
     }
 
     void OnDestroy()
@@ -180,6 +207,9 @@ public class HexUnit : MonoBehaviour
     {
         get
         {
+            if (m_path == null || m_path.Count == 0)
+                return Vector3.zero;
+
             return m_path[m_path.Count - 1];
         }
     }

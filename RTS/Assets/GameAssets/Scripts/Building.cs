@@ -56,56 +56,7 @@ public class Building : Unit
             Instantiate(m_uintToBuild, transform.position + new Vector3(0.0f, -1.5f, 0.0f), Quaternion.identity);
             m_uintToBuild = null;
         }
-
-        if (m_data.m_targateUnit)
-        {
-            Debug.DrawRay(transform.position, m_data.m_targateUnit.transform.position - transform.position, Color.red);
-
-            if (Vector3.Distance(transform.position, m_data.m_targateUnit.transform.position) > 2.0f)
-            {
-                Vector3 vel = Vector3.zero;
-
-                if (Mathf.Abs(transform.position.x - m_data.m_targateUnit.transform.position.x) > 0.33f)
-                {
-                    vel.x = transform.position.x > m_data.m_targateUnit.transform.position.x ? -1.0f : 1.0f;
-                }
-
-                if (Mathf.Abs(transform.position.y - m_data.m_targateUnit.transform.position.y) > 0.33f)
-                {
-                    vel.y = transform.position.y > m_data.m_targateUnit.transform.position.y ? -1.0f : 1.0f;
-                }
-
-                m_data.Rotate(m_data.Vec2ToIndex(vel));
-            }
-        }
-        else
-        {
-            if (m_moveing)
-            {
-                if (Mathf.Abs(transform.position.x - m_moveTo.x) < 0.05f && Mathf.Abs(transform.position.y - m_moveTo.y) < 0.05f)
-                {
-                    m_moveing = false;
-                }
-            }
-
-            if (m_moveing)
-            {
-                Vector3 vel = Vector3.zero;
-
-                if (Mathf.Abs(transform.position.x - m_moveTo.x) > 0.33f)
-                {
-                    vel.x = transform.position.x > m_moveTo.x ? -1.0f : 1.0f;
-                }
-
-                if (Mathf.Abs(transform.position.y - m_moveTo.y) > 0.33f)
-                {
-                    vel.y = transform.position.y > m_moveTo.y ? -1.0f : 1.0f;
-                }
-
-                m_data.Rotate(m_data.Vec2ToIndex(vel));
-            }
-        }
-
+        
         m_render.sprite = m_currentAnim.Cyce();
 
         if (m_currentAnim.m_completed)

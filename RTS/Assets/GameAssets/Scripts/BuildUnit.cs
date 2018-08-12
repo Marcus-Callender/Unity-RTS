@@ -6,11 +6,11 @@ public class BuildUnit : MonoBehaviour
 {
     public GameObject[] m_canBuild;
 
-    private Building m_building;
+    private HexBuilding m_building;
 
     void Start()
     {
-        m_building = GetComponent<Building>();
+        m_building = GetComponent<HexBuilding>();
     }
 
     void Update()

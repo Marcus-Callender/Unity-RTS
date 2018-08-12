@@ -36,4 +36,9 @@ public class PlayerManager : MonoBehaviour
     {
         m_players[(int)colour].RemoveUnit(unit);
     }
+
+    public Player GetPlayerOfColour(E_playerColours colour)
+    {
+        return m_players[(int)colour];
+    }
 }

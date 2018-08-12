@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 // QUILL18
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    [SerializeField]
+    private E_playerColours m_colour;
+
     public Transform parentToReturnTo = null;
     public Transform placeholderParent = null;
 
@@ -20,7 +23,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public int m_cost = 5;
     private Text m_text;
 
-    private PlayerControl m_player;
+    private Player m_player;
 
     private void Start()
     {
@@ -31,7 +34,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         m_text.text = "Ag : " + m_cost;
         m_text.enabled = false;
 
-        m_player = GameObject.Find("Player").GetComponent<PlayerControl>();
+        m_player = PlayerManager.m_instance.GetPlayerOfColour(m_colour);
     }
 
     public void OnBeginDrag(PointerEventData eventData)

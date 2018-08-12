@@ -257,7 +257,7 @@ public class HexGridManager : MonoBehaviour
             movementPath.Reverse();
 
             //m_unit.m_path = movementPath;
-            m_selectedUnit.m_path = movementPath;
+            m_selectedUnit.SetNewPath(movementPath);
 
             //Debug.Log("---Path End: " + index.q + ", " + index.r);
         }

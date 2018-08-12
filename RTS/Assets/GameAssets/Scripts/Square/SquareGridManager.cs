@@ -181,7 +181,7 @@ public class SquareGridManager : MonoBehaviour
 
             movementPath.Reverse();
 
-            unit.m_path = movementPath;
+            unit.SetNewPath(movementPath);
 
             for (int x = 0; x < movementPath.Count - 1; x++)
             {
@@ -216,7 +216,7 @@ public class SquareGridManager : MonoBehaviour
 
                 movementPath.Reverse();
 
-                units[z].m_path = movementPath;
+                units[z].SetNewPath(movementPath);
 
                 for (int x = 0; x < movementPath.Count - 1; x++)
                 {
@@ -254,7 +254,7 @@ public class SquareGridManager : MonoBehaviour
 
                 movementPath.Reverse();
 
-                units[z].m_path = movementPath;
+                units[z].SetNewPath(movementPath);
 
                 for (int x = 0; x < movementPath.Count - 1; x++)
                 {
@@ -467,8 +467,11 @@ public class SquareGridManager : MonoBehaviour
 
     public void BlockHex(Vector3 position)
     {
-        squareIndex hexIn = GetTileIndex(transform.InverseTransformPoint(position));
-        m_createdTiles[hexIn.q, hexIn.r].SetInactive();
-        Debug.Log("Hex was blocked at: " + hexIn.q.ToString() + ", " + hexIn.r.ToString());
+        if (position != Vector3.zero)
+        {
+            squareIndex hexIn = GetTileIndex(transform.InverseTransformPoint(position));
+            m_createdTiles[hexIn.q, hexIn.r].SetInactive();
+            Debug.Log("Hex was blocked at: " + hexIn.q.ToString() + ", " + hexIn.r.ToString());
+        }
     }
 }

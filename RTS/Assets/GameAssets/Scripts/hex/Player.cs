@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 enum e_playerType
 {
@@ -31,6 +32,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private e_playerType m_myType;
 
+    public bool m_dragingCard = false;
+
+    public int m_silver = 10;
+    public Text m_silverUI;
+
     void Awake()
     {
         m_units = new List<HexUnit>();
@@ -38,11 +44,20 @@ public class Player : MonoBehaviour
         m_selectedUnitsIndex = new List<int>();
     }
 
+    private void Start()
+    {
+        if (m_silverUI != null)
+            m_silverUI.text = "Ag: " + m_silver;
+    }
+
     void Update()
     {
+        if (m_silverUI != null)
+            m_silverUI.text = "Ag: " + m_silver;
+
         if (m_myType == e_playerType.HUMAN_PLAYER)
         {
-            if (Input.GetButton("Fire1"))
+            if (Input.GetButton("Fire1") && !m_dragingCard)
             {
                 UnitSelection();
             }
@@ -57,7 +72,7 @@ public class Player : MonoBehaviour
                 {
                     for (int x = z + 1; x < m_selectedUnitsIndex.Count; x++)
                     {
-                        if (m_units[m_selectedUnitsIndex[z]].m_path.Count > m_units[m_selectedUnitsIndex[x]].m_path.Count)
+                        if (m_units[m_selectedUnitsIndex[z]].PathLength > m_units[m_selectedUnitsIndex[x]].PathLength)
                         {
                             int tmp = m_selectedUnitsIndex[z];
                             m_selectedUnitsIndex[z] = m_selectedUnitsIndex[x];
@@ -79,9 +94,9 @@ public class Player : MonoBehaviour
 
                     HexUnit unit = m_units[m_selectedUnitsIndex[z]];
 
-                    while (unit.m_path.Count > 0 && !SquareGridManager.m_instance.IsTileActive(unit.PathDestination))
+                    while (unit.PathLength > 0 && !SquareGridManager.m_instance.IsTileActive(unit.PathDestination))
                     {
-                        unit.m_path.RemoveAt(unit.m_path.Count - 1);
+                        unit.RemoveFromPath(unit.PathLength - 1);
                     }
 
                     SquareGridManager.m_instance.BlockHex(unit.PathDestination);
